@@ -1,0 +1,154 @@
+# 🎄 Advent of Code 2024 🎄
+
+This repository contains my solutions for [Advent of Code
+2024](https://adventofcode.com/2024), my fourth year of participation.
+
+## What Is Advent of Code?
+
+[Advent of Code](https://adventofcode.com/) is a series of small programming
+puzzles created by [Eric Wastl](http://was.tl/). Every day from December 1st to
+25th, a puzzle is released alongside an engaging fictional Christmas story. Each
+puzzle consists of two parts, the second of which usually contains some
+interesting twist or changing requirements and is only unlocked after completing
+the first one. The objective is to solve all parts and collect fifty stars ⭐
+until December 25th to save Christmas.
+
+Many users compete on the [global
+leaderboard](https://adventofcode.com/2024/leaderboard) by solving the puzzles
+in an unbelievably fast way in order to get some extra points. Personally, I see
+Advent of Code as a fun exercise to do during the Advent season while waiting
+for Christmas. I often use it to learn a new programming language (like I did in
+2021 with `C#`) or some advanced programming concepts. I can only encourage you
+to participate as well – of course in a way that you find fun. Just get started
+and learn more about Advent of Code [here](https://adventofcode.com/2024/about).
+
+## About This Project
+
+For this year of Advent of Code, I decided to go with `C++`. In the previous
+year, I had a lot of fun solving the puzzles in `C` and implementing my own
+small utility library called [`SCU`](https://github.com/Piwimau/SCU) alongside.
+It was a great opportunity to improve my systems programming skills, and I also
+enjoyed the challenge of working with a rather low-level language. However, I
+have always been interested in `C++` as well, but felt a bit intimidated by its
+complexity (or at least how complex it is often portrayed to be). This year, I
+finally decided to give it a try and see how it compares to `C`, especially in
+terms of development speed, the improved type safety and advanced language
+features like templates, operator overloading or RAII, which I sometimes miss
+when working with `C`.
+
+For this project and in general when developing software, I strive to produce
+readable and well-documented source code. However, I also enjoy benchmarking and
+optimizing my code, which is why I sometimes implement a less idiomatic, yet
+more efficient solution at the expense of readability. In such situations, I try
+to document my design choices with analogies, possible alternative solutions and
+sometimes little sketches to better illustrate the way a piece of code works.
+
+The general structure of this project is as follows:
+
+```plaintext
+Day-01-Historian-Hysteria/
+  resources/
+    .gitkeep
+  src/
+    main.cpp
+Day-02-Red-Nosed-Reports/
+  resources/
+    .gitkeep
+  src/
+    main.cpp
+...
+Day-25-Code-Chronicle/
+  ...
+.clang-format
+.gitignore
+LICENSE
+Makefile
+README.md
+```
+
+The repository contains 25 standalone projects for the days of the Advent
+calendar, organized into separate directories. Each one provides a `src`
+directory with a `main.cpp` file in which the execution begins. In addition,
+there is a `resources` directory which contains the puzzle description and my
+personal input for that day. However, [as
+requested](https://adventofcode.com/2024/about) by the creator of Advent of
+Code, these are only present in my own private copy of the repository and
+therefore not publicly available.
+
+> If you're posting a code repository somewhere, please don't include parts of
+> Advent of Code like the puzzle text or your inputs.
+
+As a consequence, you will have to provide your own inputs for the days, as
+described in more detail in the following section.
+
+## Dependencies and Usage
+
+If you want to try out one of my solutions, simply follow these steps below:
+
+1. Ensure you have a compiler supporting the `C++23` standard (such as `GCC`,
+   `Clang` or `MSVC`) installed on your machine.
+
+2. Clone the repository (or download the source code) to a directory of your
+   choice.
+
+   ```shell
+   git clone https://github.com/Piwimau/Advent-of-Code-2024 ./Advent-of-Code-2024
+   cd ./Advent-of-Code-2024
+   ```
+
+3. Once you have downloaded the source code, run `make help` to get an overview
+   of the available targets and variables. This should output something like
+   this:
+
+   ```plaintext
+   Usage: make [TARGET]... [VARIABLE]...
+
+   Targets:
+     all    Build the selected day (default).
+     run    Build and run the selected day.
+     clean  Remove all build artifacts of the selected day.
+     help   Display this help and exit.
+
+   Variables:
+     CONFIG={debug|release}  Set the build configuration (default: debug).
+     DAY=N                   Select the day by its two-digit number N (default: first day found).
+     NATIVE=1                Enable machine-specific optimizations.
+     V                       Enable verbose build output.
+   ```
+
+   To build the solution for a specific day, run `make all` (or simply `make`)
+   and specify the day by its two-digit number.
+
+    ```shell
+    make DAY=01
+    ```
+
+    If you don't specify a day, the directory of the first day in the repository
+    will be selected by default. Note that `make all` produces an unoptimized
+    debug build by default. Optionally specify `CONFIG=release` and `NATIVE=1`
+    to enable (machine-specific) optimizations.
+
+    ```shell
+    make DAY=01 CONFIG=release NATIVE=1
+    ```
+
+4. To run the solution for a specific day, use `make run`, which will build the
+   solution (if not done already) and execute it.
+
+   ```shell
+   make run DAY=01 CONFIG=release NATIVE=1
+   ```
+
+   Note that the solutions read the puzzle input from the standard input stream.
+   The `run` target expects a file called `input.txt` in the `resources`
+   directory of the selected day, which is used to redirect the standard input
+   stream. [As explained above](#about-this-project), my input files are not
+   included in the repository, so you'll have to create them yourself and paste
+   your puzzle input into them. You can find your input for each day
+   [here](https://adventofcode.com/2024) if you haven't downloaded it already.
+
+## License
+
+This project is licensed under the [MIT License](LICENSE). Feel free to
+experiment with the code, adapt it to your own preferences, and share it with
+others.
