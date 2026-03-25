@@ -2,10 +2,9 @@ CXX = g++
 CXXFLAGS = -std=c++23 -Wall -Wextra -Wpedantic -Wundef -Wshadow -Wconversion \
 	-Wdouble-promotion -Wcast-align -Wcast-qual -Wlogical-op -Wpointer-arith \
 	-Wformat=2 -Wnrvo -Wswitch-default -Wswitch-enum -Wuseless-cast \
-	-Walloc-zero -Wmissing-declarations -Wmissing-include-dirs \
-	-Wduplicated-cond -Wduplicated-branches -Wzero-as-null-pointer-constant \
-	-Wunused-macros -Wenum-conversion -Wflex-array-member-not-at-end \
-	-Wredundant-decls
+	-Wmissing-declarations -Wmissing-include-dirs -Wduplicated-cond \
+	-Wduplicated-branches -Wzero-as-null-pointer-constant -Wunused-macros \
+	-Wenum-conversion -Wflex-array-member-not-at-end -Wredundant-decls
 CPPFLAGS = ${INCS} ${DEPFLAGS}
 DEPFLAGS = -MMD -MP
 LDFLAGS =

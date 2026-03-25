@@ -160,7 +160,8 @@ the time spent for parsing the input, as well as printing the puzzle results.
 |----------------------------|---------:|---------:|---------:|---------:|-------------------:|
 | Day 1 – Historian Hysteria | 1.290 ms | 1.588 ms | 1.399 ms | 1.374 ms |           0.104 ms |
 | Day 2 – Red-Nosed Reports  | 1.982 ms | 2.455 ms | 2.260 ms | 2.283 ms |           0.138 ms |
-| Total                      | 3.272 ms | 4.043 ms | 3.659 ms | 3.657 ms |           0.242 ms |
+| Day 3 – Mull It Over       | 2.593 ms | 3.051 ms | 2.771 ms | 2.756 ms |           0.136 ms |
+| Total                      | 5.865 ms | 7.094 ms | 6.430 ms | 6.413 ms |           0.378 ms |
 
 > [!NOTE]
 > The timings shown above represent actual computation times, not total process
