@@ -147,6 +147,26 @@ If you want to try out one of my solutions, simply follow these steps below:
    your puzzle input into them. You can find your input for each day
    [here](https://adventofcode.com/2024) if you haven't downloaded it already.
 
+## Timings
+
+Finally, here are some simple (non-scientific) timings I created using
+`std::chrono::high_resolution_clock` and my main machine (Intel Core i9-13900HX,
+32GB DDR5-5600 RAM) running Windows 11 25H2. All used `CONFIG=release` and
+`NATIVE=1` to take advantage of (machine-specific) optimizations. The reported
+times are the result of ten runs and represent the (real) wall time, including
+the time spent for parsing the input, as well as printing the puzzle results.
+
+| Day                        |      Min |      Max |     Mean |   Median | Standard Deviation |
+|----------------------------|---------:|---------:|---------:|---------:|-------------------:|
+| Day 1 – Historian Hysteria | 1.290 ms | 1.588 ms | 1.399 ms | 1.374 ms |           0.104 ms |
+| Total                      | 1.290 ms | 1.588 ms | 1.399 ms | 1.374 ms |           0.104 ms |
+
+> [!NOTE]
+> The timings shown above represent actual computation times, not total process
+> lifetimes. Startup and shutdown of processes usually introduces an overhead of
+> a few milliseconds, but since this is not relevant for the performance of the
+> solutions themselves, I decided to ignore it here.
+
 ## License
 
 This project is licensed under the [MIT License](LICENSE). Feel free to

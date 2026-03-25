@@ -9,7 +9,7 @@ CXXFLAGS = -std=c++23 -Wall -Wextra -Wpedantic -Wundef -Wshadow -Wconversion \
 CPPFLAGS = ${INCS} ${DEPFLAGS}
 DEPFLAGS = -MMD -MP
 LDFLAGS =
-LDLIBS =
+LDLIBS = -lstdc++exp
 
 CONFIG ?= debug
 ifeq (${CONFIG}, debug)
