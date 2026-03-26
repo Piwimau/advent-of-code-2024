@@ -34,8 +34,7 @@ private:
      * @param[in] right The right list of numbers.
      */
     Notes(std::vector<std::int64_t> left, std::vector<std::int64_t> right)
-        : left(std::move(left)),
-          right(std::move(right)) {
+        : left(std::move(left)), right(std::move(right)) {
         assert(this->left.size() == this->right.size());
         std::ranges::sort(this->left);
         std::ranges::sort(this->right);
@@ -130,7 +129,7 @@ int main() {
     std::optional<Notes> notes = Notes::parse();
     if (!notes) {
         std::println(
-            std::cerr,
+            stderr,
             "An error occurred while reading the input file."
         );
         return EXIT_FAILURE;

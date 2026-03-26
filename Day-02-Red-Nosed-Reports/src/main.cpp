@@ -182,7 +182,7 @@ int main() {
     std::vector<Report> reports = parse_reports();
     if (reports.empty()) {
         std::println(
-            std::cerr,
+            stderr,
             "An error occurred while reading the input file."
         );
         return EXIT_FAILURE;
