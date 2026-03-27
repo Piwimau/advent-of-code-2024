@@ -156,13 +156,14 @@ Finally, here are some simple (non-scientific) timings I created using
 times are the result of ten runs and represent the (real) wall time, including
 the time spent for parsing the input, as well as printing the puzzle results.
 
-| Day                        |      Min |      Max |     Mean |   Median | Standard Deviation |
-|----------------------------|---------:|---------:|---------:|---------:|-------------------:|
-| Day 1 – Historian Hysteria | 1.290 ms | 1.588 ms | 1.399 ms | 1.374 ms |           0.104 ms |
-| Day 2 – Red-Nosed Reports  | 1.982 ms | 2.455 ms | 2.260 ms | 2.283 ms |           0.138 ms |
-| Day 3 – Mull It Over       | 2.593 ms | 3.051 ms | 2.771 ms | 2.756 ms |           0.136 ms |
-| Day 4 – Ceres Search       | 1.454 ms | 1.891 ms | 1.689 ms | 1.716 ms |           0.148 ms |
-| Total                      | 7.319 ms | 8.985 ms | 8.119 ms | 8.129 ms |           0.526 ms |
+| Day                        |       Min |       Max |      Mean |    Median | Standard Deviation |
+|----------------------------|----------:|----------:|----------:|----------:|-------------------:|
+| Day 1 – Historian Hysteria |  1.290 ms |  1.588 ms |  1.399 ms |  1.374 ms |           0.104 ms |
+| Day 2 – Red-Nosed Reports  |  1.982 ms |  2.455 ms |  2.260 ms |  2.283 ms |           0.138 ms |
+| Day 3 – Mull It Over       |  2.593 ms |  3.051 ms |  2.771 ms |  2.756 ms |           0.136 ms |
+| Day 4 – Ceres Search       |  1.454 ms |  1.891 ms |  1.689 ms |  1.716 ms |           0.148 ms |
+| Day 5 – Print Queue        |  2.735 ms |  3.131 ms |  2.866 ms |  2.802 ms |           0.120 ms |
+| Total                      | 10.054 ms | 12.116 ms | 10.985 ms | 10.931 ms |           0.646 ms |
 
 > [!NOTE]
 > The timings shown above represent actual computation times, not total process
