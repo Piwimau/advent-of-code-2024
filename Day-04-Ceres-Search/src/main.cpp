@@ -156,10 +156,7 @@ private:
         : tiles(std::move(tiles)), width(width), height(height) {
         assert(this->width >= 0);
         assert(this->height >= 0);
-        assert(
-            static_cast<std::ptrdiff_t>(this->tiles.size())
-            == (this->width * this->height)
-        );
+        assert(std::ssize(this->tiles) == (this->width * this->height));
     }
 
     /**
@@ -221,10 +218,10 @@ public:
         std::string line;
         while (std::getline(std::cin, line)) {
             if (!foundWidth) {
-                width = static_cast<std::ptrdiff_t>(line.size());
+                width = std::ssize(line);
                 foundWidth = true;
             }
-            else if (static_cast<std::ptrdiff_t>(line.size()) != width) {
+            else if (std::ssize(line) != width) {
                 return std::nullopt;
             }
             tiles.append_range(line);

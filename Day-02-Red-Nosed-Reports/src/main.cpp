@@ -38,11 +38,7 @@ private:
         }
         bool increasing = false;
         bool decreasing = false;
-        for (
-            std::ptrdiff_t i = 0;
-            i < (static_cast<std::ptrdiff_t>(levels.size()) - 1);
-            i++
-        ) {
+        for (std::ptrdiff_t i = 0; i < (std::ssize(levels) - 1); i++) {
             std::int32_t diff = levels[i + 1] - levels[i];
             if ((std::abs(diff) < MIN_DIFF) || (std::abs(diff) > MAX_DIFF)) {
                 return false;
@@ -126,17 +122,9 @@ public:
         }
         std::vector<std::int32_t> temp;
         temp.reserve(levels.size() - 1);
-        for (
-            std::ptrdiff_t i = 0;
-            i < static_cast<std::ptrdiff_t>(levels.size());
-            i++
-        ) {
+        for (std::ptrdiff_t i = 0; i < std::ssize(levels); i++) {
             temp.clear();
-            for (
-                std::ptrdiff_t j = 0;
-                j < static_cast<std::ptrdiff_t>(levels.size());
-                j++
-            ) {
+            for (std::ptrdiff_t j = 0; j < std::ssize(levels); j++) {
                 if (j != i) {
                     temp.push_back(levels[j]);
                 }
