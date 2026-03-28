@@ -163,7 +163,8 @@ the time spent for parsing the input, as well as printing the puzzle results.
 | Day 3 – Mull It Over       |  2.593 ms |  3.051 ms |  2.771 ms |  2.756 ms |           0.136 ms |
 | Day 4 – Ceres Search       |  1.454 ms |  1.891 ms |  1.689 ms |  1.716 ms |           0.148 ms |
 | Day 5 – Print Queue        |  2.735 ms |  3.131 ms |  2.866 ms |  2.802 ms |           0.120 ms |
-| Total                      | 10.054 ms | 12.116 ms | 10.985 ms | 10.931 ms |           0.646 ms |
+| Day 6 – Guard Gallivant    |  4.231 ms |  4.634 ms |  4.385 ms |  4.340 ms |           0.153 ms |
+| Total                      | 14.285 ms | 16.750 ms | 15.370 ms | 15.271 ms |           0.799 ms |
 
 > [!NOTE]
 > The timings shown above represent actual computation times, not total process

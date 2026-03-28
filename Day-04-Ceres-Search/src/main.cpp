@@ -146,7 +146,7 @@ private:
      * height.
      *
      * @warning The behavior is undefined if `tiles` does not contain exactly
-     * `width * height` characters.
+     * `width * height` characters, or if `width` or `height` is negative.
      *
      * @param[in] tiles  The tiles of the grid.
      * @param[in] width  The width of the grid.
