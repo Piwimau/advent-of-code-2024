@@ -164,7 +164,8 @@ the time spent for parsing the input, as well as printing the puzzle results.
 | Day 4 – Ceres Search       |  1.454 ms |  1.891 ms |  1.689 ms |  1.716 ms |           0.148 ms |
 | Day 5 – Print Queue        |  2.735 ms |  3.131 ms |  2.866 ms |  2.802 ms |           0.120 ms |
 | Day 6 – Guard Gallivant    |  4.231 ms |  4.634 ms |  4.385 ms |  4.340 ms |           0.153 ms |
-| Total                      | 14.285 ms | 16.750 ms | 15.370 ms | 15.271 ms |           0.799 ms |
+| Day 7 – Bridge Repair      | 12.298 ms | 14.378 ms | 13.176 ms | 13.069 ms |           0.598 ms |
+| Total                      | 26.583 ms | 31.128 ms | 28.546 ms | 28.340 ms |           1.397 ms |
 
 > [!NOTE]
 > The timings shown above represent actual computation times, not total process
