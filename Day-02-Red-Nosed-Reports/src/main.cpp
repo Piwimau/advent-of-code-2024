@@ -1,5 +1,4 @@
 #include <algorithm>
-#include <cstdint>
 #include <cstdlib>
 #include <iostream>
 #include <optional>
@@ -8,19 +7,22 @@
 #include <sstream>
 #include <string>
 #include <vector>
+#include "aoc/types.hpp"
+
+using namespace aoc;
 
 /** @brief Represents a report of the Red-Nosed reactor. */
 class Report final {
 private:
 
     /** @brief The minimum difference for a report to be considered safe. */
-    static constexpr std::int32_t MIN_DIFF = 1;
+    static constexpr i32 MIN_DIFF = 1;
 
     /** @brief The maximum difference for a report to be considered safe. */
-    static constexpr std::int32_t MAX_DIFF = 3;
+    static constexpr i32 MAX_DIFF = 3;
 
     /** @brief The levels of the report. */
-    std::vector<std::int32_t> levels;
+    std::vector<i32> levels;
 
     /**
      * @brief Determines whether the specified levels are safe.
@@ -32,14 +34,14 @@ private:
      * @param[in] levels The levels to check.
      * @return `true` if the specified levels are safe, otherwise `false`.
      */
-    static bool is_safe(std::span<const std::int32_t> levels) noexcept {
-        if (levels.size() < 2) {
+    static bool is_safe(std::span<const i32> levels) noexcept {
+        if (std::size(levels) < 2) {
             return true;
         }
         bool increasing = false;
         bool decreasing = false;
-        for (std::ptrdiff_t i = 0; i < (std::ssize(levels) - 1); i++) {
-            std::int32_t diff = levels[i + 1] - levels[i];
+        for (isize i = 0; i < (std::ssize(levels) - 1); i++) {
+            i32 diff = levels[i + 1] - levels[i];
             if ((std::abs(diff) < MIN_DIFF) || (std::abs(diff) > MAX_DIFF)) {
                 return false;
             }
@@ -78,9 +80,9 @@ public:
         if (!std::getline(std::cin, line)) {
             return std::nullopt;
         }
-        std::vector<std::int32_t> levels;
+        std::vector<i32> levels;
         std::istringstream iss(line);
-        std::int32_t level;
+        i32 level;
         while (iss >> level) {
             levels.push_back(level);
         }
@@ -92,7 +94,7 @@ public:
      *
      * @param[in] levels The levels of the report.
      */
-    Report(std::vector<std::int32_t> levels) : levels(std::move(levels)) { }
+    Report(std::vector<i32> levels) : levels(std::move(levels)) { }
 
     /**
      * @brief Determines whether this report is safe.
@@ -120,11 +122,11 @@ public:
         if (is_safe()) {
             return true;
         }
-        std::vector<std::int32_t> temp;
+        std::vector<i32> temp;
         temp.reserve(levels.size() - 1);
-        for (std::ptrdiff_t i = 0; i < std::ssize(levels); i++) {
+        for (isize i = 0; i < std::ssize(levels); i++) {
             temp.clear();
-            for (std::ptrdiff_t j = 0; j < std::ssize(levels); j++) {
+            for (isize j = 0; j < std::ssize(levels); j++) {
                 if (j != i) {
                     temp.push_back(levels[j]);
                 }
@@ -175,11 +177,11 @@ int main() {
         );
         return EXIT_FAILURE;
     }
-    std::ptrdiff_t safe0 = std::ranges::count_if(
+    isize safe0 = std::ranges::count_if(
         reports,
         [](const Report& report) { return report.is_safe(); }
     );
-    std::ptrdiff_t safe1 = std::ranges::count_if(
+    isize safe1 = std::ranges::count_if(
         reports,
         [](const Report& report) { return report.is_safe_with_one_removal(); }
     );

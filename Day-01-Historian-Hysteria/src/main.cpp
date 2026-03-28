@@ -1,6 +1,5 @@
 #include <algorithm>
 #include <cassert>
-#include <cinttypes>
 #include <cstdlib>
 #include <iostream>
 #include <optional>
@@ -9,19 +8,22 @@
 #include <sstream>
 #include <unordered_map>
 #include <vector>
+#include "aoc/types.hpp"
+
+using namespace aoc;
 
 /** @brief Represents the notes of the historian. */
 class Notes final {
 private:
 
     /** @brief The left list of numbers. */
-    std::vector<std::int64_t> left;
+    std::vector<i32> left;
 
     /** @brief The right list of numbers. */
-    std::vector<std::int64_t> right;
+    std::vector<i32> right;
 
     /** @brief The frequencies of the numbers in the right list. */
-    std::unordered_map<std::int64_t, std::int64_t> rightFrequencies;
+    std::unordered_map<i32, i32> rightFrequencies;
 
     /**
      * @brief Initializes a new `Notes` instance with the specified lists of
@@ -33,12 +35,12 @@ private:
      * @param[in] left  The left list of numbers.
      * @param[in] right The right list of numbers.
      */
-    Notes(std::vector<std::int64_t> left, std::vector<std::int64_t> right)
+    Notes(std::vector<i32> left, std::vector<i32> right)
         : left(std::move(left)), right(std::move(right)) {
         assert(this->left.size() == this->right.size());
         std::ranges::sort(this->left);
         std::ranges::sort(this->right);
-        for (std::int64_t r : this->right) {
+        for (i32 r : this->right) {
             rightFrequencies[r]++;
         }
     }
@@ -71,13 +73,13 @@ public:
      * @return The parsed notes on success, or `std::nullopt` on failure.
      */
     static std::optional<Notes> parse() {
-        std::vector<std::int64_t> left;
-        std::vector<std::int64_t> right;
+        std::vector<i32> left;
+        std::vector<i32> right;
         std::string line;
         while (std::getline(std::cin, line)) {
             std::istringstream iss(line);
-            std::int64_t l;
-            std::int64_t r;
+            i32 l;
+            i32 r;
             if (!(iss >> l >> r)) {
                 return std::nullopt;
             }
@@ -95,8 +97,8 @@ public:
      *
      * @return The total distance.
      */
-    std::int64_t total_distance() const {
-        std::int64_t distance = 0;
+    i32 total_distance() const {
+        i32 distance = 0;
         for (const auto [l, r] : std::views::zip(left, right)) {
             distance += std::abs(l - r);
         }
@@ -112,9 +114,9 @@ public:
      *
      * @return The similarity score.
      */
-    std::int64_t similarity_score() const {
-        std::int64_t score = 0;
-        for (std::int64_t l : left) {
+    i32 similarity_score() const {
+        i32 score = 0;
+        for (i32 l : left) {
             auto frequency = rightFrequencies.find(l);
             if (frequency != rightFrequencies.end()) {
                 score += l * frequency->second;

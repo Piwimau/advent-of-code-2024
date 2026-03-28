@@ -1,6 +1,5 @@
 #include <algorithm>
 #include <cassert>
-#include <cstdint>
 #include <cstdlib>
 #include <iostream>
 #include <optional>
@@ -11,9 +10,12 @@
 #include <unordered_map>
 #include <utility>
 #include <vector>
+#include "aoc/types.hpp"
+
+using namespace aoc;
 
 struct Rule;
-using Rules = std::unordered_map<std::int32_t, std::vector<Rule>>;
+using Rules = std::unordered_map<i32, std::vector<Rule>>;
 
 class Update;
 using Updates = std::vector<Update>;
@@ -22,10 +24,10 @@ using Updates = std::vector<Update>;
 struct Rule {
 
     /** @brief The page number that must be printed before the other page. */
-    std::int32_t before;
+    i32 before;
 
     /** @brief The page number that must be printed after the other page. */
-    std::int32_t after;
+    i32 after;
 
     /**
      * @brief Parses a rule from a specified line of text.
@@ -53,8 +55,8 @@ struct Rule {
      */
     static std::optional<Rule> parse(const std::string& line) {
         std::istringstream iss(line);
-        std::int32_t before;
-        std::int32_t after;
+        i32 before;
+        i32 after;
         char separator;
         if (
             (iss >> before >> separator >> after) && (before >= 0)
@@ -72,14 +74,14 @@ class Update final {
 private:
 
     /** @brief The page numbers to be printed. */
-    std::vector<std::int32_t> pages;
+    std::vector<i32> pages;
 
     /**
      * @brief Initializes a new update with the specified page numbers.
      *
      * @param[in] pages The page numbers to be printed.
      */
-    Update(std::vector<std::int32_t> pages) : pages(std::move(pages)) { }
+    Update(std::vector<i32> pages) : pages(std::move(pages)) { }
 
 public:
 
@@ -102,8 +104,8 @@ public:
      */
     static std::optional<Update> parse(const std::string& line) {
         std::istringstream iss(line);
-        std::vector<std::int32_t> pages;
-        std::int32_t page;
+        std::vector<i32> pages;
+        i32 page;
         char separator;
         while (iss >> page) {
             if (page < 0) {
@@ -165,7 +167,7 @@ public:
     void order(const Rules& rules) {
         std::ranges::sort(
             pages,
-            [&rules](std::int32_t l, std::int32_t r) {
+            [&rules](i32 l, i32 r) {
                 const auto it = rules.find(l);
                 if (it == rules.end()) {
                     return false;
@@ -189,7 +191,7 @@ public:
      *
      * @return The middle page number of this update.
      */
-    std::int32_t middle_page() const noexcept {
+    i32 middle_page() const noexcept {
         assert((pages.size() % 2) == 1);
         return pages[pages.size() / 2];
     }
@@ -275,11 +277,11 @@ static inline std::optional<std::pair<Rules, Updates>> parse_input() {
  * @param[in] updates The updates to be printed in the print queue.
  * @return The sum of the middle page numbers of the correctly-ordered updates.
  */
-static inline std::int32_t sum_of_middle_pages_ordered(
+static inline i32 sum_of_middle_pages_ordered(
     const Rules& rules,
     const Updates& updates
 ) {
-    std::int32_t sum = 0;
+    i32 sum = 0;
     for (const Update& update : updates) {
         if (update.is_ordered(rules)) {
             sum += update.middle_page();
@@ -297,11 +299,11 @@ static inline std::int32_t sum_of_middle_pages_ordered(
  * @return The sum of the middle page numbers of the unordered updates after
  * reordering them according to the rules.
  */
-static inline std::int32_t sum_of_middle_pages_unordered(
+static inline i32 sum_of_middle_pages_unordered(
     const Rules& rules,
     const Updates& updates
 ) {
-    std::int32_t sum = 0;
+    i32 sum = 0;
     for (const Update& update : updates) {
         if (!update.is_ordered(rules)) {
             Update temp = update;
@@ -319,8 +321,8 @@ int main() {
         return EXIT_FAILURE;
     }
     auto& [rules, updates] = *input;
-    std::int32_t sumOrdered = sum_of_middle_pages_ordered(rules, updates);
-    std::int32_t sumUnordered = sum_of_middle_pages_unordered(rules, updates);
+    i32 sumOrdered = sum_of_middle_pages_ordered(rules, updates);
+    i32 sumUnordered = sum_of_middle_pages_unordered(rules, updates);
     std::println(
         "The sum of the middle page numbers of the correctly-ordered updates "
             "is {}.",

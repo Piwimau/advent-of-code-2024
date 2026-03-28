@@ -1,10 +1,12 @@
-#include <cstdint>
 #include <cstdlib>
 #include <iostream>
 #include <print>
 #include <regex>
 #include <streambuf>
 #include <string>
+#include "aoc/types.hpp"
+
+using namespace aoc;
 
 /** @brief The pattern for matching all valid `mul` instructions in memory. */
 static const std::regex ALL_PATTERN(
@@ -36,8 +38,8 @@ static const std::regex ENABLED_PATTERN(
  * @param[in] memory The input to scan.
  * @return The sum of the results of all valid `mul` instructions in the input.
  */
-static inline std::int64_t sum_of_all_muls(std::string_view memory) {
-    std::int64_t sum = 0;
+static inline i64 sum_of_all_muls(std::string_view memory) {
+    i64 sum = 0;
     std::regex_iterator<std::string_view::iterator> it(
         memory.begin(),
         memory.end(),
@@ -71,8 +73,8 @@ static inline std::int64_t sum_of_all_muls(std::string_view memory) {
  * @return The sum of the results of all enabled `mul` instructions in the
  * input.
  */
-static inline std::int64_t sum_of_enabled_muls(std::string_view memory) {
-    std::int64_t sum = 0;
+static inline i64 sum_of_enabled_muls(std::string_view memory) {
+    i64 sum = 0;
     bool enabled = true;
     std::regex_iterator<std::string_view::iterator> it(
         memory.begin(),
@@ -99,8 +101,8 @@ int main() {
         std::istreambuf_iterator<char>(std::cin),
         std::istreambuf_iterator<char>()
     );
-    std::int64_t sumAll = sum_of_all_muls(input);
-    std::int64_t sumEnabled = sum_of_enabled_muls(input);
+    i64 sumAll = sum_of_all_muls(input);
+    i64 sumEnabled = sum_of_enabled_muls(input);
     std::println("The sum of all multiplications is {}.", sumAll);
     std::println("The sum of enabled multiplications is {}.", sumEnabled);
     return EXIT_SUCCESS;

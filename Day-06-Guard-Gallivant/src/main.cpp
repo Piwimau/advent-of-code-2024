@@ -1,6 +1,5 @@
 #include <algorithm>
 #include <cassert>
-#include <cstdint>
 #include <cstdlib>
 #include <iostream>
 #include <optional>
@@ -9,6 +8,9 @@
 #include <unordered_set>
 #include <utility>
 #include <vector>
+#include "aoc/types.hpp"
+
+using namespace aoc;
 
 /** @brief Represents a tile in a grid. */
 enum class Tile {
@@ -28,12 +30,12 @@ enum class Direction {
 struct Position {
 
     /** @brief The x-coordinate of this position. */
-    std::ptrdiff_t x;
+    isize x;
 
     /** @brief The y-coordinate of this position. */
-    std::ptrdiff_t y;
+    isize y;
 
-    /** @brief Initializes a new position with zero-initialized coordinates. */
+    /** @brief Initializes a new position with default coordinates. */
     Position() : x(0), y(0) { }
 
     /**
@@ -42,7 +44,7 @@ struct Position {
      * @param[in] x The x-coordinate of the position.
      * @param[in] y The y-coordinate of the position.
      */
-    Position(std::ptrdiff_t x, std::ptrdiff_t y) : x(x), y(y) { }
+    Position(isize x, isize y) : x(x), y(y) { }
 
     /**
      * @brief Determines whether this position is equal to a specified position.
@@ -59,10 +61,10 @@ struct Position {
 
 template<>
 struct std::hash<Position> {
-    std::size_t operator()(const Position& position) const noexcept {
-        std::size_t hash = std::hash<std::ptrdiff_t>()(position.x);
-        hash ^= std::hash<std::ptrdiff_t>()(position.y) + 0x9E3779B9
-            + (hash << 6) + (hash >> 2);
+    usize operator()(const Position& position) const noexcept {
+        usize hash = std::hash<isize>()(position.x);
+        hash ^= std::hash<isize>()(position.y) + 0x9E3779B9 + (hash << 6)
+            + (hash >> 2);
         return hash;
     }
 };
@@ -74,18 +76,18 @@ private:
     /**
      * @brief The indices of columns with obstacles in each row of this grid.
      */
-    std::vector<std::vector<std::ptrdiff_t>> obstaclesInRow;
+    std::vector<std::vector<isize>> obstaclesInRow;
 
     /**
      * @brief The indices of rows with obstacles in each column of this grid.
      */
-    std::vector<std::vector<std::ptrdiff_t>> obstaclesInCol;
+    std::vector<std::vector<isize>> obstaclesInCol;
 
     /** @brief The width of this grid. */
-    std::ptrdiff_t width;
+    isize width;
 
     /** @brief The height of this grid. */
-    std::ptrdiff_t height;
+    isize height;
 
     /** @brief The position of the guard in this grid. */
     Position guard;
@@ -103,12 +105,7 @@ private:
      * @param[in] height The height of the grid.
      * @param[in] guard  The position of the guard in the grid.
      */
-    Grid(
-        std::span<const Tile> tiles,
-        std::ptrdiff_t width,
-        std::ptrdiff_t height,
-        Position guard
-    )
+    Grid(std::span<const Tile> tiles, isize width, isize height, Position guard)
         : obstaclesInRow(height),
           obstaclesInCol(width),
           width(width),
@@ -121,8 +118,8 @@ private:
             (guard.x >= 0) && (guard.x < this->width)
                 && (guard.y >= 0) && (guard.y < this->height)
         );
-        for (std::ptrdiff_t y = 0; y < this->height; y++) {
-            for (std::ptrdiff_t x = 0; x < this->width; x++) {
+        for (isize y = 0; y < this->height; y++) {
+            for (isize x = 0; x < this->width; x++) {
                 Position position(x, y);
                 if (tiles[(y * width) + x] == Tile::OBSTACLE) {
                     obstaclesInRow[y].push_back(x);
@@ -152,11 +149,11 @@ private:
                 case Direction::UP: {
                     const auto& obstacles = obstaclesInCol[cur.x];
                     auto it = std::ranges::lower_bound(obstacles, cur.y);
-                    std::ptrdiff_t stopY = (it != obstacles.begin())
+                    isize stopY = (it != obstacles.begin())
                         ? *std::prev(it) + 1
                         : 0;
                     exits = (it == obstacles.begin());
-                    for (std::ptrdiff_t y = stopY; y <= cur.y; y++) {
+                    for (isize y = stopY; y <= cur.y; y++) {
                         visited.emplace(cur.x, y);
                     }
                     cur.y = stopY;
@@ -166,11 +163,11 @@ private:
                 case Direction::RIGHT: {
                     const auto& obstacles = obstaclesInRow[cur.y];
                     auto it = std::ranges::upper_bound(obstacles, cur.x);
-                    std::ptrdiff_t stopX = (it != obstacles.end())
+                    isize stopX = (it != obstacles.end())
                         ? *it - 1
                         : width - 1;
                     exits = (it == obstacles.end());
-                    for (std::ptrdiff_t x = cur.x; x <= stopX; x++) {
+                    for (isize x = cur.x; x <= stopX; x++) {
                         visited.emplace(x, cur.y);
                     }
                     cur.x = stopX;
@@ -180,11 +177,11 @@ private:
                 case Direction::DOWN: {
                     const auto& obstacles = obstaclesInCol[cur.x];
                     auto it = std::ranges::upper_bound(obstacles, cur.y);
-                    std::ptrdiff_t stopY = (it != obstacles.end())
+                    isize stopY = (it != obstacles.end())
                         ? *it - 1
                         : height - 1;
                     exits = (it == obstacles.end());
-                    for (std::ptrdiff_t y = cur.y; y <= stopY; y++) {
+                    for (isize y = cur.y; y <= stopY; y++) {
                         visited.emplace(cur.x, y);
                     }
                     cur.y = stopY;
@@ -194,11 +191,11 @@ private:
                 case Direction::LEFT: {
                     const auto& obstacles = obstaclesInRow[cur.y];
                     auto it = std::ranges::lower_bound(obstacles, cur.x);
-                    std::ptrdiff_t stopX = (it != obstacles.begin())
+                    isize stopX = (it != obstacles.begin())
                         ? *std::prev(it) + 1
                         : 0;
                     exits = (it == obstacles.begin());
-                    for (std::ptrdiff_t x = stopX; x <= cur.x; x++) {
+                    for (isize x = stopX; x <= cur.x; x++) {
                         visited.emplace(x, cur.y);
                     }
                     cur.x = stopX;
@@ -246,8 +243,8 @@ public:
      */
     static std::optional<Grid> parse() {
         std::vector<Tile> tiles;
-        std::ptrdiff_t width = 0;
-        std::ptrdiff_t height = 0;
+        isize width = 0;
+        isize height = 0;
         Position guard;
         bool foundWidth = false;
         bool foundGuard = false;
@@ -301,7 +298,7 @@ public:
      *
      * @return The number of distinct positions visited by the guard.
      */
-    std::ptrdiff_t count_visited_positions() const {
+    isize count_visited_positions() const {
         return std::ssize(visited_positions());
     }
 
@@ -312,18 +309,18 @@ public:
      * @return The number of possible positions in which an obstacle could be
      * placed to get the guard stuck in an infinite loop.
      */
-    std::ptrdiff_t possible_obstructions() const {
+    isize possible_obstructions() const {
         std::unordered_set<Position> obstacles = visited_positions();
         obstacles.erase(guard);
-        std::vector<std::ptrdiff_t> visited(width * height * 4, 0);
-        std::ptrdiff_t obstructions = 0;
-        std::ptrdiff_t round = 0;
+        std::vector<isize> visited(width * height * 4, 0);
+        isize obstructions = 0;
+        isize round = 0;
         for (const Position& obstacle : obstacles) {
             round++;
             Position cur = guard;
             Direction dir = Direction::UP;
             while (true) {
-                std::ptrdiff_t idx = (((cur.y * width) + cur.x) * 4)
+                isize idx = (((cur.y * width) + cur.x) * 4)
                     + std::to_underlying(dir);
                 if (visited[idx] == round) {
                     obstructions++;
@@ -335,9 +332,7 @@ public:
                     case Direction::UP: {
                         const auto& col = obstaclesInCol[cur.x];
                         auto it = std::ranges::lower_bound(col, cur.y);
-                        std::ptrdiff_t wall = (it != col.begin())
-                            ? *std::prev(it)
-                            : -1;
+                        isize wall = (it != col.begin()) ? *std::prev(it) : -1;
                         if ((obstacle.x == cur.x) && (obstacle.y < cur.y)) {
                             wall = std::max(wall, obstacle.y);
                         }
@@ -352,7 +347,7 @@ public:
                     case Direction::RIGHT: {
                         const auto& row = obstaclesInRow[cur.y];
                         auto it = std::ranges::upper_bound(row, cur.x);
-                        std::ptrdiff_t wall = (it != row.end()) ? *it : width;
+                        isize wall = (it != row.end()) ? *it : width;
                         if ((obstacle.y == cur.y) && (obstacle.x > cur.x)) {
                             wall = std::min(wall, obstacle.x);
                         }
@@ -367,7 +362,7 @@ public:
                     case Direction::DOWN: {
                         const auto& col = obstaclesInCol[cur.x];
                         auto it = std::ranges::upper_bound(col, cur.y);
-                        std::ptrdiff_t wall = (it != col.end()) ? *it : height;
+                        isize wall = (it != col.end()) ? *it : height;
                         if ((obstacle.x == cur.x) && (obstacle.y > cur.y)) {
                             wall = std::min(wall, obstacle.y);
                         }
@@ -382,9 +377,7 @@ public:
                     case Direction::LEFT: {
                         const auto& row = obstaclesInRow[cur.y];
                         auto it = std::ranges::lower_bound(row, cur.x);
-                        std::ptrdiff_t wall = (it != row.begin())
-                            ? *std::prev(it)
-                            : -1;
+                        isize wall = (it != row.begin()) ? *std::prev(it) : -1;
                         if ((obstacle.y == cur.y) && (obstacle.x < cur.x)) {
                             wall = std::max(wall, obstacle.x);
                         }
@@ -415,8 +408,8 @@ int main() {
         std::println(stderr, "An error occurred while reading the input file.");
         return EXIT_FAILURE;
     }
-    std::ptrdiff_t visited = grid->count_visited_positions();
-    std::ptrdiff_t obstructions = grid->possible_obstructions();
+    isize visited = grid->count_visited_positions();
+    isize obstructions = grid->possible_obstructions();
     std::println("The guard will visit {} distinct positions.", visited);
     std::println(
         "There are {} possible positions for obstacles to get the guard stuck.",

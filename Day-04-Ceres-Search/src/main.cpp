@@ -1,32 +1,31 @@
 #include <array>
 #include <cassert>
-#include <cstddef>
 #include <cstdlib>
 #include <iostream>
 #include <optional>
 #include <print>
 #include <string>
 #include <vector>
+#include "aoc/types.hpp"
+
+using namespace aoc;
 
 /** @brief Represents a two-dimensional vector. */
 struct Vector {
 
     /** @brief The x-component of the vector. */
-    std::ptrdiff_t x;
+    isize x;
 
     /** @brief The y-component of the vector. */
-    std::ptrdiff_t y;
-
-    /** @brief Initializes a new vector with zero-initialized components. */
-    constexpr Vector() : x(0), y(0) { }
+    isize y;
 
     /**
      * @brief Initializes a new vector with the specified components.
      *
-     * @param[in] x The x-component of the vector.
-     * @param[in] y The y-component of the vector.
+     * @param[in] x The x-component of the vector, zero by default.
+     * @param[in] y The y-component of the vector, zero by default.
      */
-    constexpr Vector(std::ptrdiff_t x, std::ptrdiff_t y) : x(x), y(y) { }
+    constexpr Vector(isize x, isize y) : x(x), y(y) { }
 
     /**
      * @brief Adds a specified vector to this vector.
@@ -136,10 +135,10 @@ private:
     std::vector<char> tiles;
 
     /** @brief The width of the grid. */
-    std::ptrdiff_t width;
+    isize width;
 
     /** @brief The height of the grid. */
-    std::ptrdiff_t height;
+    isize height;
 
     /**
      * @brief Initializes a new grid with the specified tiles, width, and
@@ -152,7 +151,7 @@ private:
      * @param[in] width  The width of the grid.
      * @param[in] height The height of the grid.
      */
-    Grid(std::vector<char> tiles, std::ptrdiff_t width, std::ptrdiff_t height)
+    Grid(std::vector<char> tiles, isize width, isize height)
         : tiles(std::move(tiles)), width(width), height(height) {
         assert(this->width >= 0);
         assert(this->height >= 0);
@@ -212,8 +211,8 @@ public:
      */
     static std::optional<Grid> parse() {
         std::vector<char> tiles;
-        std::ptrdiff_t width = 0;
-        std::ptrdiff_t height = 0;
+        isize width = 0;
+        isize height = 0;
         bool foundWidth = false;
         std::string line;
         while (std::getline(std::cin, line)) {
@@ -239,10 +238,10 @@ public:
      *
      * @return The number of occurrences of the word "XMAS" in this grid.
      */
-    std::ptrdiff_t count_xmas() const noexcept {
-        std::ptrdiff_t count = 0;
-        for (std::ptrdiff_t y = 0; y < height; y++) {
-            for (std::ptrdiff_t x = 0; x < width; x++) {
+    isize count_xmas() const noexcept {
+        isize count = 0;
+        for (isize y = 0; y < height; y++) {
+            for (isize x = 0; x < width; x++) {
                 for (Vector offset : OFFSETS) {
                     Vector pos(x, y);
                     bool found = true;
@@ -272,10 +271,10 @@ public:
      * @return The number of X-shaped occurrences of the word "MAS" in this
      * grid.
      */
-    std::ptrdiff_t count_x_mas() const noexcept {
-        std::ptrdiff_t count = 0;
-        for (std::ptrdiff_t y = 0; y < height; y++) {
-            for (std::ptrdiff_t x = 0; x < width; x++) {
+    isize count_x_mas() const noexcept {
+        isize count = 0;
+        for (isize y = 0; y < height; y++) {
+            for (isize x = 0; x < width; x++) {
                 Vector pos(x, y);
                 if (at(pos) != 'A') {
                     continue;
@@ -315,8 +314,8 @@ int main() {
         std::println(stderr, "An error occurred while reading the input file.");
         return EXIT_FAILURE;
     }
-    std::ptrdiff_t countXmas = grid->count_xmas();
-    std::ptrdiff_t countXMas = grid->count_x_mas();
+    isize countXmas = grid->count_xmas();
+    isize countXMas = grid->count_x_mas();
     std::println("The word \"XMAS\" appears {} times.", countXmas);
     std::println("\"X-MAS\" appears {} times.", countXMas);
     return EXIT_SUCCESS;

@@ -38,7 +38,7 @@ endif
 SRC = ${DAYDIR}/src
 BUILD = ${DAYDIR}/build
 
-INCS = $(if $(wildcard ${DAYDIR}/include), -I${DAYDIR}/include)
+INCS = -Iinclude $(if $(wildcard ${DAYDIR}/include), -I${DAYDIR}/include)
 SRCS = ${shell find ${SRC} -type f -name '*.cpp'}
 OBJS = ${patsubst ${SRC}/%.cpp, ${BUILD}/${CONFIG}/%.o, ${SRCS}}
 DEPS = ${patsubst ${SRC}/%.cpp, ${BUILD}/${CONFIG}/%.d, ${SRCS}}
