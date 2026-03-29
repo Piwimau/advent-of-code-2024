@@ -165,7 +165,8 @@ the time spent for parsing the input, as well as printing the puzzle results.
 | Day 5 – Print Queue        |  2.735 ms |  3.131 ms |  2.866 ms |  2.802 ms |           0.120 ms |
 | Day 6 – Guard Gallivant    |  4.231 ms |  4.634 ms |  4.385 ms |  4.340 ms |           0.153 ms |
 | Day 7 – Bridge Repair      | 12.298 ms | 14.378 ms | 13.176 ms | 13.069 ms |           0.598 ms |
-| Total                      | 26.583 ms | 31.128 ms | 28.546 ms | 28.340 ms |           1.397 ms |
+| Day 8 – Resonant Repair    |  0.561 ms |  1.030 ms |  0.764 ms |  0.763 ms |           0.127 ms |
+| Total                      | 27.144 ms | 32.158 ms | 29.310 ms | 29.102 ms |           1.523 ms |
 
 > [!NOTE]
 > The timings shown above represent actual computation times, not total process
