@@ -156,17 +156,18 @@ Finally, here are some simple (non-scientific) timings I created using
 times are the result of ten runs and represent the (real) wall time, including
 the time spent for parsing the input, as well as printing the puzzle results.
 
-| Day                        |       Min |       Max |      Mean |    Median | Standard Deviation |
-|----------------------------|----------:|----------:|----------:|----------:|-------------------:|
-| Day 1 – Historian Hysteria |  1.290 ms |  1.588 ms |  1.399 ms |  1.374 ms |           0.104 ms |
-| Day 2 – Red-Nosed Reports  |  1.982 ms |  2.455 ms |  2.260 ms |  2.283 ms |           0.138 ms |
-| Day 3 – Mull It Over       |  2.593 ms |  3.051 ms |  2.771 ms |  2.756 ms |           0.136 ms |
-| Day 4 – Ceres Search       |  1.454 ms |  1.891 ms |  1.689 ms |  1.716 ms |           0.148 ms |
-| Day 5 – Print Queue        |  2.735 ms |  3.131 ms |  2.866 ms |  2.802 ms |           0.120 ms |
-| Day 6 – Guard Gallivant    |  4.231 ms |  4.634 ms |  4.385 ms |  4.340 ms |           0.153 ms |
-| Day 7 – Bridge Repair      | 12.298 ms | 14.378 ms | 13.176 ms | 13.069 ms |           0.598 ms |
-| Day 8 – Resonant Repair    |  0.561 ms |  1.030 ms |  0.764 ms |  0.763 ms |           0.127 ms |
-| Total                      | 27.144 ms | 32.158 ms | 29.310 ms | 29.102 ms |           1.523 ms |
+| Day                           |       Min |       Max |      Mean |    Median | Standard Deviation |
+|-------------------------------|----------:|----------:|----------:|----------:|-------------------:|
+| Day 1 – Historian Hysteria    |  1.290 ms |  1.588 ms |  1.399 ms |  1.374 ms |           0.104 ms |
+| Day 2 – Red-Nosed Reports     |  1.982 ms |  2.455 ms |  2.260 ms |  2.283 ms |           0.138 ms |
+| Day 3 – Mull It Over          |  2.593 ms |  3.051 ms |  2.771 ms |  2.756 ms |           0.136 ms |
+| Day 4 – Ceres Search          |  1.454 ms |  1.891 ms |  1.689 ms |  1.716 ms |           0.148 ms |
+| Day 5 – Print Queue           |  2.735 ms |  3.131 ms |  2.866 ms |  2.802 ms |           0.120 ms |
+| Day 6 – Guard Gallivant       |  4.231 ms |  4.634 ms |  4.385 ms |  4.340 ms |           0.153 ms |
+| Day 7 – Bridge Repair         | 12.298 ms | 14.378 ms | 13.176 ms | 13.069 ms |           0.598 ms |
+| Day 8 – Resonant Collinearity |  0.561 ms |  1.030 ms |  0.764 ms |  0.763 ms |           0.127 ms |
+| Day 9 – Disk Fragmenter       |  2.421 ms |  3.022 ms |  2.687 ms |  2.654 ms |           0.219 ms |
+| Total                         | 29.565 ms | 35.180 ms | 31.996 ms | 31.756 ms |           1.743 ms |
 
 > [!NOTE]
 > The timings shown above represent actual computation times, not total process
