@@ -167,7 +167,8 @@ the time spent for parsing the input, as well as printing the puzzle results.
 | Day 7 – Bridge Repair         | 12.298 ms | 14.378 ms | 13.176 ms | 13.069 ms |           0.598 ms |
 | Day 8 – Resonant Collinearity |  0.561 ms |  1.030 ms |  0.764 ms |  0.763 ms |           0.127 ms |
 | Day 9 – Disk Fragmenter       |  2.421 ms |  3.022 ms |  2.687 ms |  2.654 ms |           0.219 ms |
-| Total                         | 29.565 ms | 35.180 ms | 31.996 ms | 31.756 ms |           1.743 ms |
+| Day 10 – Hoof It              |  1.161 ms |  1.467 ms |  1.296 ms |  1.284 ms |           0.089 ms |
+| Total                         | 30.726 ms | 36.647 ms | 33.292 ms | 33.039 ms |           1.832 ms |
 
 > [!NOTE]
 > The timings shown above represent actual computation times, not total process
