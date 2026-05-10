@@ -43,7 +43,7 @@ SRCS = ${shell find ${SRC} -type f -name '*.cpp'}
 OBJS = ${patsubst ${SRC}/%.cpp, ${BUILD}/${CONFIG}/%.o, ${SRCS}}
 DEPS = ${patsubst ${SRC}/%.cpp, ${BUILD}/${CONFIG}/%.d, ${SRCS}}
 
-BIN = ${BUILD}/${CONFIG}/main.exe
+BIN = ${BUILD}/${CONFIG}/main
 
 .PHONY: all run clean help
 
