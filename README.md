@@ -151,10 +151,11 @@ If you want to try out one of my solutions, simply follow these steps below:
 
 Finally, here are some simple (non-scientific) timings I created using
 `std::chrono::high_resolution_clock` and my main machine (Intel Core i9-13900HX,
-32GB DDR5-5600 RAM) running Windows 11 25H2. All used `CONFIG=release` and
-`NATIVE=1` to take advantage of (machine-specific) optimizations. The reported
-times are the result of ten runs and represent the (real) wall time, including
-the time spent for parsing the input, as well as printing the puzzle results.
+32GB DDR5-5600 RAM) running Fedora Linux 44 (Workstation Edition). All used
+`CONFIG=release` and `NATIVE=1` to take advantage of (machine-specific)
+optimizations. The reported times are the result of ten runs and represent the
+(real) wall time, including the time spent for parsing the input, as well as
+printing the puzzle results.
 
 | Day                           |       Min |       Max |      Mean |    Median | Standard Deviation |
 |-------------------------------|----------:|----------:|----------:|----------:|-------------------:|
@@ -168,7 +169,8 @@ the time spent for parsing the input, as well as printing the puzzle results.
 | Day 8 – Resonant Collinearity |  0.561 ms |  1.030 ms |  0.764 ms |  0.763 ms |           0.127 ms |
 | Day 9 – Disk Fragmenter       |  2.421 ms |  3.022 ms |  2.687 ms |  2.654 ms |           0.219 ms |
 | Day 10 – Hoof It              |  1.161 ms |  1.467 ms |  1.296 ms |  1.284 ms |           0.089 ms |
-| Total                         | 30.726 ms | 36.647 ms | 33.292 ms | 33.039 ms |           1.832 ms |
+| Day 11 – Plutonian Pebbles    |  7.963 ms | 12.116 ms |  9.590 ms |  8.871 ms |           1.597 ms |
+| Total                         | 38.689 ms | 48.763 ms | 42.882 ms | 41.910 ms |           3.429 ms |
 
 > [!NOTE]
 > The timings shown above represent actual computation times, not total process
