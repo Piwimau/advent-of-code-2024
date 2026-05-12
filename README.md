@@ -26,7 +26,7 @@ and learn more about Advent of Code [here](https://adventofcode.com/2024/about).
 
 For this year of Advent of Code, I decided to go with `C++`. In the previous
 year, I had a lot of fun solving the puzzles in `C` and implementing my own
-small utility library called [`SCU`](https://github.com/Piwimau/SCU) alongside.
+small utility library called [`SCU`](https://github.com/Piwimau/scu) alongside.
 It was a great opportunity to improve my systems programming skills, and I also
 enjoyed the challenge of working with a rather low-level language. However, I
 have always been interested in `C++` as well, but felt a bit intimidated by its
@@ -46,18 +46,20 @@ sometimes little sketches to better illustrate the way a piece of code works.
 The general structure of this project is as follows:
 
 ```plaintext
-Day-01-Historian-Hysteria/
+day-01-historian-hysteria/
   resources/
     .gitkeep
   src/
     main.cpp
-Day-02-Red-Nosed-Reports/
+day-02-red-nosed-reports/
   resources/
     .gitkeep
   src/
     main.cpp
 ...
-Day-25-Code-Chronicle/
+day-25-code-chronicle/
+  ...
+include/
   ...
 .clang-format
 .gitignore
@@ -92,8 +94,8 @@ If you want to try out one of my solutions, simply follow these steps below:
    choice.
 
    ```shell
-   git clone https://github.com/Piwimau/Advent-of-Code-2024 ./Advent-of-Code-2024
-   cd ./Advent-of-Code-2024
+   git clone https://github.com/Piwimau/advent-of-code-2024 ./advent-of-code-2024
+   cd ./advent-of-code-2024
    ```
 
 3. Once you have downloaded the source code, run `make help` to get an overview

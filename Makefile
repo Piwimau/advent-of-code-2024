@@ -20,9 +20,9 @@ else ifeq (${CONFIG}, release)
 endif
 
 ifdef DAY
-	DAYDIR = ${firstword ${wildcard Day-${DAY}-*}}
+	DAYDIR = ${firstword ${wildcard day-${DAY}-*}}
 else
-	DAYDIR = ${firstword ${wildcard Day-*}}
+	DAYDIR = ${firstword ${wildcard day-*}}
 endif
 
 ifdef NATIVE
