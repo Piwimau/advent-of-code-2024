@@ -172,9 +172,11 @@ printing the puzzle results.
 | Day 9 – Disk Fragmenter       |  2.421 ms |  3.022 ms |  2.687 ms |  2.654 ms |           0.219 ms |
 | Day 10 – Hoof It              |  1.161 ms |  1.467 ms |  1.296 ms |  1.284 ms |           0.089 ms |
 | Day 11 – Plutonian Pebbles    |  7.963 ms | 12.116 ms |  9.590 ms |  8.871 ms |           1.597 ms |
-| Total                         | 38.689 ms | 48.763 ms | 42.882 ms | 41.910 ms |           3.429 ms |
+| Day 12 – Garden Groups        |  2.191 ms |  2.367 ms |  2.310 ms |  2.317 ms |           0.049 ms |
+| Total                         | 40.880 ms | 51.130 ms | 45.192 ms | 44.227 ms |           3.478 ms |
 
 > [!NOTE]
+>
 > The timings shown above represent actual computation times, not total process
 > lifetimes. Startup and shutdown of processes usually introduces an overhead of
 > a few milliseconds, but since this is not relevant for the performance of the
