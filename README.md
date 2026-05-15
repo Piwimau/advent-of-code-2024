@@ -159,22 +159,23 @@ optimizations. The reported times are the result of ten runs and represent the
 (real) wall time, including the time spent for parsing the input, as well as
 printing the puzzle results.
 
-| Day                           |       Min |       Max |      Mean |    Median | Standard Deviation |
-|-------------------------------|----------:|----------:|----------:|----------:|-------------------:|
-| Day 1 – Historian Hysteria    |  1.290 ms |  1.588 ms |  1.399 ms |  1.374 ms |           0.104 ms |
-| Day 2 – Red-Nosed Reports     |  1.982 ms |  2.455 ms |  2.260 ms |  2.283 ms |           0.138 ms |
-| Day 3 – Mull It Over          |  2.593 ms |  3.051 ms |  2.771 ms |  2.756 ms |           0.136 ms |
-| Day 4 – Ceres Search          |  1.454 ms |  1.891 ms |  1.689 ms |  1.716 ms |           0.148 ms |
-| Day 5 – Print Queue           |  2.735 ms |  3.131 ms |  2.866 ms |  2.802 ms |           0.120 ms |
-| Day 6 – Guard Gallivant       |  4.231 ms |  4.634 ms |  4.385 ms |  4.340 ms |           0.153 ms |
-| Day 7 – Bridge Repair         | 12.298 ms | 14.378 ms | 13.176 ms | 13.069 ms |           0.598 ms |
-| Day 8 – Resonant Collinearity |  0.561 ms |  1.030 ms |  0.764 ms |  0.763 ms |           0.127 ms |
-| Day 9 – Disk Fragmenter       |  2.421 ms |  3.022 ms |  2.687 ms |  2.654 ms |           0.219 ms |
-| Day 10 – Hoof It              |  1.161 ms |  1.467 ms |  1.296 ms |  1.284 ms |           0.089 ms |
-| Day 11 – Plutonian Pebbles    |  7.963 ms | 12.116 ms |  9.590 ms |  8.871 ms |           1.597 ms |
-| Day 12 – Garden Groups        |  2.191 ms |  2.367 ms |  2.310 ms |  2.317 ms |           0.049 ms |
-| Day 13 – Claw Contraption     |  0.507 ms |  0.605 ms |  0.550 ms |  0.548 ms |           0.030 ms |
-| Total                         | 41.387 ms | 51.735 ms | 45.742 ms | 44.774 ms |           3.508 ms |
+| Day                           |       Min |        Max |       Mean |     Median | Standard Deviation |
+|-------------------------------|----------:|-----------:|-----------:|-----------:|-------------------:|
+| Day 1 – Historian Hysteria    |  1.290 ms |   1.588 ms |   1.399 ms |   1.374 ms |           0.104 ms |
+| Day 2 – Red-Nosed Reports     |  1.982 ms |   2.455 ms |   2.260 ms |   2.283 ms |           0.138 ms |
+| Day 3 – Mull It Over          |  2.593 ms |   3.051 ms |   2.771 ms |   2.756 ms |           0.136 ms |
+| Day 4 – Ceres Search          |  1.454 ms |   1.891 ms |   1.689 ms |   1.716 ms |           0.148 ms |
+| Day 5 – Print Queue           |  2.735 ms |   3.131 ms |   2.866 ms |   2.802 ms |           0.120 ms |
+| Day 6 – Guard Gallivant       |  4.231 ms |   4.634 ms |   4.385 ms |   4.340 ms |           0.153 ms |
+| Day 7 – Bridge Repair         | 12.298 ms |  14.378 ms |  13.176 ms |  13.069 ms |           0.598 ms |
+| Day 8 – Resonant Collinearity |  0.561 ms |   1.030 ms |   0.764 ms |   0.763 ms |           0.127 ms |
+| Day 9 – Disk Fragmenter       |  2.421 ms |   3.022 ms |   2.687 ms |   2.654 ms |           0.219 ms |
+| Day 10 – Hoof It              |  1.161 ms |   1.467 ms |   1.296 ms |   1.284 ms |           0.089 ms |
+| Day 11 – Plutonian Pebbles    |  7.963 ms |  12.116 ms |   9.590 ms |   8.871 ms |           1.597 ms |
+| Day 12 – Garden Groups        |  2.191 ms |   2.367 ms |   2.310 ms |   2.317 ms |           0.049 ms |
+| Day 13 – Claw Contraption     |  0.507 ms |   0.605 ms |   0.550 ms |   0.548 ms |           0.030 ms |
+| Day 14 – Restroom Redoubt     | 51.324 ms |  59.645 ms |  55.791 ms |  55.786 ms |           2.630 ms |
+| Total                         | 92.711 ms | 111.380 ms | 101.533 ms | 100.560 ms |           6.138 ms |
 
 > [!NOTE]
 >

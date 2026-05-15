@@ -12,7 +12,7 @@
 using namespace aoc;
 
 /** @brief Represents a two-dimensional map of garden plots. */
-struct Map {
+class Map final {
 private:
 
     /** @brief Represents a two-dimensional position. */
