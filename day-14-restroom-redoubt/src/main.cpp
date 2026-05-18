@@ -52,15 +52,16 @@ struct Robot {
         if (!std::getline(std::cin, line)) {
             return std::nullopt;
         }
-        if (std::sscanf(
+        if (
+            std::sscanf(
                 line.c_str(),
                 "p=%td,%td v=%td,%td",
                 &robot.x,
                 &robot.y,
                 &robot.dx,
                 &robot.dy
-            )
-            != 4) {
+            ) != 4
+        ) {
             return std::nullopt;
         }
         return robot;

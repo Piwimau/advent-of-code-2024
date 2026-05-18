@@ -175,7 +175,8 @@ printing the puzzle results.
 | Day 12 – Garden Groups        |  2.191 ms |   2.367 ms |   2.310 ms |   2.317 ms |           0.049 ms |
 | Day 13 – Claw Contraption     |  0.507 ms |   0.605 ms |   0.550 ms |   0.548 ms |           0.030 ms |
 | Day 14 – Restroom Redoubt     | 51.324 ms |  59.645 ms |  55.791 ms |  55.786 ms |           2.630 ms |
-| Total                         | 92.711 ms | 111.380 ms | 101.533 ms | 100.560 ms |           6.138 ms |
+| Day 15 – Warehouse Woes       |  1.460 ms |   2.423 ms |   1.635 ms |   1.499 ms |           0.299 ms |
+| Total                         | 94.171 ms | 113.803 ms | 103.168 ms | 102.059 ms |           6.437 ms |
 
 > [!NOTE]
 >
