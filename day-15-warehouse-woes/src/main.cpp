@@ -294,8 +294,8 @@ public:
      * @brief Returns the sum of all boxes' Goods Positioning System (GPS)
      * coordinates after simulating all the robot's moves.
      *
-     * The GPS coordinates of a box are defined as `(100 * y) + x`, where `x`
-     * and `y` represent the box's distance from the left and top edges of the
+     * The GPS coordinates of a box are defined as `100 * y + x`, where `x` and
+     * `y` represent the box's distance from the left and top edges of the
      * warehouse, respectively.
      *
      * @return The sum of all boxes' GPS coordinates.
@@ -308,22 +308,22 @@ public:
             Vector pos = robot + dir;
             while (
                 exists(pos, width, height)
-                    && (tiles[(pos.y * width) + pos.x] == Tile::BOX)
+                    && (tiles[pos.y * width + pos.x] == Tile::BOX)
             ) {
                 pos += dir;
             }
             if (
                 exists(pos, width, height)
-                    && (tiles[(pos.y * width) + pos.x] == Tile::NONE)
+                    && (tiles[pos.y * width + pos.x] == Tile::NONE)
             ) {
                 Vector next = robot + dir;
                 std::swap(
-                    tiles[(next.y * width) + next.x],
-                    tiles[(pos.y * width) + pos.x]
+                    tiles[next.y * width + next.x],
+                    tiles[pos.y * width + pos.x]
                 );
                 std::swap(
-                    tiles[(robot.y * width) + robot.x],
-                    tiles[(next.y * width) + next.x]
+                    tiles[robot.y * width + robot.x],
+                    tiles[next.y * width + next.x]
                 );
                 robot += dir;
             }
@@ -331,8 +331,8 @@ public:
         isize sum = 0;
         for (isize y = 0; y < height; y++) {
             for (isize x = 0; x < width; x++) {
-                if (tiles[(y * width) + x] == Tile::BOX) {
-                    sum += (100 * y) + x;
+                if (tiles[y * width + x] == Tile::BOX) {
+                    sum += 100 * y + x;
                 }
             }
         }
@@ -344,8 +344,8 @@ public:
      * coordinates after simulating all the robot's moves in a scaled-up version
      * of the warehouse.
      *
-     * The GPS coordinates of a box are defined as `(100 * y) + x`, where `x`
-     * and `y` represent the box's distance from the left and top edges of the
+     * The GPS coordinates of a box are defined as `100 * y + x`, where `x` and
+     * `y` represent the box's distance from the left and top edges of the
      * warehouse, respectively.
      *
      * @return The sum of all boxes' GPS coordinates in the scaled-up warehouse.
@@ -357,19 +357,19 @@ public:
             switch (this->tiles[i]) {
                 case Tile::NONE:
                     tiles[i * 2] = Tile::NONE;
-                    tiles[(i * 2) + 1] = Tile::NONE;
+                    tiles[i * 2 + 1] = Tile::NONE;
                     break;
                 case Tile::WALL:
                     tiles[i * 2] = Tile::WALL;
-                    tiles[(i * 2) + 1] = Tile::WALL;
+                    tiles[i * 2 + 1] = Tile::WALL;
                     break;
                 case Tile::BOX:
                     tiles[i * 2] = Tile::BOX_LEFT;
-                    tiles[(i * 2) + 1] = Tile::BOX_RIGHT;
+                    tiles[i * 2 + 1] = Tile::BOX_RIGHT;
                     break;
                 case Tile::ROBOT:
                     tiles[i * 2] = Tile::ROBOT;
-                    tiles[(i * 2) + 1] = Tile::NONE;
+                    tiles[i * 2 + 1] = Tile::NONE;
                     break;
                 default:
                     std::unreachable();
@@ -384,30 +384,30 @@ public:
                 Vector pos = robot + dir;
                 while (
                     exists(pos, newWidth, height)
-                        && ((tiles[(pos.y * newWidth) + pos.x] == Tile::BOX_LEFT)
-                            || (tiles[(pos.y * newWidth) + pos.x] == Tile::BOX_RIGHT))
+                        && ((tiles[pos.y * newWidth + pos.x] == Tile::BOX_LEFT)
+                            || (tiles[pos.y * newWidth + pos.x] == Tile::BOX_RIGHT))
                 ) {
                     pos += dir;
                 }
                 if (
                     exists(pos, newWidth, height)
-                        && (tiles[(pos.y * newWidth) + pos.x] == Tile::NONE)
+                        && (tiles[pos.y * newWidth + pos.x] == Tile::NONE)
                 ) {
                     if (move == Move::LEFT) {
                         std::ranges::copy(
-                            &tiles[(pos.y * newWidth) + pos.x + 1],
-                            &tiles[(robot.y * newWidth) + robot.x + 1],
-                            &tiles[(pos.y * newWidth) + pos.x]
+                            &tiles[pos.y * newWidth + pos.x + 1],
+                            &tiles[robot.y * newWidth + robot.x + 1],
+                            &tiles[pos.y * newWidth + pos.x]
                         );
                     }
                     else {
                         std::ranges::copy_backward(
-                            &tiles[(robot.y * newWidth) + robot.x],
-                            &tiles[(pos.y * newWidth) + pos.x],
-                            &tiles[(pos.y * newWidth) + pos.x + 1]
+                            &tiles[robot.y * newWidth + robot.x],
+                            &tiles[pos.y * newWidth + pos.x],
+                            &tiles[pos.y * newWidth + pos.x + 1]
                         );
                     }
-                    tiles[(robot.y * newWidth) + robot.x] = Tile::NONE;
+                    tiles[robot.y * newWidth + robot.x] = Tile::NONE;
                     robot += dir;
                 }
             }
@@ -424,7 +424,7 @@ public:
                     }
                     Vector next = pos + dir;
                     if (exists(next, newWidth, height)) {
-                        switch (tiles[(next.y * newWidth) + next.x]) {
+                        switch (tiles[next.y * newWidth + next.x]) {
                             case Tile::WALL:
                                 isBlocked = true;
                                 goto move;
@@ -452,8 +452,8 @@ public:
                     for (Vector pos : toMove) {
                         Vector next = pos + dir;
                         std::swap(
-                            tiles[(pos.y * newWidth) + pos.x],
-                            tiles[(next.y * newWidth) + next.x]
+                            tiles[pos.y * newWidth + pos.x],
+                            tiles[next.y * newWidth + next.x]
                         );
                     }
                     robot += dir;
@@ -463,8 +463,8 @@ public:
         isize sum = 0;
         for (isize y = 0; y < height; y++) {
             for (isize x = 0; x < newWidth; x++) {
-                if (tiles[(y * newWidth) + x] == Tile::BOX_LEFT) {
-                    sum += (100 * y) + x;
+                if (tiles[y * newWidth + x] == Tile::BOX_LEFT) {
+                    sum += 100 * y + x;
                 }
             }
         }

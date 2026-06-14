@@ -291,11 +291,11 @@ public:
         std::unordered_set<Vector> antinodes;
         for (const auto& [l, r] : std::views::cartesian_product(antennas, antennas)) {
             if ((l.position != r.position) && (l.frequency == r.frequency)) {
-                Vector leftAntinode = (l.position * 2) - r.position;
+                Vector leftAntinode = l.position * 2 - r.position;
                 if (exists(leftAntinode)) {
                     antinodes.insert(leftAntinode);
                 }
-                Vector rightAntinode = (r.position * 2) - l.position;
+                Vector rightAntinode = r.position * 2 - l.position;
                 if (exists(rightAntinode)) {
                     antinodes.insert(rightAntinode);
                 }
@@ -316,16 +316,14 @@ public:
         for (const auto& [l, r] : std::views::cartesian_product(antennas, antennas)) {
             if ((l.position != r.position) && (l.frequency == r.frequency)) {
                 for (isize k = 0; ; k++) {
-                    Vector leftAntinode = (l.position * (k + 1))
-                        - (r.position * k);
+                    Vector leftAntinode = l.position * (k + 1) - r.position * k;
                     if (!exists(leftAntinode)) {
                         break;
                     }
                     antinodes.insert(leftAntinode);
                 }
                 for (isize k = 0; ; k++) {
-                    Vector rightAntinode = (r.position * (k + 1))
-                        - (l.position * k);
+                    Vector rightAntinode = r.position * (k + 1) - l.position * k;
                     if (!exists(rightAntinode)) {
                         break;
                     }

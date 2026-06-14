@@ -89,7 +89,7 @@ private:
      */
     std::optional<char> plant_at(Position pos) const noexcept {
         return exists(pos)
-            ? std::make_optional(plots[(pos.y * width) + pos.x])
+            ? std::make_optional(plots[pos.y * width + pos.x])
             : std::nullopt;
     }
 
@@ -195,7 +195,7 @@ public:
         std::queue<Position> queue;
         for (isize y = 0; y < height; y++) {
             for (isize x = 0; x < width; x++) {
-                isize idx = (y * width) + x;
+                isize idx = y * width + x;
                 if (visited[idx]) {
                     continue;
                 }
@@ -213,7 +213,7 @@ public:
                             perimeter++;
                             continue;
                         }
-                        isize neighborIdx = (neighbor.y * width) + neighbor.x;
+                        isize neighborIdx = neighbor.y * width + neighbor.x;
                         if (!visited[neighborIdx]) {
                             visited[neighborIdx] = true;
                             queue.push(neighbor);
@@ -241,7 +241,7 @@ public:
         std::queue<Position> queue;
         for (isize y = 0; y < height; y++) {
             for (isize x = 0; x < width; x++) {
-                isize idx = (y * width) + x;
+                isize idx = y * width + x;
                 if (visited[idx]) {
                     continue;
                 }
@@ -255,7 +255,7 @@ public:
                     area++;
                     sides += count_sides(pos);
                     for (Position neighbor : neighbors(pos)) {
-                        isize neighborIdx = (neighbor.y * width) + neighbor.x;
+                        isize neighborIdx = neighbor.y * width + neighbor.x;
                         if (
                             !visited[neighborIdx]
                                 && (plant_at(neighbor) == plots[idx])

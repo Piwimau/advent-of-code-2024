@@ -180,7 +180,7 @@ private:
      */
     char at(Vector position) const noexcept {
         assert(exists(position));
-        return tiles[(position.y * width) + position.x];
+        return tiles[position.y * width + position.x];
     }
 
 public:

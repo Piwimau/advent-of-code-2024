@@ -143,32 +143,32 @@ public:
         std::deque<Position> queue;
         for (isize y = 0; y < height; y++) {
             for (isize x = 0; x < width; x++) {
-                if (heights[(y * width) + x] != 0) {
+                if (heights[y * width + x] != 0) {
                     continue;
                 }
                 isize score = 0;
                 std::ranges::fill_n(visited.get(), width * height, false);
-                visited[(y * width) + x] = true;
+                visited[y * width + x] = true;
                 queue.clear();
                 queue.emplace_back(x, y);
                 while (!queue.empty()) {
                     Position pos = queue.front();
                     queue.pop_front();
-                    if (heights[(pos.y * width) + pos.x] == MAX_HEIGHT) {
+                    if (heights[pos.y * width + pos.x] == MAX_HEIGHT) {
                         score++;
                         continue;
                     }
                     for (Position neighbor : neighbors(pos)) {
-                        if (visited[(neighbor.y * width) + neighbor.x]) {
+                        if (visited[neighbor.y * width + neighbor.x]) {
                             continue;
                         }
                         if (
-                            heights[(neighbor.y * width) + neighbor.x]
-                                != (heights[(pos.y * width) + pos.x] + 1)
+                            heights[neighbor.y * width + neighbor.x]
+                                != (heights[pos.y * width + pos.x] + 1)
                         ) {
                             continue;
                         }
-                        visited[(neighbor.y * width) + neighbor.x] = true;
+                        visited[neighbor.y * width + neighbor.x] = true;
                         queue.push_back(neighbor);
                     }
                 }
@@ -194,7 +194,7 @@ public:
         std::deque<Position> queue;
         for (isize y = 0; y < height; y++) {
             for (isize x = 0; x < width; x++) {
-                if (heights[(y * width) + x] != 0) {
+                if (heights[y * width + x] != 0) {
                     continue;
                 }
                 isize score = 0;
@@ -203,14 +203,14 @@ public:
                 while (!queue.empty()) {
                     Position pos = queue.front();
                     queue.pop_front();
-                    if (heights[(pos.y * width) + pos.x] == MAX_HEIGHT) {
+                    if (heights[pos.y * width + pos.x] == MAX_HEIGHT) {
                         score++;
                         continue;
                     }
                     for (Position neighbor : neighbors(pos)) {
                         if (
-                            heights[(neighbor.y * width) + neighbor.x]
-                                != (heights[(pos.y * width) + pos.x] + 1)
+                            heights[neighbor.y * width + neighbor.x]
+                                != (heights[pos.y * width + pos.x] + 1)
                         ) {
                             continue;
                         }

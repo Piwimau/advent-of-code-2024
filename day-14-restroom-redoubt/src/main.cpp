@@ -154,8 +154,8 @@ public:
         isize bottomRight = 0;
         isize topRight = 0;
         for (const Robot& robot : robots) {
-            isize x = (robot.x + (robot.dx * seconds % WIDTH) + WIDTH) % WIDTH;
-            isize y = (robot.y + (robot.dy * seconds % HEIGHT) + HEIGHT) % HEIGHT;
+            isize x = (robot.x + robot.dx * seconds % WIDTH + WIDTH) % WIDTH;
+            isize y = (robot.y + robot.dy * seconds % HEIGHT + HEIGHT) % HEIGHT;
             if (x < CENTER_X) {
                 if (y < CENTER_Y) {
                     topLeft++;

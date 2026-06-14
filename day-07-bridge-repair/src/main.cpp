@@ -69,7 +69,7 @@ private:
         while (shift <= b) {
             shift *= 10;
         }
-        return (a * shift) + b;
+        return a * shift + b;
     }
 
     /**

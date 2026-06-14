@@ -174,16 +174,16 @@ static isize fewest_tokens(const std::vector<Machine>& machines) {
         f64 bY = static_cast<f64>(machine.buttonB.y);
         f64 pX = static_cast<f64>(machine.prize.x);
         f64 pY = static_cast<f64>(machine.prize.y);
-        f64 det = (aX * bY) - (aY * bX);
-        f64 a = ((pX * bY) - (pY * bX)) / det;
-        f64 b = ((aX * pY) - (aY * pX)) / det;
+        f64 det = aX * bY - aY * bX;
+        f64 a = (pX * bY - pY * bX) / det;
+        f64 b = (aX * pY - aY * pX) / det;
         // Since the button presses must be non-negative integers, we need to
         // check if our solution is actually valid before adding the tokens.
         if (
             (a >= 0.0) && (a == std::trunc(a))
                 && (b >= 0.0) && (b == std::trunc(b))
         ) {
-            fewestTokens += (static_cast<isize>(a) * 3) + static_cast<isize>(b);
+            fewestTokens += static_cast<isize>(a) * 3 + static_cast<isize>(b);
         }
     }
     return fewestTokens;

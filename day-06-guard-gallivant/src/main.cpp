@@ -121,7 +121,7 @@ private:
         for (isize y = 0; y < this->height; y++) {
             for (isize x = 0; x < this->width; x++) {
                 Position position(x, y);
-                if (tiles[(y * width) + x] == Tile::OBSTACLE) {
+                if (tiles[y * width + x] == Tile::OBSTACLE) {
                     obstaclesInRow[y].push_back(x);
                     obstaclesInCol[x].push_back(y);
                 }
@@ -271,7 +271,7 @@ public:
                         }
                         tiles.push_back(Tile::NONE);
                         guard = Position(
-                            (std::ssize(tiles) % width) - 1,
+                            std::ssize(tiles) % width - 1,
                             height
                         );
                         foundGuard = true;
@@ -320,7 +320,7 @@ public:
             Position cur = guard;
             Direction dir = Direction::UP;
             while (true) {
-                isize idx = (((cur.y * width) + cur.x) * 4)
+                isize idx = (cur.y * width + cur.x) * 4
                     + std::to_underlying(dir);
                 if (visited[idx] == round) {
                     obstructions++;
