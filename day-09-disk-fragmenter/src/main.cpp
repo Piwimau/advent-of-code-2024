@@ -18,7 +18,7 @@ private:
     struct Block {
 
         /** @brief The maximum size of a block. */
-        static constexpr isize MAX_SIZE = 9;
+        static constexpr isize MaxSize = 9;
 
         /** @brief The ID of the block, or `-1` if it is not allocated. */
         isize id;
@@ -154,7 +154,7 @@ public:
         std::vector<Entry> allocated(maxId + 1);
         std::array<
             std::priority_queue<Entry, std::vector<Entry>, std::greater<Entry>>,
-            Block::MAX_SIZE + 1
+            Block::MaxSize + 1
         > free;
         isize idx = 0;
         for (const Block& block : blocks) {
@@ -168,7 +168,7 @@ public:
         }
         for (isize id = maxId; id >= 0; id--) {
             std::optional<Entry> best;
-            for (isize s = allocated[id].size; s <= Block::MAX_SIZE; s++) {
+            for (isize s = allocated[id].size; s <= Block::MaxSize; s++) {
                 if (
                     !free[s].empty()
                         && (free[s].top().idx < allocated[id].idx)

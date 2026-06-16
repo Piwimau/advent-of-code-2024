@@ -105,7 +105,7 @@ class Grid final {
 private:
 
     /** @brief The possible directions for searching words in the grid. */
-    static constexpr std::array<Vector, 8> OFFSETS = {
+    static constexpr std::array<Vector, 8> Offsets = {
         Vector(-1, -1),
         Vector(0, -1),
         Vector(1, -1),
@@ -119,7 +119,7 @@ private:
     /** 
      * @brief The corner characters for X-shaped occurrences of the word "MAS".
      */
-    static constexpr std::array<std::array<char, 4>, 4> X_MAS_CORNERS = {
+    static constexpr std::array<std::array<char, 4>, 4> XmasCorners = {
         std::array<char, 4>{'M', 'S', 'M', 'S'},
         std::array<char, 4>{'M', 'M', 'S', 'S'},
         std::array<char, 4>{'S', 'S', 'M', 'M'},
@@ -242,7 +242,7 @@ public:
         isize count = 0;
         for (isize y = 0; y < height; y++) {
             for (isize x = 0; x < width; x++) {
-                for (Vector offset : OFFSETS) {
+                for (Vector offset : Offsets) {
                     Vector pos(x, y);
                     bool found = true;
                     for (const char c : { 'X', 'M', 'A', 'S' }) {
@@ -295,7 +295,7 @@ public:
                     at(bottomLeft),
                     at(bottomRight)
                 };
-                for (const auto& xMasCorners : X_MAS_CORNERS) {
+                for (const auto& xMasCorners : XmasCorners) {
                     if (corners == xMasCorners) {
                         count++;
                         break;

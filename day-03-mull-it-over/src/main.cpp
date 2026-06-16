@@ -9,13 +9,13 @@
 using namespace aoc;
 
 /** @brief The pattern for matching all valid `mul` instructions in memory. */
-static const std::regex ALL_PATTERN(
+static const std::regex AllPattern(
     R"(mul\((\d{1,3}),(\d{1,3})\))",
     std::regex_constants::ECMAScript | std::regex_constants::optimize
 );
 
 /** @brief The pattern for matching enabled `mul` instructions in memory. */
-static const std::regex ENABLED_PATTERN(
+static const std::regex EnabledPattern(
     R"((?:do\(\)|don't\(\)|mul\((\d{1,3}),(\d{1,3})\)))",
     std::regex_constants::ECMAScript | std::regex_constants::optimize
 );
@@ -43,7 +43,7 @@ static inline i64 sum_of_all_muls(std::string_view memory) {
     std::regex_iterator<std::string_view::iterator> it(
         memory.begin(),
         memory.end(),
-        ALL_PATTERN
+        AllPattern
     );
     for (std::regex_iterator<std::string_view::iterator> end; it != end; it++) {
         const std::cmatch& match = *it;
@@ -79,7 +79,7 @@ static inline i64 sum_of_enabled_muls(std::string_view memory) {
     std::regex_iterator<std::string_view::iterator> it(
         memory.begin(),
         memory.end(),
-        ENABLED_PATTERN
+        EnabledPattern
     );
     for (std::regex_iterator<std::string_view::iterator> end; it != end; it++) {
         const std::cmatch& match = *it;

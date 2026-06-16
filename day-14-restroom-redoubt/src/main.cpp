@@ -74,16 +74,16 @@ class Map final {
 private:
 
     /** @brief The width of the map. */
-    static constexpr isize WIDTH = 101;
+    static constexpr isize Width = 101;
 
     /** @brief The height of the map. */
-    static constexpr isize HEIGHT = 103;
+    static constexpr isize Height = 103;
 
     /** @brief The x-coordinate of the center column. */
-    static constexpr isize CENTER_X = WIDTH / 2;
+    static constexpr isize CenterX = Width / 2;
 
     /** @brief The y-coordinate of the center row. */
-    static constexpr isize CENTER_Y = HEIGHT / 2;
+    static constexpr isize CenterY = Height / 2;
 
     /** @brief The robots moving on the map. */
     std::vector<Robot> robots;
@@ -154,21 +154,21 @@ public:
         isize bottomRight = 0;
         isize topRight = 0;
         for (const Robot& robot : robots) {
-            isize x = (robot.x + robot.dx * seconds % WIDTH + WIDTH) % WIDTH;
-            isize y = (robot.y + robot.dy * seconds % HEIGHT + HEIGHT) % HEIGHT;
-            if (x < CENTER_X) {
-                if (y < CENTER_Y) {
+            isize x = (robot.x + robot.dx * seconds % Width + Width) % Width;
+            isize y = (robot.y + robot.dy * seconds % Height + Height) % Height;
+            if (x < CenterX) {
+                if (y < CenterY) {
                     topLeft++;
                 }
-                else if (y > CENTER_Y) {
+                else if (y > CenterY) {
                     bottomLeft++;
                 }
             }
-            else if (x > CENTER_X) {
-                if (y > CENTER_Y) {
+            else if (x > CenterX) {
+                if (y > CenterY) {
                     bottomRight++;
                 }
-                else if (y < CENTER_Y) {
+                else if (y < CenterY) {
                     topRight++;
                 }
             }
@@ -198,7 +198,7 @@ public:
     isize fewest_seconds_to_easter_egg() const {
         isize minSafetyFactor = std::numeric_limits<isize>::max();
         isize fewestSeconds = 0;
-        for (isize i = 0; i < WIDTH * HEIGHT; i++) {
+        for (isize i = 0; i < Width * Height; i++) {
             isize seconds = i + 1;
             isize safetyFactor = safety_factor(seconds);
             if (safetyFactor < minSafetyFactor) {

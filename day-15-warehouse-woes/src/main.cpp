@@ -17,20 +17,20 @@ private:
 
     /** @brief Represents a tile in the warehouse. */
     enum class Tile {
-        NONE,
-        WALL,
-        BOX,
-        BOX_LEFT,
-        BOX_RIGHT,
-        ROBOT
+        None,
+        Wall,
+        Box,
+        BoxLeft,
+        BoxRight,
+        Robot
     };
 
     /** @brief Represents a direction for moving in the warehouse. */
     enum class Move {
-        LEFT,
-        UP,
-        RIGHT,
-        DOWN
+        Left,
+        Up,
+        Right,
+        Down
     };
 
     /** @brief Represents a two-dimensional vector. */
@@ -135,13 +135,13 @@ private:
      */
     static Vector offset(Move move) noexcept {
         switch (move) {
-            case Move::LEFT:
+            case Move::Left:
                 return { .x = -1, .y = 0 };
-            case Move::UP:
+            case Move::Up:
                 return { .x = 0, .y = -1 };
-            case Move::RIGHT:
+            case Move::Right:
                 return { .x = 1, .y = 0 };
-            case Move::DOWN:
+            case Move::Down:
                 return { .x = 0, .y = 1 };
             default:
                 std::unreachable();
@@ -235,19 +235,19 @@ public:
             for (isize i = 0; i < width; i++) {
                 switch (line[i]) {
                     case '.':
-                        tiles.push_back(Tile::NONE);
+                        tiles.push_back(Tile::None);
                         break;
                     case '#':
-                        tiles.push_back(Tile::WALL);
+                        tiles.push_back(Tile::Wall);
                         break;
                     case 'O':
-                        tiles.push_back(Tile::BOX);
+                        tiles.push_back(Tile::Box);
                         break;
                     case '@':
                         if (foundRobot) {
                             return std::nullopt;
                         }
-                        tiles.push_back(Tile::ROBOT);
+                        tiles.push_back(Tile::Robot);
                         robot = { .x = i, .y = height };
                         foundRobot = true;
                         break;
@@ -265,16 +265,16 @@ public:
             for (char c : line) {
                 switch (c) {
                     case '<':
-                        moves.push_back(Move::LEFT);
+                        moves.push_back(Move::Left);
                         break;
                     case '^':
-                        moves.push_back(Move::UP);
+                        moves.push_back(Move::Up);
                         break;
                     case '>':
-                        moves.push_back(Move::RIGHT);
+                        moves.push_back(Move::Right);
                         break;
                     case 'v':
-                        moves.push_back(Move::DOWN);
+                        moves.push_back(Move::Down);
                         break;
                     default:
                         return std::nullopt;
@@ -308,13 +308,13 @@ public:
             Vector pos = robot + dir;
             while (
                 exists(pos, width, height)
-                    && (tiles[pos.y * width + pos.x] == Tile::BOX)
+                    && (tiles[pos.y * width + pos.x] == Tile::Box)
             ) {
                 pos += dir;
             }
             if (
                 exists(pos, width, height)
-                    && (tiles[pos.y * width + pos.x] == Tile::NONE)
+                    && (tiles[pos.y * width + pos.x] == Tile::None)
             ) {
                 Vector next = robot + dir;
                 std::swap(
@@ -331,7 +331,7 @@ public:
         isize sum = 0;
         for (isize y = 0; y < height; y++) {
             for (isize x = 0; x < width; x++) {
-                if (tiles[y * width + x] == Tile::BOX) {
+                if (tiles[y * width + x] == Tile::Box) {
                     sum += 100 * y + x;
                 }
             }
@@ -355,21 +355,21 @@ public:
         std::vector<Tile> tiles(newWidth * height);
         for (isize i = 0; i < std::ssize(this->tiles); i++) {
             switch (this->tiles[i]) {
-                case Tile::NONE:
-                    tiles[i * 2] = Tile::NONE;
-                    tiles[i * 2 + 1] = Tile::NONE;
+                case Tile::None:
+                    tiles[i * 2] = Tile::None;
+                    tiles[i * 2 + 1] = Tile::None;
                     break;
-                case Tile::WALL:
-                    tiles[i * 2] = Tile::WALL;
-                    tiles[i * 2 + 1] = Tile::WALL;
+                case Tile::Wall:
+                    tiles[i * 2] = Tile::Wall;
+                    tiles[i * 2 + 1] = Tile::Wall;
                     break;
-                case Tile::BOX:
-                    tiles[i * 2] = Tile::BOX_LEFT;
-                    tiles[i * 2 + 1] = Tile::BOX_RIGHT;
+                case Tile::Box:
+                    tiles[i * 2] = Tile::BoxLeft;
+                    tiles[i * 2 + 1] = Tile::BoxRight;
                     break;
-                case Tile::ROBOT:
-                    tiles[i * 2] = Tile::ROBOT;
-                    tiles[i * 2 + 1] = Tile::NONE;
+                case Tile::Robot:
+                    tiles[i * 2] = Tile::Robot;
+                    tiles[i * 2 + 1] = Tile::None;
                     break;
                 default:
                     std::unreachable();
@@ -380,20 +380,20 @@ public:
         std::deque<Vector> queue;
         for (Move move : moves) {
             Vector dir = offset(move);
-            if ((move == Move::LEFT) || (move == Move::RIGHT)) {
+            if ((move == Move::Left) || (move == Move::Right)) {
                 Vector pos = robot + dir;
                 while (
                     exists(pos, newWidth, height)
-                        && ((tiles[pos.y * newWidth + pos.x] == Tile::BOX_LEFT)
-                            || (tiles[pos.y * newWidth + pos.x] == Tile::BOX_RIGHT))
+                        && ((tiles[pos.y * newWidth + pos.x] == Tile::BoxLeft)
+                            || (tiles[pos.y * newWidth + pos.x] == Tile::BoxRight))
                 ) {
                     pos += dir;
                 }
                 if (
                     exists(pos, newWidth, height)
-                        && (tiles[pos.y * newWidth + pos.x] == Tile::NONE)
+                        && (tiles[pos.y * newWidth + pos.x] == Tile::None)
                 ) {
-                    if (move == Move::LEFT) {
+                    if (move == Move::Left) {
                         std::ranges::copy(
                             &tiles[pos.y * newWidth + pos.x + 1],
                             &tiles[robot.y * newWidth + robot.x + 1],
@@ -407,7 +407,7 @@ public:
                             &tiles[pos.y * newWidth + pos.x + 1]
                         );
                     }
-                    tiles[robot.y * newWidth + robot.x] = Tile::NONE;
+                    tiles[robot.y * newWidth + robot.x] = Tile::None;
                     robot += dir;
                 }
             }
@@ -425,16 +425,16 @@ public:
                     Vector next = pos + dir;
                     if (exists(next, newWidth, height)) {
                         switch (tiles[next.y * newWidth + next.x]) {
-                            case Tile::WALL:
+                            case Tile::Wall:
                                 isBlocked = true;
                                 goto move;
-                            case Tile::BOX_LEFT:
+                            case Tile::BoxLeft:
                                 queue.push_back(next);
-                                queue.push_back(next + offset(Move::RIGHT));
+                                queue.push_back(next + offset(Move::Right));
                                 break;
-                            case Tile::BOX_RIGHT:
+                            case Tile::BoxRight:
                                 queue.push_back(next);
-                                queue.push_back(next + offset(Move::LEFT));
+                                queue.push_back(next + offset(Move::Left));
                                 break;
                             default:
                                 break;
@@ -443,7 +443,7 @@ public:
                 }
             move:
                 if (!isBlocked) {
-                    if (move == Move::UP) {
+                    if (move == Move::Up) {
                         std::ranges::sort(toMove, std::less<>(), &Vector::y);
                     }
                     else {
@@ -463,7 +463,7 @@ public:
         isize sum = 0;
         for (isize y = 0; y < height; y++) {
             for (isize x = 0; x < newWidth; x++) {
-                if (tiles[y * newWidth + x] == Tile::BOX_LEFT) {
+                if (tiles[y * newWidth + x] == Tile::BoxLeft) {
                     sum += 100 * y + x;
                 }
             }

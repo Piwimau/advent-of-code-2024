@@ -16,10 +16,10 @@ class Report final {
 private:
 
     /** @brief The minimum difference for a report to be considered safe. */
-    static constexpr i32 MIN_DIFF = 1;
+    static constexpr i32 MinDiff = 1;
 
     /** @brief The maximum difference for a report to be considered safe. */
-    static constexpr i32 MAX_DIFF = 3;
+    static constexpr i32 MaxDiff = 3;
 
     /** @brief The levels of the report. */
     std::vector<i32> levels;
@@ -28,8 +28,8 @@ private:
      * @brief Determines whether the specified levels are safe.
      *
      * The levels are considered safe if they are either all increasing or
-     * all decreasing, and any two adjacent levels differ by at least `MIN_DIFF`
-     * and at most `MAX_DIFF`.
+     * all decreasing, and any two adjacent levels differ by at least `MinDiff`
+     * and at most `MaxDiff`.
      *
      * @param[in] levels The levels to check.
      * @return `true` if the specified levels are safe, otherwise `false`.
@@ -42,7 +42,7 @@ private:
         bool decreasing = false;
         for (isize i = 0; i < (std::ssize(levels) - 1); i++) {
             i32 diff = levels[i + 1] - levels[i];
-            if ((std::abs(diff) < MIN_DIFF) || (std::abs(diff) > MAX_DIFF)) {
+            if ((std::abs(diff) < MinDiff) || (std::abs(diff) > MaxDiff)) {
                 return false;
             }
             if (diff < 0) {
