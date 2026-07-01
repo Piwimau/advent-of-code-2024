@@ -64,7 +64,8 @@ include/
 .clang-format
 .gitignore
 LICENSE
-Makefile
+meson.build
+meson.options
 README.md
 ```
 
@@ -98,55 +99,43 @@ If you want to try out one of my solutions, simply follow these steps below:
    cd ./advent-of-code-2024
    ```
 
-3. Once you have downloaded the source code, run `make help` to get an overview
-   of the available targets and variables. This should output something like
-   this:
-
-   ```plaintext
-   Usage: make [TARGET]... [VARIABLE]...
-
-   Targets:
-     all    Build the selected day (default).
-     run    Build and run the selected day.
-     clean  Remove all build artifacts of the selected day.
-     help   Display this help and exit.
-
-   Variables:
-     CONFIG={debug|release}  Set the build configuration (default: debug).
-     DAY=N                   Select the day by its two-digit number N (default: first day found).
-     NATIVE=1                Enable machine-specific optimizations.
-     V                       Enable verbose build output.
-   ```
-
-   To build the solution for a specific day, run `make all` (or simply `make`)
-   and specify the day by its two-digit number.
-
-    ```shell
-    make DAY=01
-    ```
-
-    If you don't specify a day, the directory of the first day in the repository
-    will be selected by default. Note that `make all` produces an unoptimized
-    debug build by default. Optionally specify `CONFIG=release` and `NATIVE=1`
-    to enable (machine-specific) optimizations.
-
-    ```shell
-    make DAY=01 CONFIG=release NATIVE=1
-    ```
-
-4. To run the solution for a specific day, use `make run`, which will build the
-   solution (if not done already) and execute it.
+3. Once you have downloaded the source code, you can configure the build
+   process:
 
    ```shell
-   make run DAY=01 CONFIG=release NATIVE=1
+   meson setup build
    ```
 
-   Note that the solutions read the puzzle input from the standard input stream.
-   The `run` target expects a file called `input.txt` in the `resources`
-   directory of the selected day, which is used to redirect the standard input
-   stream. [As explained above](#about-this-project), my input files are not
-   included in the repository, so you'll have to create them yourself and paste
-   your puzzle input into them. You can find your input for each day
+   By default, this will configure the build process to produce unoptimized
+   debug executables. To build optimized release executables instead, specify
+   the `--buildtype=release` option:
+
+   ```shell
+   meson setup build --buildtype=release
+   ```
+
+   To build the solution for a specific day, run the following command, where
+   `<day>` corresponds to the directory of the day (e.g.,
+   `day-01-historian-hysteria`):
+
+   ```shell
+   meson compile -C build <day>
+   ```
+
+4. To run the solution for a specific day, run the following command:
+
+   ```shell
+   meson compile -C build run-<day>
+   ```
+
+   Again, `<day>` corresponds to the directory of the day (e.g.,
+   `day-01-historian-hysteria`). Note that the solutions read the puzzle input
+   from the standard input stream. The `run-<day>` target expects a file called
+   `input.txt` in the `resources` directory of the selected day, which is used
+   to redirect the standard input stream. [As explained
+   above](#about-this-project), my input files are not included in the
+   repository, so you'll have to create them yourself and paste your puzzle
+   input into them. You can find your input for each day
    [here](https://adventofcode.com/2024) if you haven't downloaded it already.
 
 ## Timings
@@ -154,10 +143,10 @@ If you want to try out one of my solutions, simply follow these steps below:
 Finally, here are some simple (non-scientific) timings I created using
 `std::chrono::high_resolution_clock` and my main machine (Intel Core i9-13900HX,
 32GB DDR5-5600 RAM) running Fedora Linux 44 (Workstation Edition). All used
-`CONFIG=release` and `NATIVE=1` to take advantage of (machine-specific)
-optimizations. The reported times are the result of ten runs and represent the
-(real) wall time, including the time spent for parsing the input, as well as
-printing the puzzle results.
+`--buildtype=release` and `-Dnative=true` to take advantage of
+(machine-specific) optimizations. The reported times are the result of ten runs
+and represent the (real) wall time, including the time spent for parsing the
+input, as well as printing the puzzle results.
 
 | Day                           |       Min |        Max |       Mean |     Median | Standard Deviation |
 |-------------------------------|----------:|-----------:|-----------:|-----------:|-------------------:|
