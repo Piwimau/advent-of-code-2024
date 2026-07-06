@@ -86,14 +86,14 @@ private:
     static constexpr isize CenterY = Height / 2;
 
     /** @brief The robots moving on the map. */
-    std::vector<Robot> robots;
+    std::vector<Robot> _robots;
 
     /**
      * @brief Initializes a new map with a specified list of robots.
      *
      * @param[in] robots The robots moving on the map.
      */
-    Map(std::vector<Robot> robots) : robots(std::move(robots)) { }
+    Map(std::vector<Robot> robots) : _robots(std::move(robots)) { }
 
 public:
 
@@ -153,7 +153,7 @@ public:
         isize bottomLeft = 0;
         isize bottomRight = 0;
         isize topRight = 0;
-        for (const Robot& robot : robots) {
+        for (const Robot& robot : _robots) {
             isize x = (robot.x + robot.dx * seconds % Width + Width) % Width;
             isize y = (robot.y + robot.dy * seconds % Height + Height) % Height;
             if (x < CenterX) {

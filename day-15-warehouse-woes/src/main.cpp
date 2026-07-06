@@ -80,19 +80,19 @@ private:
     };
 
     /** @brief The tiles of the warehouse. */
-    std::vector<Tile> tiles;
+    std::vector<Tile> _tiles;
 
     /** @brief The width of the warehouse. */
-    isize width;
+    isize _width;
 
     /** @brief The height of the warehouse. */
-    isize height;
+    isize _height;
 
     /** @brief The position of the robot in the warehouse. */
-    Vector robot;
+    Vector _robot;
 
     /** @brief The moves the robot will make. */
-    std::vector<Move> moves;
+    std::vector<Move> _moves;
 
     /**
      * @brief Initializes a new warehouse with the specified tiles, width, and
@@ -115,16 +115,16 @@ private:
         Vector robot,
         std::vector<Move> moves
     )
-        : tiles(std::move(tiles)),
-          width(width),
-          height(height),
-          robot(robot),
-          moves(std::move(moves)) {
-        assert(width >= 0);
-        assert(height >= 0);
-        assert(std::ssize(this->tiles) == (width * height));
-        assert((robot.x >= 0) && (robot.x < width));
-        assert((robot.y >= 0) && (robot.y < height));
+        : _tiles(std::move(tiles)),
+          _width(width),
+          _height(height),
+          _robot(robot),
+          _moves(std::move(moves)) {
+        assert(_width >= 0);
+        assert(_height >= 0);
+        assert(std::ssize(_tiles) == (_width * _height));
+        assert((_robot.x >= 0) && (_robot.x < _width));
+        assert((_robot.y >= 0) && (_robot.y < _height));
     }
 
     /**
@@ -301,37 +301,37 @@ public:
      * @return The sum of all boxes' GPS coordinates.
      */
     isize sum_of_gps_coordinates() const {
-        std::vector<Tile> tiles = this->tiles;
-        Vector robot = this->robot;
-        for (Move move : moves) {
+        std::vector<Tile> tiles = _tiles;
+        Vector robot = _robot;
+        for (Move move : _moves) {
             Vector dir = offset(move);
             Vector pos = robot + dir;
             while (
-                exists(pos, width, height)
-                    && (tiles[pos.y * width + pos.x] == Tile::Box)
+                exists(pos, _width, _height)
+                    && (tiles[pos.y * _width + pos.x] == Tile::Box)
             ) {
                 pos += dir;
             }
             if (
-                exists(pos, width, height)
-                    && (tiles[pos.y * width + pos.x] == Tile::None)
+                exists(pos, _width, _height)
+                    && (tiles[pos.y * _width + pos.x] == Tile::None)
             ) {
                 Vector next = robot + dir;
                 std::swap(
-                    tiles[next.y * width + next.x],
-                    tiles[pos.y * width + pos.x]
+                    tiles[next.y * _width + next.x],
+                    tiles[pos.y * _width + pos.x]
                 );
                 std::swap(
-                    tiles[robot.y * width + robot.x],
-                    tiles[next.y * width + next.x]
+                    tiles[robot.y * _width + robot.x],
+                    tiles[next.y * _width + next.x]
                 );
                 robot += dir;
             }
         }
         isize sum = 0;
-        for (isize y = 0; y < height; y++) {
-            for (isize x = 0; x < width; x++) {
-                if (tiles[y * width + x] == Tile::Box) {
+        for (isize y = 0; y < _height; y++) {
+            for (isize x = 0; x < _width; x++) {
+                if (tiles[y * _width + x] == Tile::Box) {
                     sum += 100 * y + x;
                 }
             }
@@ -351,10 +351,10 @@ public:
      * @return The sum of all boxes' GPS coordinates in the scaled-up warehouse.
      */
     isize sum_of_gps_coordinates_scaled() const {
-        isize newWidth = width * 2;
-        std::vector<Tile> tiles(newWidth * height);
-        for (isize i = 0; i < std::ssize(this->tiles); i++) {
-            switch (this->tiles[i]) {
+        isize newWidth = _width * 2;
+        std::vector<Tile> tiles(newWidth * _height);
+        for (isize i = 0; i < std::ssize(_tiles); i++) {
+            switch (_tiles[i]) {
                 case Tile::None:
                     tiles[i * 2] = Tile::None;
                     tiles[i * 2 + 1] = Tile::None;
@@ -375,22 +375,22 @@ public:
                     std::unreachable();
             }
         }
-        Vector robot = { .x = this->robot.x * 2, .y = this->robot.y };
+        Vector robot = { .x = _robot.x * 2, .y = _robot.y };
         std::vector<Vector> toMove;
         std::deque<Vector> queue;
-        for (Move move : moves) {
+        for (Move move : _moves) {
             Vector dir = offset(move);
             if ((move == Move::Left) || (move == Move::Right)) {
                 Vector pos = robot + dir;
                 while (
-                    exists(pos, newWidth, height)
+                    exists(pos, newWidth, _height)
                         && ((tiles[pos.y * newWidth + pos.x] == Tile::BoxLeft)
                             || (tiles[pos.y * newWidth + pos.x] == Tile::BoxRight))
                 ) {
                     pos += dir;
                 }
                 if (
-                    exists(pos, newWidth, height)
+                    exists(pos, newWidth, _height)
                         && (tiles[pos.y * newWidth + pos.x] == Tile::None)
                 ) {
                     if (move == Move::Left) {
@@ -423,7 +423,7 @@ public:
                         toMove.push_back(pos);
                     }
                     Vector next = pos + dir;
-                    if (exists(next, newWidth, height)) {
+                    if (exists(next, newWidth, _height)) {
                         switch (tiles[next.y * newWidth + next.x]) {
                             case Tile::Wall:
                                 isBlocked = true;
@@ -461,7 +461,7 @@ public:
             }
         }
         isize sum = 0;
-        for (isize y = 0; y < height; y++) {
+        for (isize y = 0; y < _height; y++) {
             for (isize x = 0; x < newWidth; x++) {
                 if (tiles[y * newWidth + x] == Tile::BoxLeft) {
                     sum += 100 * y + x;

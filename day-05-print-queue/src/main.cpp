@@ -74,14 +74,14 @@ class Update final {
 private:
 
     /** @brief The page numbers to be printed. */
-    std::vector<i32> pages;
+    std::vector<i32> _pages;
 
     /**
      * @brief Initializes a new update with the specified page numbers.
      *
      * @param[in] pages The page numbers to be printed.
      */
-    Update(std::vector<i32> pages) : pages(std::move(pages)) { }
+    Update(std::vector<i32> pages) : _pages(std::move(pages)) { }
 
 public:
 
@@ -134,7 +134,7 @@ public:
      * specified rules, otherwise `false`.
      */
     bool is_ordered(const Rules& rules) const {
-        for (auto page = pages.begin(); page != pages.end(); page++) {
+        for (auto page = _pages.begin(); page != _pages.end(); page++) {
             const auto it = rules.find(*page);
             if (it == rules.end()) {
                 continue;
@@ -142,14 +142,14 @@ public:
             const auto& [_, relevantRules] = *it;
             for (const Rule& rule : relevantRules) {
                 if (rule.before == *page) {
-                    auto afterIt = std::ranges::find(pages, rule.after);
-                    if ((afterIt != pages.end()) && (afterIt < page)) {
+                    auto afterIt = std::ranges::find(_pages, rule.after);
+                    if ((afterIt != _pages.end()) && (afterIt < page)) {
                         return false;
                     }
                 }
                 else {
-                    auto beforeIt = std::ranges::find(pages, rule.before);
-                    if ((beforeIt != pages.end()) && (beforeIt > page)) {
+                    auto beforeIt = std::ranges::find(_pages, rule.before);
+                    if ((beforeIt != _pages.end()) && (beforeIt > page)) {
                         return false;
                     }
                 }
@@ -166,7 +166,7 @@ public:
      */
     void order(const Rules& rules) {
         std::ranges::sort(
-            pages,
+            _pages,
             [&rules](i32 l, i32 r) {
                 const auto it = rules.find(l);
                 if (it == rules.end()) {
@@ -192,8 +192,8 @@ public:
      * @return The middle page number of this update.
      */
     i32 middle_page() const noexcept {
-        assert((pages.size() % 2) == 1);
-        return pages[pages.size() / 2];
+        assert((_pages.size() % 2) == 1);
+        return _pages[_pages.size() / 2];
     }
 
 };

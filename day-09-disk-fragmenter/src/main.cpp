@@ -38,14 +38,14 @@ private:
     };
 
     /** @brief The blocks on the disk. */
-    std::vector<Block> blocks;
+    std::vector<Block> _blocks;
 
     /**
      * @brief Initializes a new disk with the specified blocks.
      *
      * @param[in] blocks The blocks on the disk.
      */
-    Disk(std::vector<Block> blocks) : blocks(std::move(blocks)) { }
+    Disk(std::vector<Block> blocks) : _blocks(std::move(blocks)) { }
 
 public:
 
@@ -94,7 +94,7 @@ public:
      */
     void compact() {
         std::vector<isize> flat;
-        for (const Block& block : blocks) {
+        for (const Block& block : _blocks) {
             flat.insert(flat.end(), block.size, block.id);
         }
         isize l = 0;
@@ -110,7 +110,7 @@ public:
                 std::swap(flat[l++], flat[r--]);
             }
         }
-        blocks.clear();
+        _blocks.clear();
         for (isize begin = 0; begin < std::ssize(flat);) {
             isize end = begin;
             while ((end < std::ssize(flat)) && (flat[begin] == flat[end])) {
@@ -118,7 +118,7 @@ public:
             }
             isize id = flat[begin];
             isize size = end - begin;
-            blocks.emplace_back(id, size);
+            _blocks.emplace_back(id, size);
             begin = end;
         }
     }
@@ -143,11 +143,11 @@ public:
             }
         };
         auto max = std::ranges::max_element(
-            blocks,
+            _blocks,
             std::less<isize>(),
             &Block::id
         );
-        if (max == blocks.end()) {
+        if (max == _blocks.end()) {
             return;
         }
         isize maxId = max->id;
@@ -157,7 +157,7 @@ public:
             Block::MaxSize + 1
         > free;
         isize idx = 0;
-        for (const Block& block : blocks) {
+        for (const Block& block : _blocks) {
             if (block.is_allocated()) {
                 allocated[block.id] = { idx, block.id, block.size };
             }
@@ -192,13 +192,13 @@ public:
             }
         }
         std::ranges::sort(allocated, std::less<isize>(), &Entry::idx);
-        blocks.clear();
+        _blocks.clear();
         idx = 0;
         for (const Entry& e : allocated) {
             if (e.idx > idx) {
-                blocks.emplace_back(-1, e.idx - idx);
+                _blocks.emplace_back(-1, e.idx - idx);
             }
-            blocks.emplace_back(e.id, e.size);
+            _blocks.emplace_back(e.id, e.size);
             idx = e.idx + e.size;
         }
     }
@@ -211,7 +211,7 @@ public:
     isize checksum() const noexcept {
         isize checksum = 0;
         isize idx = 0;
-        for (const Block& block : blocks) {
+        for (const Block& block : _blocks) {
             if (block.is_allocated()) {
                 for (isize i = 0; i < block.size; i++) {
                     checksum += idx++ * block.id;

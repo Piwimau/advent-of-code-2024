@@ -76,21 +76,21 @@ private:
     /**
      * @brief The indices of columns with obstacles in each row of this grid.
      */
-    std::vector<std::vector<isize>> obstaclesInRow;
+    std::vector<std::vector<isize>> _obstaclesInRow;
 
     /**
      * @brief The indices of rows with obstacles in each column of this grid.
      */
-    std::vector<std::vector<isize>> obstaclesInCol;
+    std::vector<std::vector<isize>> _obstaclesInCol;
 
     /** @brief The width of this grid. */
-    isize width;
+    isize _width;
 
     /** @brief The height of this grid. */
-    isize height;
+    isize _height;
 
     /** @brief The position of the guard in this grid. */
-    Position guard;
+    Position _guard;
 
     /**
      * @brief Initializes a new grid with the specified tiles, width, height,
@@ -106,24 +106,24 @@ private:
      * @param[in] guard  The position of the guard in the grid.
      */
     Grid(std::span<const Tile> tiles, isize width, isize height, Position guard)
-        : obstaclesInRow(height),
-          obstaclesInCol(width),
-          width(width),
-          height(height),
-          guard(guard) {
-        assert(this->width >= 0);
-        assert(this->height >= 0);
-        assert(std::ssize(tiles) == (this->width * this->height));
+        : _obstaclesInRow(height),
+          _obstaclesInCol(width),
+          _width(width),
+          _height(height),
+          _guard(guard) {
+        assert(_width >= 0);
+        assert(_height >= 0);
+        assert(std::ssize(tiles) == (_width * _height));
         assert(
-            (guard.x >= 0) && (guard.x < this->width)
-                && (guard.y >= 0) && (guard.y < this->height)
+            (guard.x >= 0) && (guard.x < _width)
+                && (guard.y >= 0) && (guard.y < _height)
         );
-        for (isize y = 0; y < this->height; y++) {
-            for (isize x = 0; x < this->width; x++) {
+        for (isize y = 0; y < _height; y++) {
+            for (isize x = 0; x < _width; x++) {
                 Position position(x, y);
-                if (tiles[y * width + x] == Tile::Obstacle) {
-                    obstaclesInRow[y].push_back(x);
-                    obstaclesInCol[x].push_back(y);
+                if (tiles[y * _width + x] == Tile::Obstacle) {
+                    _obstaclesInRow[y].push_back(x);
+                    _obstaclesInCol[x].push_back(y);
                 }
             }
         }
@@ -141,13 +141,13 @@ private:
      */
     std::unordered_set<Position> visited_positions() const {
         std::unordered_set<Position> visited;
-        Position cur = guard;
+        Position cur = _guard;
         Direction dir = Direction::Up;
         while (true) {
             bool exits = false;
             switch (dir) {
                 case Direction::Up: {
-                    const auto& obstacles = obstaclesInCol[cur.x];
+                    const auto& obstacles = _obstaclesInCol[cur.x];
                     auto it = std::ranges::lower_bound(obstacles, cur.y);
                     isize stopY = (it != obstacles.begin())
                         ? *std::prev(it) + 1
@@ -161,11 +161,11 @@ private:
                     break;
                 }
                 case Direction::Right: {
-                    const auto& obstacles = obstaclesInRow[cur.y];
+                    const auto& obstacles = _obstaclesInRow[cur.y];
                     auto it = std::ranges::upper_bound(obstacles, cur.x);
                     isize stopX = (it != obstacles.end())
                         ? *it - 1
-                        : width - 1;
+                        : _width - 1;
                     exits = (it == obstacles.end());
                     for (isize x = cur.x; x <= stopX; x++) {
                         visited.emplace(x, cur.y);
@@ -175,11 +175,11 @@ private:
                     break;
                 }
                 case Direction::Down: {
-                    const auto& obstacles = obstaclesInCol[cur.x];
+                    const auto& obstacles = _obstaclesInCol[cur.x];
                     auto it = std::ranges::upper_bound(obstacles, cur.y);
                     isize stopY = (it != obstacles.end())
                         ? *it - 1
-                        : height - 1;
+                        : _height - 1;
                     exits = (it == obstacles.end());
                     for (isize y = cur.y; y <= stopY; y++) {
                         visited.emplace(cur.x, y);
@@ -189,7 +189,7 @@ private:
                     break;
                 }
                 case Direction::Left: {
-                    const auto& obstacles = obstaclesInRow[cur.y];
+                    const auto& obstacles = _obstaclesInRow[cur.y];
                     auto it = std::ranges::lower_bound(obstacles, cur.x);
                     isize stopX = (it != obstacles.begin())
                         ? *std::prev(it) + 1
@@ -311,16 +311,16 @@ public:
      */
     isize possible_obstructions() const {
         std::unordered_set<Position> obstacles = visited_positions();
-        obstacles.erase(guard);
-        std::vector<isize> visited(width * height * 4, 0);
+        obstacles.erase(_guard);
+        std::vector<isize> visited(_width * _height * 4, 0);
         isize obstructions = 0;
         isize round = 0;
         for (const Position& obstacle : obstacles) {
             round++;
-            Position cur = guard;
+            Position cur = _guard;
             Direction dir = Direction::Up;
             while (true) {
-                isize idx = (cur.y * width + cur.x) * 4
+                isize idx = (cur.y * _width + cur.x) * 4
                     + std::to_underlying(dir);
                 if (visited[idx] == round) {
                     obstructions++;
@@ -330,7 +330,7 @@ public:
                 bool exits = false;
                 switch (dir) {
                     case Direction::Up: {
-                        const auto& col = obstaclesInCol[cur.x];
+                        const auto& col = _obstaclesInCol[cur.x];
                         auto it = std::ranges::lower_bound(col, cur.y);
                         isize wall = (it != col.begin()) ? *std::prev(it) : -1;
                         if ((obstacle.x == cur.x) && (obstacle.y < cur.y)) {
@@ -345,13 +345,13 @@ public:
                         break;
                     }
                     case Direction::Right: {
-                        const auto& row = obstaclesInRow[cur.y];
+                        const auto& row = _obstaclesInRow[cur.y];
                         auto it = std::ranges::upper_bound(row, cur.x);
-                        isize wall = (it != row.end()) ? *it : width;
+                        isize wall = (it != row.end()) ? *it : _width;
                         if ((obstacle.y == cur.y) && (obstacle.x > cur.x)) {
                             wall = std::min(wall, obstacle.x);
                         }
-                        if (wall >= width) {
+                        if (wall >= _width) {
                             exits = true;
                             break;
                         }
@@ -360,13 +360,13 @@ public:
                         break;
                     }
                     case Direction::Down: {
-                        const auto& col = obstaclesInCol[cur.x];
+                        const auto& col = _obstaclesInCol[cur.x];
                         auto it = std::ranges::upper_bound(col, cur.y);
-                        isize wall = (it != col.end()) ? *it : height;
+                        isize wall = (it != col.end()) ? *it : _height;
                         if ((obstacle.x == cur.x) && (obstacle.y > cur.y)) {
                             wall = std::min(wall, obstacle.y);
                         }
-                        if (wall >= height) {
+                        if (wall >= _height) {
                             exits = true;
                             break;
                         }
@@ -375,7 +375,7 @@ public:
                         break;
                     }
                     case Direction::Left: {
-                        const auto& row = obstaclesInRow[cur.y];
+                        const auto& row = _obstaclesInRow[cur.y];
                         auto it = std::ranges::lower_bound(row, cur.x);
                         isize wall = (it != row.begin()) ? *std::prev(it) : -1;
                         if ((obstacle.y == cur.y) && (obstacle.x < cur.x)) {

@@ -17,13 +17,13 @@ class Notes final {
 private:
 
     /** @brief The left list of numbers. */
-    std::vector<i32> left;
+    std::vector<i32> _left;
 
     /** @brief The right list of numbers. */
-    std::vector<i32> right;
+    std::vector<i32> _right;
 
     /** @brief The frequencies of the numbers in the right list. */
-    std::unordered_map<i32, i32> rightFrequencies;
+    std::unordered_map<i32, i32> _rightFrequencies;
 
     /**
      * @brief Initializes a new `Notes` instance with the specified lists of
@@ -36,12 +36,12 @@ private:
      * @param[in] right The right list of numbers.
      */
     Notes(std::vector<i32> left, std::vector<i32> right)
-        : left(std::move(left)), right(std::move(right)) {
-        assert(this->left.size() == this->right.size());
-        std::ranges::sort(this->left);
-        std::ranges::sort(this->right);
-        for (i32 r : this->right) {
-            rightFrequencies[r]++;
+        : _left(std::move(left)), _right(std::move(right)) {
+        assert(_left.size() == _right.size());
+        std::ranges::sort(_left);
+        std::ranges::sort(_right);
+        for (i32 r : _right) {
+            _rightFrequencies[r]++;
         }
     }
 
@@ -99,7 +99,7 @@ public:
      */
     i32 total_distance() const {
         i32 distance = 0;
-        for (const auto [l, r] : std::views::zip(left, right)) {
+        for (const auto [l, r] : std::views::zip(_left, _right)) {
             distance += std::abs(l - r);
         }
         return distance;
@@ -116,9 +116,9 @@ public:
      */
     i32 similarity_score() const {
         i32 score = 0;
-        for (i32 l : left) {
-            auto frequency = rightFrequencies.find(l);
-            if (frequency != rightFrequencies.end()) {
+        for (i32 l : _left) {
+            auto frequency = _rightFrequencies.find(l);
+            if (frequency != _rightFrequencies.end()) {
                 score += l * frequency->second;
             }
         }

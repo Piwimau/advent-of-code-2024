@@ -191,13 +191,13 @@ class Grid final {
 private:
 
     /** @brief The antennas on the grid. */
-    std::vector<Antenna> antennas;
+    std::vector<Antenna> _antennas;
 
     /** @brief The width of the grid. */
-    isize width;
+    isize _width;
 
     /** @brief The height of the grid. */
-    isize height;
+    isize _height;
 
     /**
      * @brief Initializes a new grid with the specified antennas, width, and
@@ -208,9 +208,9 @@ private:
      * @param[in] height   The height of the grid.
      */
     Grid(std::vector<Antenna> antennas, isize width, isize height)
-        : antennas(std::move(antennas)), width(width), height(height) {
-        assert(this->width >= 0);
-        assert(this->height >= 0);
+        : _antennas(std::move(antennas)), _width(width), _height(height) {
+        assert(_width >= 0);
+        assert(_height >= 0);
     }
 
     /**
@@ -222,8 +222,8 @@ private:
      * grid, otherwise `false`.
      */
     bool exists(Vector position) const {
-        return (position.x >= 0) && (position.x < width)
-            && (position.y >= 0) && (position.y < height);
+        return (position.x >= 0) && (position.x < _width)
+            && (position.y >= 0) && (position.y < _height);
     }
 
 public:
@@ -289,7 +289,10 @@ public:
      */
     isize antinodes() const {
         std::unordered_set<Vector> antinodes;
-        for (const auto& [l, r] : std::views::cartesian_product(antennas, antennas)) {
+        for (
+            const auto& [l, r]
+                : std::views::cartesian_product(_antennas, _antennas)
+        ) {
             if ((l.position != r.position) && (l.frequency == r.frequency)) {
                 Vector leftAntinode = l.position * 2 - r.position;
                 if (exists(leftAntinode)) {
@@ -313,7 +316,10 @@ public:
      */
     isize antinodes_updated() const {
         std::unordered_set<Vector> antinodes;
-        for (const auto& [l, r] : std::views::cartesian_product(antennas, antennas)) {
+        for (
+            const auto& [l, r]
+                : std::views::cartesian_product(_antennas, _antennas)
+        ) {
             if ((l.position != r.position) && (l.frequency == r.frequency)) {
                 for (isize k = 0; ; k++) {
                     Vector leftAntinode = l.position * (k + 1) - r.position * k;

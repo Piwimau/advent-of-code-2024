@@ -27,13 +27,13 @@ private:
     };
 
     /** @brief The garden plots of the map. */
-    std::vector<char> plots;
+    std::vector<char> _plots;
 
     /** @brief The width of the map. */
-    isize width;
+    isize _width;
 
     /** @brief The height of the map. */
-    isize height;
+    isize _height;
 
     /**
      * @brief Initializes a new map with the specified garden plots, width, and
@@ -47,12 +47,12 @@ private:
      * @param[in] height The height of the map.
      */
     Map(std::vector<char> plots, isize width, isize height)
-        : plots(std::move(plots)),
-          width(width),
-          height(height) {
-        assert(width >= 0);
-        assert(height >= 0);
-        assert(std::ssize(this->plots) == (width * height));
+        : _plots(std::move(plots)),
+          _width(width),
+          _height(height) {
+        assert(_width >= 0);
+        assert(_height >= 0);
+        assert(std::ssize(_plots) == (_width * _height));
     }
 
     /**
@@ -76,8 +76,8 @@ private:
      * `false`.
      */
     bool exists(Position pos) const noexcept {
-        return (pos.x >= 0) && (pos.x < width)
-            && (pos.y >= 0) && (pos.y < height);
+        return (pos.x >= 0) && (pos.x < _width)
+            && (pos.y >= 0) && (pos.y < _height);
     }
 
     /**
@@ -89,7 +89,7 @@ private:
      */
     std::optional<char> plant_at(Position pos) const noexcept {
         return exists(pos)
-            ? std::make_optional(plots[pos.y * width + pos.x])
+            ? std::make_optional(_plots[pos.y * _width + pos.x])
             : std::nullopt;
     }
 
@@ -191,11 +191,11 @@ public:
      */
     isize price() const {
         isize price = 0;
-        auto visited = std::make_unique<bool[]>(width * height);
+        auto visited = std::make_unique<bool[]>(_width * _height);
         std::queue<Position> queue;
-        for (isize y = 0; y < height; y++) {
-            for (isize x = 0; x < width; x++) {
-                isize idx = y * width + x;
+        for (isize y = 0; y < _height; y++) {
+            for (isize x = 0; x < _width; x++) {
+                isize idx = y * _width + x;
                 if (visited[idx]) {
                     continue;
                 }
@@ -209,11 +209,11 @@ public:
                     area++;
                     for (Position neighbor : neighbors(pos)) {
                         std::optional<char> neighborPlant = plant_at(neighbor);
-                        if (neighborPlant != plots[idx]) {
+                        if (neighborPlant != _plots[idx]) {
                             perimeter++;
                             continue;
                         }
-                        isize neighborIdx = neighbor.y * width + neighbor.x;
+                        isize neighborIdx = neighbor.y * _width + neighbor.x;
                         if (!visited[neighborIdx]) {
                             visited[neighborIdx] = true;
                             queue.push(neighbor);
@@ -237,11 +237,11 @@ public:
      */
     isize price_with_bulk_discount() const {
         isize price = 0;
-        auto visited = std::make_unique<bool[]>(width * height);
+        auto visited = std::make_unique<bool[]>(_width * _height);
         std::queue<Position> queue;
-        for (isize y = 0; y < height; y++) {
-            for (isize x = 0; x < width; x++) {
-                isize idx = y * width + x;
+        for (isize y = 0; y < _height; y++) {
+            for (isize x = 0; x < _width; x++) {
+                isize idx = y * _width + x;
                 if (visited[idx]) {
                     continue;
                 }
@@ -255,10 +255,10 @@ public:
                     area++;
                     sides += count_sides(pos);
                     for (Position neighbor : neighbors(pos)) {
-                        isize neighborIdx = neighbor.y * width + neighbor.x;
+                        isize neighborIdx = neighbor.y * _width + neighbor.x;
                         if (
                             !visited[neighborIdx]
-                                && (plant_at(neighbor) == plots[idx])
+                                && (plant_at(neighbor) == _plots[idx])
                         ) {
                             visited[neighborIdx] = true;
                             queue.push(neighbor);

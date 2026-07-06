@@ -31,13 +31,13 @@ private:
     static constexpr i32 MaxHeight = 9;
 
     /** @brief The heights of the positions on the map. */
-    std::vector<i32> heights;
+    std::vector<i32> _heights;
 
     /** @brief The width of the map. */
-    isize width;
+    isize _width;
 
     /** @brief The height of the map. */
-    isize height;
+    isize _height;
 
     /**
      * @brief Initializes a new map with the given heights, width, and height.
@@ -50,12 +50,12 @@ private:
      * @param[in] height  The height of the map.
      */
     Map(std::vector<i32> heights, isize width, isize height)
-        : heights(std::move(heights)),
-          width(width),
-          height(height) {
-        assert(std::ssize(this->heights) == (width * height));
-        assert(width >= 0);
-        assert(height >= 0);
+        : _heights(std::move(heights)),
+          _width(width),
+          _height(height) {
+        assert(std::ssize(_heights) == (_width * _height));
+        assert(_width >= 0);
+        assert(_height >= 0);
     }
 
     /**
@@ -68,13 +68,13 @@ private:
         if (pos.x > 0) {
             co_yield { pos.x - 1, pos.y };
         }
-        if (pos.x < (width - 1)) {
+        if (pos.x < (_width - 1)) {
             co_yield { pos.x + 1, pos.y };
         }
         if (pos.y > 0) {
             co_yield { pos.x, pos.y - 1 };
         }
-        if (pos.y < (height - 1)) {
+        if (pos.y < (_height - 1)) {
             co_yield { pos.x, pos.y + 1 };
         }
     }
@@ -139,36 +139,36 @@ public:
      */
     isize sum_of_trailhead_scores() const {
         isize sum = 0;
-        auto visited = std::make_unique<bool[]>(width * height);
+        auto visited = std::make_unique<bool[]>(_width * _height);
         std::deque<Position> queue;
-        for (isize y = 0; y < height; y++) {
-            for (isize x = 0; x < width; x++) {
-                if (heights[y * width + x] != 0) {
+        for (isize y = 0; y < _height; y++) {
+            for (isize x = 0; x < _width; x++) {
+                if (_heights[y * _width + x] != 0) {
                     continue;
                 }
                 isize score = 0;
-                std::ranges::fill_n(visited.get(), width * height, false);
-                visited[y * width + x] = true;
+                std::ranges::fill_n(visited.get(), _width * _height, false);
+                visited[y * _width + x] = true;
                 queue.clear();
                 queue.emplace_back(x, y);
                 while (!queue.empty()) {
                     Position pos = queue.front();
                     queue.pop_front();
-                    if (heights[pos.y * width + pos.x] == MaxHeight) {
+                    if (_heights[pos.y * _width + pos.x] == MaxHeight) {
                         score++;
                         continue;
                     }
                     for (Position neighbor : neighbors(pos)) {
-                        if (visited[neighbor.y * width + neighbor.x]) {
+                        if (visited[neighbor.y * _width + neighbor.x]) {
                             continue;
                         }
                         if (
-                            heights[neighbor.y * width + neighbor.x]
-                                != (heights[pos.y * width + pos.x] + 1)
+                            _heights[neighbor.y * _width + neighbor.x]
+                                != (_heights[pos.y * _width + pos.x] + 1)
                         ) {
                             continue;
                         }
-                        visited[neighbor.y * width + neighbor.x] = true;
+                        visited[neighbor.y * _width + neighbor.x] = true;
                         queue.push_back(neighbor);
                     }
                 }
@@ -192,9 +192,9 @@ public:
     isize sum_of_trailhead_ratings() const {
         isize sum = 0;
         std::deque<Position> queue;
-        for (isize y = 0; y < height; y++) {
-            for (isize x = 0; x < width; x++) {
-                if (heights[y * width + x] != 0) {
+        for (isize y = 0; y < _height; y++) {
+            for (isize x = 0; x < _width; x++) {
+                if (_heights[y * _width + x] != 0) {
                     continue;
                 }
                 isize score = 0;
@@ -203,14 +203,14 @@ public:
                 while (!queue.empty()) {
                     Position pos = queue.front();
                     queue.pop_front();
-                    if (heights[pos.y * width + pos.x] == MaxHeight) {
+                    if (_heights[pos.y * _width + pos.x] == MaxHeight) {
                         score++;
                         continue;
                     }
                     for (Position neighbor : neighbors(pos)) {
                         if (
-                            heights[neighbor.y * width + neighbor.x]
-                                != (heights[pos.y * width + pos.x] + 1)
+                            _heights[neighbor.y * _width + neighbor.x]
+                                != (_heights[pos.y * _width + pos.x] + 1)
                         ) {
                             continue;
                         }

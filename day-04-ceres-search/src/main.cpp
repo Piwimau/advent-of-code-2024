@@ -132,13 +132,13 @@ private:
      * @note This is actually a two-dimensional array of `width * height`
      * characters stored as a one-dimensional array one in row-major order.
      */
-    std::vector<char> tiles;
+    std::vector<char> _tiles;
 
     /** @brief The width of the grid. */
-    isize width;
+    isize _width;
 
     /** @brief The height of the grid. */
-    isize height;
+    isize _height;
 
     /**
      * @brief Initializes a new grid with the specified tiles, width, and
@@ -152,10 +152,10 @@ private:
      * @param[in] height The height of the grid.
      */
     Grid(std::vector<char> tiles, isize width, isize height)
-        : tiles(std::move(tiles)), width(width), height(height) {
-        assert(this->width >= 0);
-        assert(this->height >= 0);
-        assert(std::ssize(this->tiles) == (this->width * this->height));
+        : _tiles(std::move(tiles)), _width(width), _height(height) {
+        assert(_width >= 0);
+        assert(_height >= 0);
+        assert(std::ssize(_tiles) == (_width * _height));
     }
 
     /**
@@ -165,8 +165,8 @@ private:
      * `false`.
      */
     bool exists(Vector position) const noexcept {
-        return (position.x >= 0) && (position.x < width)
-            && (position.y >= 0) && (position.y < height);
+        return (position.x >= 0) && (position.x < _width)
+            && (position.y >= 0) && (position.y < _height);
     }
 
     /**
@@ -180,7 +180,7 @@ private:
      */
     char at(Vector position) const noexcept {
         assert(exists(position));
-        return tiles[position.y * width + position.x];
+        return _tiles[position.y * _width + position.x];
     }
 
 public:
@@ -240,8 +240,8 @@ public:
      */
     isize count_xmas() const noexcept {
         isize count = 0;
-        for (isize y = 0; y < height; y++) {
-            for (isize x = 0; x < width; x++) {
+        for (isize y = 0; y < _height; y++) {
+            for (isize x = 0; x < _width; x++) {
                 for (Vector offset : Offsets) {
                     Vector pos(x, y);
                     bool found = true;
@@ -273,8 +273,8 @@ public:
      */
     isize count_x_mas() const noexcept {
         isize count = 0;
-        for (isize y = 0; y < height; y++) {
-            for (isize x = 0; x < width; x++) {
+        for (isize y = 0; y < _height; y++) {
+            for (isize x = 0; x < _width; x++) {
                 Vector pos(x, y);
                 if (at(pos) != 'A') {
                     continue;

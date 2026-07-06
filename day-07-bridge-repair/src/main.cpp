@@ -18,10 +18,10 @@ class Equation final {
 private:
 
     /** @brief The test value of the equation. */
-    i64 testValue;
+    i64 _testValue;
 
     /** @brief The values of the equation. */
-    std::vector<i64> values;
+    std::vector<i64> _values;
 
     /**
      * @brief Initializes a new equation with the specified test value and
@@ -31,7 +31,7 @@ private:
      * @param[in] values    The values of the equation.
      */
     Equation(i64 testValue, std::vector<i64> values)
-        : testValue(testValue), values(std::move(values)) { }
+        : _testValue(testValue), _values(std::move(values)) { }
 
     /**
      * @brief Determines whether this equation is solvable by recursively trying
@@ -42,16 +42,16 @@ private:
      * @return `true` if this equation is solvable, otherwise `false`.
      */
     bool is_solvable(isize index, i64 result) const noexcept {
-        assert((index >= 0) && (index <= std::ssize(values)));
+        assert((index >= 0) && (index <= std::ssize(_values)));
         assert(result >= 0);
-        if (index == std::ssize(values)) {
-            return result == testValue;
+        if (index == std::ssize(_values)) {
+            return result == _testValue;
         }
-        if (result > testValue) {
+        if (result > _testValue) {
             return false;
         }
-        return is_solvable(index + 1, result + values[index])
-            || is_solvable(index + 1, result * values[index]);
+        return is_solvable(index + 1, result + _values[index])
+            || is_solvable(index + 1, result * _values[index]);
     }
 
     /**
@@ -82,17 +82,17 @@ private:
      * @return `true` if this equation is solvable, otherwise `false`.
      */
     bool is_solvable_with_concat(isize index, i64 result) const noexcept {
-        assert((index >= 0) && (index <= std::ssize(values)));
+        assert((index >= 0) && (index <= std::ssize(_values)));
         assert(result >= 0);
-        if (index == std::ssize(values)) {
-            return result == testValue;
+        if (index == std::ssize(_values)) {
+            return result == _testValue;
         }
-        if (result > testValue) {
+        if (result > _testValue) {
             return false;
         }
-        return is_solvable_with_concat(index + 1, result + values[index])
-            || is_solvable_with_concat(index + 1, result * values[index])
-            || is_solvable_with_concat(index + 1, concat(result, values[index]));
+        return is_solvable_with_concat(index + 1, result + _values[index])
+            || is_solvable_with_concat(index + 1, result * _values[index])
+            || is_solvable_with_concat(index + 1, concat(result, _values[index]));
     }
 
 public:
@@ -149,7 +149,7 @@ public:
      * @return `true` if this equation is solvable, otherwise `false`.
      */
     bool is_solvable() const noexcept {
-        return values.empty() ? (testValue == 0) : is_solvable(1, values[0]);
+        return _values.empty() ? (_testValue == 0) : is_solvable(1, _values[0]);
     }
 
     /**
@@ -163,9 +163,9 @@ public:
      * `false`.
      */
     bool is_solvable_with_concat() const noexcept {
-        return values.empty()
-            ? (testValue == 0)
-            : is_solvable_with_concat(1, values[0]);
+        return _values.empty()
+            ? (_testValue == 0)
+            : is_solvable_with_concat(1, _values[0]);
     }
 
     /**
@@ -174,7 +174,7 @@ public:
      * @return The test value of this equation.
      */
     i64 test_value() const noexcept {
-        return testValue;
+        return _testValue;
     }
 
 };

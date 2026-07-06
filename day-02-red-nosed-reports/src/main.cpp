@@ -22,7 +22,7 @@ private:
     static constexpr i32 MaxDiff = 3;
 
     /** @brief The levels of the report. */
-    std::vector<i32> levels;
+    std::vector<i32> _levels;
 
     /**
      * @brief Determines whether the specified levels are safe.
@@ -94,7 +94,7 @@ public:
      *
      * @param[in] levels The levels of the report.
      */
-    Report(std::vector<i32> levels) : levels(std::move(levels)) { }
+    Report(std::vector<i32> levels) : _levels(std::move(levels)) { }
 
     /**
      * @brief Determines whether this report is safe.
@@ -106,7 +106,7 @@ public:
      * @return `true` if this report is safe, otherwise `false`.
      */
     bool is_safe() const noexcept {
-        return is_safe(levels);
+        return is_safe(_levels);
     }
 
     /**
@@ -123,12 +123,12 @@ public:
             return true;
         }
         std::vector<i32> temp;
-        temp.reserve(levels.size() - 1);
-        for (isize i = 0; i < std::ssize(levels); i++) {
+        temp.reserve(_levels.size() - 1);
+        for (isize i = 0; i < std::ssize(_levels); i++) {
             temp.clear();
-            for (isize j = 0; j < std::ssize(levels); j++) {
+            for (isize j = 0; j < std::ssize(_levels); j++) {
                 if (j != i) {
-                    temp.push_back(levels[j]);
+                    temp.push_back(_levels[j]);
                 }
             }
             if (is_safe(temp)) {
