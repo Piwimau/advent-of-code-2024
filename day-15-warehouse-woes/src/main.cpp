@@ -123,8 +123,7 @@ private:
         assert(_width >= 0);
         assert(_height >= 0);
         assert(std::ssize(_tiles) == (_width * _height));
-        assert((_robot.x >= 0) && (_robot.x < _width));
-        assert((_robot.y >= 0) && (_robot.y < _height));
+        assert(exists(_robot, _width, _height));
     }
 
     /**
