@@ -167,7 +167,8 @@ input, as well as printing the puzzle results.
 | Day 15 – Warehouse Woes         |   1.460 ms |   2.423 ms |   1.635 ms |   1.499 ms |           0.299 ms |
 | Day 16 – Reindeer Maze          |   9.782 ms |  14.607 ms |  12.041 ms |  11.265 ms |           1.864 ms |
 | Day 17 – Chronospatial Computer |   0.148 ms |   0.274 ms |   0.217 ms |   0.213 ms |           0.033 ms |
-| Total                           | 104.101 ms | 128.684 ms | 115.426 ms | 113.537 ms |           8.334 ms |
+| Day 18 – RAM Run                |   1.266 ms |   1.819 ms |   1.395 ms |   1.351 ms |           0.160 ms |
+| Total                           | 105.367 ms | 130.503 ms | 116.820 ms | 114.888 ms |           8.495 ms |
 
 > [!NOTE]
 >
