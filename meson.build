@@ -70,6 +70,7 @@ days = [
     'day-17-chronospatial-computer',
     'day-18-ram-run',
     'day-19-linen-layout',
+    'day-20-race-condition',
 ]
 
 incs = include_directories('include')
