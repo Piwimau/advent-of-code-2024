@@ -170,7 +170,8 @@ input, as well as printing the puzzle results.
 | Day 18 – RAM Run                |   1.266 ms |   1.819 ms |   1.395 ms |   1.351 ms |           0.160 ms |
 | Day 19 – Linen Layout           |  23.791 ms |  28.568 ms |  25.481 ms |  25.116 ms |           1.687 ms |
 | Day 20 – Race Condition         |  80.725 ms |  92.369 ms |  85.365 ms |  83.927 ms |           4.480 ms |
-| Total                           | 209.882 ms | 251.440 ms | 227.666 ms | 223.931 ms |          14.662 ms |
+| Day 21 – Keypad Conundrum       |   0.574 ms |   0.909 ms |   0.819 ms |   0.840 ms |           0.091 ms |
+| Total                           | 210.456 ms | 252.349 ms | 228.485 ms | 224.771 ms |          14.753 ms |
 
 > [!NOTE]
 >
