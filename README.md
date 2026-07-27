@@ -171,7 +171,8 @@ input, as well as printing the puzzle results.
 | Day 19 – Linen Layout           |  23.791 ms |  28.568 ms |  25.481 ms |  25.116 ms |           1.687 ms |
 | Day 20 – Race Condition         |  80.725 ms |  92.369 ms |  85.365 ms |  83.927 ms |           4.480 ms |
 | Day 21 – Keypad Conundrum       |   0.574 ms |   0.909 ms |   0.819 ms |   0.840 ms |           0.091 ms |
-| Total                           | 210.456 ms | 252.349 ms | 228.485 ms | 224.771 ms |          14.753 ms |
+| Day 22 – Monkey Market          |  54.498 ms |  70.256 ms |  58.768 ms |  57.356 ms |           5.015 ms |
+| Total                           | 264.955 ms | 322.604 ms | 287.253 ms | 282.127 ms |          19.767 ms |
 
 > [!NOTE]
 >
