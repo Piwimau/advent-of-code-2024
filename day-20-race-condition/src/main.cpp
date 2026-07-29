@@ -57,7 +57,7 @@ private:
     };
 
     /** @brief The threshold (saved time) for the best cheats. */
-    static constexpr isize BestCheatThreshold = 100;
+    static constexpr isize BEST_CHEAT_THRESHOLD = 100;
 
     /** @brief The tiles of the racetrack. */
     std::vector<Tile> _tiles;
@@ -293,7 +293,7 @@ public:
                         continue;
                     }
                     isize totalTime = time + cheatTime + it->second;
-                    if (fastestTime - totalTime >= BestCheatThreshold) {
+                    if (fastestTime - totalTime >= BEST_CHEAT_THRESHOLD) {
                         bestCheats++;
                     }
                 }

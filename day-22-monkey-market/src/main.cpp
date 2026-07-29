@@ -97,16 +97,16 @@ static usize max_bananas(const std::vector<usize>& seeds) noexcept {
     // We represent the sequence of four price differences as a 20-bit integer,
     // where each 5-bit block corresponds to one of the 19 possible price
     // differences (i.e., -9 to 9).
-    constexpr usize MaxSequences = 1 << 20;
-    std::unique_ptr<usize[]> bananas = std::make_unique<usize[]>(MaxSequences);
+    constexpr usize MAX_SEQUENCES = 1 << 20;
+    std::unique_ptr<usize[]> bananas = std::make_unique<usize[]>(MAX_SEQUENCES);
     std::array<usize, 2001> prices;
-    std::unique_ptr<bool[]> seen = std::make_unique<bool[]>(MaxSequences);
+    std::unique_ptr<bool[]> seen = std::make_unique<bool[]>(MAX_SEQUENCES);
     for (usize seed : seeds) {
         for (usize& price : prices) {
             price = seed % 10;
             seed = next(seed);
         }
-        std::ranges::fill_n(seen.get(), MaxSequences, false);
+        std::ranges::fill_n(seen.get(), MAX_SEQUENCES, false);
         for (usize i = 0; i < std::ssize(prices) - 4; i++) {
             usize p0 = prices[i];
             usize p1 = prices[i + 1];
@@ -126,7 +126,7 @@ static usize max_bananas(const std::vector<usize>& seeds) noexcept {
     }
     return *std::ranges::max_element(
         bananas.get(),
-        bananas.get() + MaxSequences
+        bananas.get() + MAX_SEQUENCES
     );
 }
 

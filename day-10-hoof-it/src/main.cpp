@@ -28,7 +28,7 @@ private:
     };
 
     /** @brief The maximum height of any position on the map. */
-    static constexpr i32 MaxHeight = 9;
+    static constexpr i32 MAX_HEIGHT = 9;
 
     /** @brief The heights of the positions on the map. */
     std::vector<i32> _heights;
@@ -154,7 +154,7 @@ public:
                 while (!queue.empty()) {
                     Position pos = queue.front();
                     queue.pop_front();
-                    if (_heights[pos.y * _width + pos.x] == MaxHeight) {
+                    if (_heights[pos.y * _width + pos.x] == MAX_HEIGHT) {
                         score++;
                         continue;
                     }
@@ -203,7 +203,7 @@ public:
                 while (!queue.empty()) {
                     Position pos = queue.front();
                     queue.pop_front();
-                    if (_heights[pos.y * _width + pos.x] == MaxHeight) {
+                    if (_heights[pos.y * _width + pos.x] == MAX_HEIGHT) {
                         score++;
                         continue;
                     }

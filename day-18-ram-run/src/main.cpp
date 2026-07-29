@@ -42,10 +42,10 @@ class Grid final {
 public:
 
     /** @brief The width of this grid. */
-    static constexpr isize Width = 71;
+    static constexpr isize WIDTH = 71;
 
     /** @brief The height of this grid. */
-    static constexpr isize Height = 71;
+    static constexpr isize HEIGHT = 71;
 
 private:
 
@@ -56,13 +56,13 @@ private:
     };
 
     /** @brief The starting position of the search for the exit. */
-    static constexpr Position Start = { .x = 0, .y = 0 };
+    static constexpr Position START = { .x = 0, .y = 0 };
 
     /** @brief The ending position of the search for the exit. */
-    static constexpr Position End = { .x = Width - 1, .y = Height - 1 };
+    static constexpr Position END = { .x = WIDTH - 1, .y = HEIGHT - 1 };
 
     /** @brief The tiles of this grid. */
-    std::array<Tile, Width * Height> _tiles;
+    std::array<Tile, WIDTH * HEIGHT> _tiles;
 
     /**
      * @brief Determines whether a position exists in this grid.
@@ -71,8 +71,8 @@ private:
      * @return `true` if the position exists in this grid, otherwise `false`.
      */
     bool exists(const Position& pos) const noexcept {
-        return (pos.x >= 0) && (pos.x < Width)
-            && (pos.y >= 0) && (pos.y < Height);
+        return (pos.x >= 0) && (pos.x < WIDTH)
+            && (pos.y >= 0) && (pos.y < HEIGHT);
     }
 
     /**
@@ -85,7 +85,7 @@ private:
         const Position& pos
     ) const noexcept {
         auto is_accessible = [this](const Position& p) -> bool {
-            return exists(p) && (_tiles[p.y * Width + p.x] == Tile::None);
+            return exists(p) && (_tiles[p.y * WIDTH + p.x] == Tile::None);
         };
         assert(is_accessible(pos));
         Position left = { .x = pos.x - 1, .y = pos.y };
@@ -122,7 +122,7 @@ public:
     void add_bytes(std::span<const Position> bytes) noexcept {
         for (const Position& pos : bytes) {
             assert(exists(pos));
-            _tiles[pos.y * Width + pos.x] = Tile::Byte;
+            _tiles[pos.y * WIDTH + pos.x] = Tile::Byte;
         }
     }
 
@@ -131,26 +131,26 @@ public:
      *
      * The search for the exit starts at the top-left corner of the grid (i.e.,
      * at `X = 0, Y = 0`) and ends at the bottom-right corner of the grid (i.e.,
-     * at `X = Width - 1, Y = Height - 1`).
+     * at `X = WIDTH - 1, Y = HEIGHT - 1`).
      *
      * @return The minimum number of steps needed to reach the exit, or `-1` if
      * the exit is unreachable.
      */
     isize min_steps() const {
-        std::array<bool, Width * Height> visited = { };
-        visited[Start.y * Width + Start.x] = true;
+        std::array<bool, WIDTH * HEIGHT> visited = { };
+        visited[START.y * WIDTH + START.x] = true;
         using State = std::pair<Position, isize>;
         std::queue<State> queue;
-        queue.push({ Start, 0 });
+        queue.push({ START, 0 });
         while (!queue.empty()) {
             auto [position, steps] = queue.front();
             queue.pop();
-            if (position == End) {
+            if (position == END) {
                 return steps;
             }
             for (const Position& neighbor : accessible_neighbors(position)) {
-                if (!visited[neighbor.y * Width + neighbor.x]) {
-                    visited[neighbor.y * Width + neighbor.x] = true;
+                if (!visited[neighbor.y * WIDTH + neighbor.x]) {
+                    visited[neighbor.y * WIDTH + neighbor.x] = true;
                     queue.push({ neighbor, steps + 1 });
                 }
             }
@@ -162,8 +162,8 @@ public:
      * @brief Returns the position of the first blocking byte in this grid.
      *
      * A blocking byte is a falling byte that prevents the search for the exit
-     * from reaching the bottom-right corner of the grid (i.e., at `X = Width -
-     * 1, Y = Height - 1`).
+     * from reaching the bottom-right corner of the grid (i.e., at `X = WIDTH -
+     * 1, Y = HEIGHT - 1`).
      *
      * @warning The behavior is undefined if any of the specified positions does
      * not exist in this grid, or if the exit does not become unreachable even
@@ -202,8 +202,8 @@ public:
  * ```
  *
  * Here, `<x>` and `<y>` represent the x- and y-coordinates of a falling byte.
- * The coordinates must be between `0` and `Grid::Width - 1` and `0` and
- * `Grid::Height - 1`, respectively.
+ * The coordinates must be between `0` and `Grid::WIDTH - 1` and `0` and
+ * `Grid::HEIGHT - 1`, respectively.
  *
  * An example for a valid input might be the following:
  *
@@ -225,8 +225,8 @@ static std::optional<std::vector<Position>> parse_bytes() {
         Position pos;
         if (
             (std::sscanf(line.c_str(), "%td,%td", &pos.x, &pos.y) != 2)
-                || (pos.x < 0) || (pos.x >= Grid::Width)
-                || (pos.y < 0) || (pos.y >= Grid::Height)
+                || (pos.x < 0) || (pos.x >= Grid::WIDTH)
+                || (pos.y < 0) || (pos.y >= Grid::HEIGHT)
         ) {
             return std::nullopt;
         }
