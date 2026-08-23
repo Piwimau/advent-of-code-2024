@@ -172,7 +172,8 @@ input, as well as printing the puzzle results.
 | Day 20 – Race Condition         |  80.725 ms |  92.369 ms |  85.365 ms |  83.927 ms |           4.480 ms |
 | Day 21 – Keypad Conundrum       |   0.574 ms |   0.909 ms |   0.819 ms |   0.840 ms |           0.091 ms |
 | Day 22 – Monkey Market          |  54.498 ms |  70.256 ms |  58.768 ms |  57.356 ms |           5.015 ms |
-| Total                           | 264.955 ms | 322.604 ms | 287.253 ms | 282.127 ms |          19.767 ms |
+| Day 23 – LAN Party              |   8.035 ms |  11.070 ms |   9.511 ms |   9.429 ms |           1.246 ms |
+| Total                           | 272.989 ms | 333.674 ms | 296.763 ms | 291.556 ms |          21.014 ms |
 
 > [!NOTE]
 >

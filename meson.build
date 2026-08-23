@@ -73,6 +73,7 @@ days = [
     'day-20-race-condition',
     'day-21-keypad-conundrum',
     'day-22-monkey-market',
+    'day-23-lan-party',
 ]
 
 incs = include_directories('include')
