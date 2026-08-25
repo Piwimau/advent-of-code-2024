@@ -174,7 +174,8 @@ input, as well as printing the puzzle results.
 | Day 22 – Monkey Market          |  54.498 ms |  70.256 ms |  58.768 ms |  57.356 ms |           5.015 ms |
 | Day 23 – LAN Party              |   8.035 ms |  11.070 ms |   9.511 ms |   9.429 ms |           1.246 ms |
 | Day 24 – Crossed Wires          |   0.213 ms |   1.038 ms |   0.321 ms |   0.237 ms |           0.254 ms |
-| Total                           | 273.203 ms | 334.712 ms | 297.085 ms | 291.793 ms |          21.268 ms |
+| Day 25 – Code Chronicles        |   0.853 ms |   0.955 ms |   0.882 ms |   0.868 ms |           0.036 ms |
+| Total                           | 274.056 ms | 335.667 ms | 297.967 ms | 292.661 ms |          21.304 ms |
 
 > [!NOTE]
 >
