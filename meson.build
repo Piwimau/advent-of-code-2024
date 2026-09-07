@@ -43,7 +43,7 @@ if cpp.get_id() == 'gcc'
         add_project_arguments('-march=native', '-mtune=native', language: 'cpp')
     endif
     # Required for some new C++23 features like `std::println()`.
-    deps += cpp.find_library('stdc++exp', required: true)
+    deps += cpp.find_library('stdc++exp')
 endif
 
 deps += cpp.find_library('m', required: false)
