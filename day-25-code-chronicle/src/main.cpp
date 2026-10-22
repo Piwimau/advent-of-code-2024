@@ -136,10 +136,10 @@ parse_locks_and_keys() {
             continue;
         }
         if (
-            (std::ssize(line) != Lock::PINS)
+            std::ssize(line) != Lock::PINS
                 || std::ranges::any_of(
                     line,
-                    [](char c) { return (c != '.') && (c != '#'); }
+                    [](char c) { return c != '.' && c != '#'; }
                 )
         ) {
             return std::nullopt;

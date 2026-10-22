@@ -26,7 +26,7 @@ struct Vector {
      * @return `true` if the two specified vectors are equal, otherwise `false`.
      */
     friend bool operator==(const Vector& lhs, const Vector& rhs) {
-        return (lhs.x == rhs.x) && (lhs.y == rhs.y);
+        return lhs.x == rhs.x && lhs.y == rhs.y;
     }
 
     /**
@@ -180,8 +180,8 @@ static isize fewest_tokens(const std::vector<Machine>& machines) {
         // Since the button presses must be non-negative integers, we need to
         // check if our solution is actually valid before adding the tokens.
         if (
-            (a >= 0.0) && (a == std::trunc(a))
-                && (b >= 0.0) && (b == std::trunc(b))
+            a >= 0.0 && a == std::trunc(a)
+                && b >= 0.0 && b == std::trunc(b)
         ) {
             fewestTokens += static_cast<isize>(a) * 3 + static_cast<isize>(b);
         }

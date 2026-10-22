@@ -116,7 +116,7 @@ public:
                 return std::nullopt;
             }
             for (char c : line) {
-                if ((c < '0') || (c > '9')) {
+                if (c < '0' || c > '9') {
                     return std::nullopt;
                 }
                 heights.push_back(c - '0');

@@ -42,7 +42,8 @@ private:
         bool decreasing = false;
         for (isize i = 0; i < (std::ssize(levels) - 1); i++) {
             i32 diff = levels[i + 1] - levels[i];
-            if ((std::abs(diff) < MIN_DIFF) || (std::abs(diff) > MAX_DIFF)) {
+            i32 absDiff = std::abs(diff);
+            if (absDiff < MIN_DIFF || absDiff > MAX_DIFF) {
                 return false;
             }
             if (diff < 0) {

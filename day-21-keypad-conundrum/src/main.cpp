@@ -19,22 +19,22 @@ using namespace aoc;
 
 /** @brief Represents a button on a keypad. */
 enum class Button {
-    None,
-    Zero,
-    One,
-    Two,
-    Three,
-    Four,
-    Five,
-    Six,
-    Seven,
-    Eight,
-    Nine,
-    Left,
-    Up,
-    Right,
-    Down,
-    Activate
+    NONE,
+    ZERO,
+    ONE,
+    TWO,
+    THREE,
+    FOUR,
+    FIVE,
+    SIX,
+    SEVEN,
+    EIGHT,
+    NINE,
+    LEFT,
+    UP,
+    RIGHT,
+    DOWN,
+    ACTIVATE
 };
 
 template<>
@@ -139,13 +139,13 @@ private:
             for (isize y = 0; y < height; y++) {
                 for (isize x = 0; x < width; x++) {
                     Button button = buttons[y * width + x];
-                    if (button != Button::None) {
+                    if (button != Button::NONE) {
                         positions[button] = { .x = x, .y = y };
                     }
                 }
             }
             auto is_none = [&](Position p) -> bool {
-                return buttons[p.y * width + p.x] == Button::None;
+                return buttons[p.y * width + p.x] == Button::NONE;
             };
             SequenceMap shortestSequences;
             for (const auto& [src, srcPos] : positions) {
@@ -155,11 +155,11 @@ private:
                     isize dy = dstPos.y - srcPos.y;
                     std::vector<Button> horizontalMoves(
                         std::abs(dx),
-                        (dx < 0) ? Button::Left : Button::Right
+                        (dx < 0) ? Button::LEFT : Button::RIGHT
                     );
                     std::vector<Button> verticalMoves(
                         std::abs(dy),
-                        (dy < 0) ? Button::Up : Button::Down
+                        (dy < 0) ? Button::UP : Button::DOWN
                     );
                     if (!is_none({ .x = dstPos.x, .y = srcPos.y })) {
                         std::vector<Button> path = horizontalMoves;
@@ -172,8 +172,8 @@ private:
                         sequences.push_back(std::move(path));
                     }
                     if (
-                        (std::ssize(sequences) == 2)
-                            && (sequences[0] == sequences[1])
+                        std::ssize(sequences) == 2
+                            && sequences[0] == sequences[1]
                     ) {
                         sequences.pop_back();
                     }
@@ -206,10 +206,10 @@ private:
          */
         static Keypad numeric() {
             std::array<Button, 12> buttons = {
-                Button::Seven, Button::Eight, Button::Nine,
-                Button::Four, Button::Five, Button::Six,
-                Button::One, Button::Two, Button::Three,
-                Button::None, Button::Zero, Button::Activate
+                Button::SEVEN, Button::EIGHT, Button::NINE,
+                Button::FOUR, Button::FIVE, Button::SIX,
+                Button::ONE, Button::TWO, Button::THREE,
+                Button::NONE, Button::ZERO, Button::ACTIVATE
             };
             isize width = 3;
             isize height = 4;
@@ -233,8 +233,8 @@ private:
          */
         static Keypad directional() {
             std::array<Button, 6> buttons = {
-                Button::None, Button::Up, Button::Activate,
-                Button::Left, Button::Down, Button::Right
+                Button::NONE, Button::UP, Button::ACTIVATE,
+                Button::LEFT, Button::DOWN, Button::RIGHT
             };
             isize width = 3;
             isize height = 2;
@@ -327,7 +327,7 @@ private:
                 : keypad.shortest_sequences(src, dst)
         ) {
             isize len = 0;
-            Button current = Button::Activate;
+            Button current = Button::ACTIVATE;
             for (Button button : sequence) {
                 len += shortest_len(
                     { current, button, depth - 1 },
@@ -337,7 +337,7 @@ private:
                 current = button;
             }
             len += shortest_len(
-                { current, Button::Activate, depth - 1 },
+                { current, Button::ACTIVATE, depth - 1 },
                 keypad,
                 cache
             );
@@ -366,7 +366,7 @@ private:
         Keypad directional = Keypad::directional();
         Cache cache;
         isize totalLen = 0;
-        Button current = Button::Activate;
+        Button current = Button::ACTIVATE;
         for (Button button : _buttons) {
             isize shortestLen = std::numeric_limits<isize>::max();
             for (
@@ -374,7 +374,7 @@ private:
                     : numeric.shortest_sequences(current, button)
             ) {
                 isize len = 0;
-                Button innerCurrent = Button::Activate;
+                Button innerCurrent = Button::ACTIVATE;
                 for (Button innerButton : sequence) {
                     len += shortest_len(
                         { innerCurrent, innerButton, directionalKeypads - 1 },
@@ -384,7 +384,7 @@ private:
                     innerCurrent = innerButton;
                 }
                 len += shortest_len(
-                    { innerCurrent, Button::Activate, directionalKeypads - 1 },
+                    { innerCurrent, Button::ACTIVATE, directionalKeypads - 1 },
                     directional,
                     cache
                 );
@@ -419,7 +419,7 @@ public:
      * @return The parsed code on success, or `std::nullopt` on failure.
      */
     static std::optional<Code> parse(std::string_view line) {
-        if (line.empty() || (line.back() != 'A')) {
+        if (line.empty() || line.back() != 'A') {
             return std::nullopt;
         }
         std::vector<Button> buttons;
@@ -431,41 +431,41 @@ public:
         for (char c : line) {
             switch (c) {
                 case '0':
-                    buttons.push_back(Button::Zero);
+                    buttons.push_back(Button::ZERO);
                     break;
                 case '1':
-                    buttons.push_back(Button::One);
+                    buttons.push_back(Button::ONE);
                     break;
                 case '2':
-                    buttons.push_back(Button::Two);
+                    buttons.push_back(Button::TWO);
                     break;
                 case '3':
-                    buttons.push_back(Button::Three);
+                    buttons.push_back(Button::THREE);
                     break;
                 case '4':
-                    buttons.push_back(Button::Four);
+                    buttons.push_back(Button::FOUR);
                     break;
                 case '5':
-                    buttons.push_back(Button::Five);
+                    buttons.push_back(Button::FIVE);
                     break;
                 case '6':
-                    buttons.push_back(Button::Six);
+                    buttons.push_back(Button::SIX);
                     break;
                 case '7':
-                    buttons.push_back(Button::Seven);
+                    buttons.push_back(Button::SEVEN);
                     break;
                 case '8':
-                    buttons.push_back(Button::Eight);
+                    buttons.push_back(Button::EIGHT);
                     break;
                 case '9':
-                    buttons.push_back(Button::Nine);
+                    buttons.push_back(Button::NINE);
                     break;
                 default:
                     return std::nullopt;
             }
             numericPart = numericPart * 10 + (c - '0');
         }
-        buttons.push_back(Button::Activate);
+        buttons.push_back(Button::ACTIVATE);
         return Code(std::move(buttons), numericPart);
     }
 

@@ -42,7 +42,7 @@ struct Vector {
      * `false`.
      */
     bool operator==(const Vector& other) const {
-        return (x == other.x) && (y == other.y);
+        return x == other.x && y == other.y;
     }
 
     /**
@@ -222,8 +222,8 @@ private:
      * grid, otherwise `false`.
      */
     bool exists(Vector position) const {
-        return (position.x >= 0) && (position.x < _width)
-            && (position.y >= 0) && (position.y < _height);
+        return position.x >= 0 && position.x < _width
+            && position.y >= 0 && position.y < _height;
     }
 
 public:
@@ -293,7 +293,7 @@ public:
             const auto& [l, r]
                 : std::views::cartesian_product(_antennas, _antennas)
         ) {
-            if ((l.position != r.position) && (l.frequency == r.frequency)) {
+            if (l.position != r.position && l.frequency == r.frequency) {
                 Vector leftAntinode = l.position * 2 - r.position;
                 if (exists(leftAntinode)) {
                     antinodes.insert(leftAntinode);
@@ -320,7 +320,7 @@ public:
             const auto& [l, r]
                 : std::views::cartesian_product(_antennas, _antennas)
         ) {
-            if ((l.position != r.position) && (l.frequency == r.frequency)) {
+            if (l.position != r.position && l.frequency == r.frequency) {
                 for (isize k = 0; ; k++) {
                     Vector leftAntinode = l.position * (k + 1) - r.position * k;
                     if (!exists(leftAntinode)) {

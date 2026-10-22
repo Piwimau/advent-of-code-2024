@@ -40,52 +40,52 @@ enum class Opcode {
      * instruction's combo operand and stores the result back into the A
      * register.
      */
-    Adv,
+    ADV,
 
     /**
      * @brief Calculates the bitwise XOR of the value of the B register and the
      * instruction's literal operand and stores the result back into the B
      * register.
      */
-    Bxl,
+    BXL,
 
     /**
      * @brief Calculates the value of the instruction's combo operand modulo 8
      * and stores the result in the B register.
      */
-    Bst,
+    BST,
 
     /**
      * @brief If the value of the A register is not 0, jumps to the instruction
      * specified by the instruction's literal operand. Consequently, the
      * instruction pointer is not incremented if the jump is executed.
      */
-    Jnz,
+    JNZ,
 
     /**
      * @brief Calculates the bitwise XOR of the registers B and C and stores the
      * result back into the B register. This instruction reads an operand, but
      * implicitly ignores (for historical reasons).
      */
-    Bxc,
+    BXC,
 
     /**
      * @brief Calculates the value of the instruction's combo operand modulo 8
      * and outputs the result.
      */
-    Out,
+    OUT,
 
     /**
      * @brief Divides the value of the A register by two to the value of the
      * instruction's combo operand and stores the result in the B register.
      */
-    Bdv,
+    BDV,
 
     /**
      * @brief Divides the value of the A register by two to the value of the
      * instruction's combo operand and stores the result in the C register.
      */
-    Cdv
+    CDV
 
 };
 
@@ -124,19 +124,19 @@ public:
      * @return The parsed operand on success, otherwise `std::nullopt`.
      */
     static std::optional<Operand> parse(Opcode opcode, isize input) noexcept {
-        if ((input < 0) || (input > 7)) {
+        if (input < 0 || input > 7) {
             return std::nullopt;
         }
         switch (opcode) {
-            case Opcode::Bxl:
-            case Opcode::Jnz:
-            case Opcode::Bxc:
+            case Opcode::BXL:
+            case Opcode::JNZ:
+            case Opcode::BXC:
                 return Operand(input);
-            case Opcode::Adv:
-            case Opcode::Bst:
-            case Opcode::Out:
-            case Opcode::Bdv:
-            case Opcode::Cdv:
+            case Opcode::ADV:
+            case Opcode::BST:
+            case Opcode::OUT:
+            case Opcode::BDV:
+            case Opcode::CDV:
                 switch (input) {
                     case 0:
                     case 1:
@@ -304,10 +304,10 @@ static std::optional<std::pair<Cpu, Program>> parse_input() {
             value
         );
         if (
-            (ec != std::errc())
-                || (ptr != token.data() + std::ssize(token))
-                || (value < 0)
-                || (value > 7)
+            ec != std::errc()
+                || ptr != token.data() + std::ssize(token)
+                || value < 0
+                || value > 7
         ) {
             return std::nullopt;
         }
@@ -342,19 +342,19 @@ static std::vector<isize> exec(Cpu cpu, const Program& program) {
     while (cpu.pc < std::ssize(program)) {
         const auto& [opcode, operand] = program[cpu.pc];
         switch (opcode) {
-            case Opcode::Adv:
+            case Opcode::ADV:
                 cpu.a /= 1 << operand.eval(cpu);
                 cpu.pc++;
                 break;
-            case Opcode::Bxl:
+            case Opcode::BXL:
                 cpu.b ^= operand.eval(cpu);
                 cpu.pc++;
                 break;
-            case Opcode::Bst:
+            case Opcode::BST:
                 cpu.b = operand.eval(cpu) % 8;
                 cpu.pc++;
                 break;
-            case Opcode::Jnz:
+            case Opcode::JNZ:
                 if (cpu.a != 0) {
                     // We divide the operand by two, as we already parsed the
                     // pairs of integers into actual instructions. We therefore
@@ -365,19 +365,19 @@ static std::vector<isize> exec(Cpu cpu, const Program& program) {
                     cpu.pc++;
                 }
                 break;
-            case Opcode::Bxc:
+            case Opcode::BXC:
                 cpu.b ^= cpu.c;
                 cpu.pc++;
                 break;
-            case Opcode::Out:
+            case Opcode::OUT:
                 output.push_back(operand.eval(cpu) % 8);
                 cpu.pc++;
                 break;
-            case Opcode::Bdv:
+            case Opcode::BDV:
                 cpu.b = cpu.a / (1 << operand.eval(cpu));
                 cpu.pc++;
                 break;
-            case Opcode::Cdv:
+            case Opcode::CDV:
                 cpu.c = cpu.a / (1 << operand.eval(cpu));
                 cpu.pc++;
                 break;
@@ -419,7 +419,7 @@ static isize find_initial_a_for_quine(const Cpu& cpu, const Program& program) {
                 program
             );
             if (
-                (std::ssize(actual) == std::ssize(expected) - idx)
+                std::ssize(actual) == std::ssize(expected) - idx
                     && std::equal(
                         actual.begin(),
                         actual.end(),

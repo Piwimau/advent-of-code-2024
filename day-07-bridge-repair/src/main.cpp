@@ -42,7 +42,7 @@ private:
      * @return `true` if this equation is solvable, otherwise `false`.
      */
     bool is_solvable(isize index, i64 result) const noexcept {
-        assert((index >= 0) && (index <= std::ssize(_values)));
+        assert(index >= 0 && index <= std::ssize(_values));
         assert(result >= 0);
         if (index == std::ssize(_values)) {
             return result == _testValue;
@@ -82,7 +82,7 @@ private:
      * @return `true` if this equation is solvable, otherwise `false`.
      */
     bool is_solvable_with_concat(isize index, i64 result) const noexcept {
-        assert((index >= 0) && (index <= std::ssize(_values)));
+        assert(index >= 0 && index <= std::ssize(_values));
         assert(result >= 0);
         if (index == std::ssize(_values)) {
             return result == _testValue;
@@ -124,8 +124,9 @@ public:
         char separator;
         std::istringstream iss(line);
         if (
-            !(iss >> testValue >> separator) || (testValue < 0)
-                || (separator != ':')
+            !(iss >> testValue >> separator)
+                || testValue < 0
+                || separator != ':'
         ) {
             return std::nullopt;
         }

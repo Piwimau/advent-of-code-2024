@@ -19,11 +19,11 @@ private:
 
     /** @brief Represents a stripe color of a towel. */
     enum class Stripe {
-        White,
-        Blue,
-        Black,
-        Red,
-        Green
+        WHITE,
+        BLUE,
+        BLACK,
+        RED,
+        GREEN
     };
 
     /** @brief The stripes that make up this pattern. */
@@ -55,19 +55,19 @@ public:
             Stripe stripe;
             switch (c) {
                 case 'w':
-                    stripe = Stripe::White;
+                    stripe = Stripe::WHITE;
                     break;
                 case 'u':
-                    stripe = Stripe::Blue;
+                    stripe = Stripe::BLUE;
                     break;
                 case 'b':
-                    stripe = Stripe::Black;
+                    stripe = Stripe::BLACK;
                     break;
                 case 'r':
-                    stripe = Stripe::Red;
+                    stripe = Stripe::RED;
                     break;
                 case 'g':
-                    stripe = Stripe::Green;
+                    stripe = Stripe::GREEN;
                     break;
                 default:
                     return std::nullopt;
@@ -99,7 +99,7 @@ public:
             for (const Pattern& pattern : patterns) {
                 isize m = std::ssize(pattern._stripes);
                 if (
-                    (i + m <= n)
+                    i + m <= n
                         && std::ranges::equal(
                             std::span(_stripes).subspan(i, m),
                             pattern._stripes

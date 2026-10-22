@@ -76,8 +76,7 @@ private:
      * `false`.
      */
     bool exists(Position pos) const noexcept {
-        return (pos.x >= 0) && (pos.x < _width)
-            && (pos.y >= 0) && (pos.y < _height);
+        return pos.x >= 0 && pos.x < _width && pos.y >= 0 && pos.y < _height;
     }
 
     /**
@@ -113,28 +112,28 @@ private:
         std::optional<char> s = plant_at({ pos.x, pos.y + 1 });
         std::optional<char> sw = plant_at({ pos.x - 1, pos.y + 1 });
         isize sides = 0;
-        if ((w != center) && (n != center)) {
+        if (w != center && n != center) {
             sides++;
         }
-        if ((w == center) && (n == center) && (nw != center)) {
+        if (w == center && n == center && nw != center) {
             sides++;
         }
-        if ((n != center) && (e != center)) {
+        if (n != center && e != center) {
             sides++;
         }
-        if ((n == center) && (e == center) && (ne != center)) {
+        if (n == center && e == center && ne != center) {
             sides++;
         }
-        if ((e != center) && (s != center)) {
+        if (e != center && s != center) {
             sides++;
         }
-        if ((e == center) && (s == center) && (se != center)) {
+        if (e == center && s == center && se != center) {
             sides++;
         }
-        if ((s != center) && (w != center)) {
+        if (s != center && w != center) {
             sides++;
         }
-        if ((s == center) && (w == center) && (sw != center)) {
+        if (s == center && w == center && sw != center) {
             sides++;
         }
         return sides;
@@ -258,7 +257,7 @@ public:
                         isize neighborIdx = neighbor.y * _width + neighbor.x;
                         if (
                             !visited[neighborIdx]
-                                && (plant_at(neighbor) == _plots[idx])
+                                && plant_at(neighbor) == _plots[idx]
                         ) {
                             visited[neighborIdx] = true;
                             queue.push(neighbor);

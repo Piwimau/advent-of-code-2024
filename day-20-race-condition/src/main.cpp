@@ -29,7 +29,7 @@ struct Position {
      * @return `true` if the positions are equal, otherwise `false`.
      */
     friend bool operator==(const Position& lhs, const Position& rhs) noexcept {
-        return (lhs.x == rhs.x) && (lhs.y == rhs.y);
+        return lhs.x == rhs.x && lhs.y == rhs.y;
     }
 
 };
@@ -52,8 +52,8 @@ private:
 
     /** @brief Represents a tile on the racetrack. */
     enum class Tile {
-        Track,
-        Wall
+        TRACK,
+        WALL
     };
 
     /** @brief The threshold (saved time) for the best cheats. */
@@ -115,8 +115,7 @@ private:
      * otherwise `false`.
      */
     bool exists(const Position& pos) const noexcept {
-        return (pos.x >= 0) && (pos.x < _width)
-            && (pos.y >= 0) && (pos.y < _height);
+        return pos.x >= 0 && pos.x < _width && pos.y >= 0 && pos.y < _height;
     }
 
     /**
@@ -129,7 +128,7 @@ private:
      */
     std::generator<Position> neighbors(const Position& pos) const {
         auto is_accessible = [this](const Position& p) -> bool {
-            return exists(p) && (_tiles[p.y * _width + p.x] == Tile::Track);
+            return exists(p) && _tiles[p.y * _width + p.x] == Tile::TRACK;
         };
         Position left = { .x = pos.x - 1, .y = pos.y };
         if (is_accessible(left)) {
@@ -229,10 +228,10 @@ public:
             for (isize i = 0; i < width; i++) {
                 switch (line[i]) {
                     case '.':
-                        tiles.push_back(Tile::Track);
+                        tiles.push_back(Tile::TRACK);
                         break;
                     case '#':
-                        tiles.push_back(Tile::Wall);
+                        tiles.push_back(Tile::WALL);
                         break;
                     case 'S':
                         if (foundStart) {
@@ -240,7 +239,7 @@ public:
                         }
                         start = { .x = i, .y = height };
                         foundStart = true;
-                        tiles.push_back(Tile::Track);
+                        tiles.push_back(Tile::TRACK);
                         break;
                     case 'E':
                         if (foundEnd) {
@@ -248,7 +247,7 @@ public:
                         }
                         end = { .x = i, .y = height };
                         foundEnd = true;
-                        tiles.push_back(Tile::Track);
+                        tiles.push_back(Tile::TRACK);
                         break;
                     default:
                         return std::nullopt;
@@ -284,7 +283,7 @@ public:
             for (isize dy = -maxCheatTime; dy <= maxCheatTime; dy++) {
                 for (isize dx = -maxCheatTime; dx <= maxCheatTime; dx++) {
                     isize cheatTime = std::abs(dx) + std::abs(dy);
-                    if ((cheatTime == 0) || (cheatTime > maxCheatTime)) {
+                    if (cheatTime == 0 || cheatTime > maxCheatTime) {
                         continue;
                     }
                     Position dst = { .x = src.x + dx, .y = src.y + dy };

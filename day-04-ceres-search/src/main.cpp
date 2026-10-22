@@ -165,8 +165,8 @@ private:
      * `false`.
      */
     bool exists(Vector position) const noexcept {
-        return (position.x >= 0) && (position.x < _width)
-            && (position.y >= 0) && (position.y < _height);
+        return position.x >= 0 && position.x < _width
+            && position.y >= 0 && position.y < _height;
     }
 
     /**
@@ -246,7 +246,7 @@ public:
                     Vector pos(x, y);
                     bool found = true;
                     for (const char c : { 'X', 'M', 'A', 'S' }) {
-                        if (!exists(pos) || (at(pos) != c)) {
+                        if (!exists(pos) || at(pos) != c) {
                             found = false;
                             break;
                         }

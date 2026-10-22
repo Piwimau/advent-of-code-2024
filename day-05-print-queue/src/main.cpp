@@ -59,8 +59,11 @@ struct Rule {
         i32 after;
         char separator;
         if (
-            (iss >> before >> separator >> after) && (before >= 0)
-                && (after >= 0) && (separator == '|') && iss.eof()
+            iss >> before >> separator >> after
+                && before >= 0
+                && separator == '|'
+                && after >= 0
+                && iss.eof()
         ) {
             return Rule(before, after);
         }
@@ -143,13 +146,13 @@ public:
             for (const Rule& rule : relevantRules) {
                 if (rule.before == *page) {
                     auto afterIt = std::ranges::find(_pages, rule.after);
-                    if ((afterIt != _pages.end()) && (afterIt < page)) {
+                    if (afterIt != _pages.end() && afterIt < page) {
                         return false;
                     }
                 }
                 else {
                     auto beforeIt = std::ranges::find(_pages, rule.before);
-                    if ((beforeIt != _pages.end()) && (beforeIt > page)) {
+                    if (beforeIt != _pages.end() && beforeIt > page) {
                         return false;
                     }
                 }
@@ -174,7 +177,7 @@ public:
                 }
                 const auto& [_, relevantRules] = *it;
                 for (const Rule& rule : relevantRules) {
-                    if ((rule.before == l) && (rule.after == r)) {
+                    if (rule.before == l && rule.after == r) {
                         return true;
                     }
                 }

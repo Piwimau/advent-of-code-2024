@@ -14,16 +14,16 @@ using namespace aoc;
 
 /** @brief Represents a tile in a grid. */
 enum class Tile {
-    None,
-    Obstacle
+    NONE,
+    OBSTACLE
 };
 
 /** @brief Represents a direction in which a guard can move. */
 enum class Direction {
-    Up,
-    Right,
-    Down,
-    Left
+    UP,
+    RIGHT,
+    DOWN,
+    LEFT
 };
 
 /** @brief Represents a two-dimensional position. */
@@ -54,7 +54,7 @@ struct Position {
      * otherwise `false`.
      */
     bool operator==(const Position& other) const noexcept {
-        return (x == other.x) && (y == other.y);
+        return x == other.x && y == other.y;
     }
 
 };
@@ -115,13 +115,13 @@ private:
         assert(_height >= 0);
         assert(std::ssize(tiles) == (_width * _height));
         assert(
-            (guard.x >= 0) && (guard.x < _width)
-                && (guard.y >= 0) && (guard.y < _height)
+            guard.x >= 0 && guard.x < _width
+                && guard.y >= 0 && guard.y < _height
         );
         for (isize y = 0; y < _height; y++) {
             for (isize x = 0; x < _width; x++) {
                 Position position(x, y);
-                if (tiles[y * _width + x] == Tile::Obstacle) {
+                if (tiles[y * _width + x] == Tile::OBSTACLE) {
                     _obstaclesInRow[y].push_back(x);
                     _obstaclesInCol[x].push_back(y);
                 }
@@ -142,11 +142,11 @@ private:
     std::unordered_set<Position> visited_positions() const {
         std::unordered_set<Position> visited;
         Position cur = _guard;
-        Direction dir = Direction::Up;
+        Direction dir = Direction::UP;
         while (true) {
             bool exits = false;
             switch (dir) {
-                case Direction::Up: {
+                case Direction::UP: {
                     const auto& obstacles = _obstaclesInCol[cur.x];
                     auto it = std::ranges::lower_bound(obstacles, cur.y);
                     isize stopY = (it != obstacles.begin())
@@ -157,10 +157,10 @@ private:
                         visited.emplace(cur.x, y);
                     }
                     cur.y = stopY;
-                    dir = Direction::Right;
+                    dir = Direction::RIGHT;
                     break;
                 }
-                case Direction::Right: {
+                case Direction::RIGHT: {
                     const auto& obstacles = _obstaclesInRow[cur.y];
                     auto it = std::ranges::upper_bound(obstacles, cur.x);
                     isize stopX = (it != obstacles.end())
@@ -171,10 +171,10 @@ private:
                         visited.emplace(x, cur.y);
                     }
                     cur.x = stopX;
-                    dir = Direction::Down;
+                    dir = Direction::DOWN;
                     break;
                 }
-                case Direction::Down: {
+                case Direction::DOWN: {
                     const auto& obstacles = _obstaclesInCol[cur.x];
                     auto it = std::ranges::upper_bound(obstacles, cur.y);
                     isize stopY = (it != obstacles.end())
@@ -185,10 +185,10 @@ private:
                         visited.emplace(cur.x, y);
                     }
                     cur.y = stopY;
-                    dir = Direction::Left;
+                    dir = Direction::LEFT;
                     break;
                 }
-                case Direction::Left: {
+                case Direction::LEFT: {
                     const auto& obstacles = _obstaclesInRow[cur.y];
                     auto it = std::ranges::lower_bound(obstacles, cur.x);
                     isize stopX = (it != obstacles.begin())
@@ -199,7 +199,7 @@ private:
                         visited.emplace(x, cur.y);
                     }
                     cur.x = stopX;
-                    dir = Direction::Up;
+                    dir = Direction::UP;
                     break;
                 }
                 default:
@@ -219,10 +219,10 @@ public:
      *
      * The input is expected to consist of zero or more lines of equal length,
      * where each line represents a row of tiles in the grid. Each character in
-     * the input must be either `'.'` (`Tile::None`) or `'#'`
-     * (`Tile::Obstacle`). Additionally, there must be exactly one `'^'`
+     * the input must be either `'.'` (`Tile::NONE`) or `'#'`
+     * (`Tile::OBSTACLE`). Additionally, there must be exactly one `'^'`
      * character representing the guard's starting position, which is considered
-     * to be a `Tile::None` tile. The individual lines must be separated with a
+     * to be a `Tile::NONE` tile. The individual lines must be separated with a
      * newline character.
      *
      * An example for a valid input might be the following:
@@ -260,16 +260,16 @@ public:
             for (char c : line) {
                 switch (c) {
                     case '.':
-                        tiles.push_back(Tile::None);
+                        tiles.push_back(Tile::NONE);
                         break;
                     case '#':
-                        tiles.push_back(Tile::Obstacle);
+                        tiles.push_back(Tile::OBSTACLE);
                         break;
                     case '^':
                         if (foundGuard) {
                             return std::nullopt;
                         }
-                        tiles.push_back(Tile::None);
+                        tiles.push_back(Tile::NONE);
                         guard = Position(
                             std::ssize(tiles) % width - 1,
                             height
@@ -318,7 +318,7 @@ public:
         for (const Position& obstacle : obstacles) {
             round++;
             Position cur = _guard;
-            Direction dir = Direction::Up;
+            Direction dir = Direction::UP;
             while (true) {
                 isize idx = (cur.y * _width + cur.x) * 4
                     + std::to_underlying(dir);
@@ -329,11 +329,11 @@ public:
                 visited[idx] = round;
                 bool exits = false;
                 switch (dir) {
-                    case Direction::Up: {
+                    case Direction::UP: {
                         const auto& col = _obstaclesInCol[cur.x];
                         auto it = std::ranges::lower_bound(col, cur.y);
                         isize wall = (it != col.begin()) ? *std::prev(it) : -1;
-                        if ((obstacle.x == cur.x) && (obstacle.y < cur.y)) {
+                        if (obstacle.x == cur.x && obstacle.y < cur.y) {
                             wall = std::max(wall, obstacle.y);
                         }
                         if (wall < 0) {
@@ -341,14 +341,14 @@ public:
                             break;
                         }
                         cur.y = wall + 1;
-                        dir = Direction::Right;
+                        dir = Direction::RIGHT;
                         break;
                     }
-                    case Direction::Right: {
+                    case Direction::RIGHT: {
                         const auto& row = _obstaclesInRow[cur.y];
                         auto it = std::ranges::upper_bound(row, cur.x);
                         isize wall = (it != row.end()) ? *it : _width;
-                        if ((obstacle.y == cur.y) && (obstacle.x > cur.x)) {
+                        if (obstacle.y == cur.y && obstacle.x > cur.x) {
                             wall = std::min(wall, obstacle.x);
                         }
                         if (wall >= _width) {
@@ -356,14 +356,14 @@ public:
                             break;
                         }
                         cur.x = wall - 1;
-                        dir = Direction::Down;
+                        dir = Direction::DOWN;
                         break;
                     }
-                    case Direction::Down: {
+                    case Direction::DOWN: {
                         const auto& col = _obstaclesInCol[cur.x];
                         auto it = std::ranges::upper_bound(col, cur.y);
                         isize wall = (it != col.end()) ? *it : _height;
-                        if ((obstacle.x == cur.x) && (obstacle.y > cur.y)) {
+                        if (obstacle.x == cur.x && obstacle.y > cur.y) {
                             wall = std::min(wall, obstacle.y);
                         }
                         if (wall >= _height) {
@@ -371,14 +371,14 @@ public:
                             break;
                         }
                         cur.y = wall - 1;
-                        dir = Direction::Left;
+                        dir = Direction::LEFT;
                         break;
                     }
-                    case Direction::Left: {
+                    case Direction::LEFT: {
                         const auto& row = _obstaclesInRow[cur.y];
                         auto it = std::ranges::lower_bound(row, cur.x);
                         isize wall = (it != row.begin()) ? *std::prev(it) : -1;
-                        if ((obstacle.y == cur.y) && (obstacle.x < cur.x)) {
+                        if (obstacle.y == cur.y && obstacle.x < cur.x) {
                             wall = std::max(wall, obstacle.x);
                         }
                         if (wall < 0) {
@@ -386,7 +386,7 @@ public:
                             break;
                         }
                         cur.x = wall + 1;
-                        dir = Direction::Up;
+                        dir = Direction::UP;
                         break;
                     }
                     default:

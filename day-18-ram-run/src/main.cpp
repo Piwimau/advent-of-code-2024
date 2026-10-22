@@ -32,7 +32,7 @@ struct Position {
      * @return `true` if the positions are equal, otherwise `false`.
      */
     friend bool operator==(const Position& a, const Position& b) noexcept {
-        return (a.x == b.x) && (a.y == b.y);
+        return a.x == b.x && a.y == b.y;
     }
 
 };
@@ -51,8 +51,8 @@ private:
 
     /** @brief Represents a tile in the grid. */
     enum class Tile {
-        None,
-        Byte
+        NONE,
+        BYTE
     };
 
     /** @brief The starting position of the search for the exit. */
@@ -71,8 +71,7 @@ private:
      * @return `true` if the position exists in this grid, otherwise `false`.
      */
     bool exists(const Position& pos) const noexcept {
-        return (pos.x >= 0) && (pos.x < WIDTH)
-            && (pos.y >= 0) && (pos.y < HEIGHT);
+        return pos.x >= 0 && pos.x < WIDTH && pos.y >= 0 && pos.y < HEIGHT;
     }
 
     /**
@@ -85,7 +84,7 @@ private:
         const Position& pos
     ) const noexcept {
         auto is_accessible = [this](const Position& p) -> bool {
-            return exists(p) && (_tiles[p.y * WIDTH + p.x] == Tile::None);
+            return exists(p) && _tiles[p.y * WIDTH + p.x] == Tile::NONE;
         };
         assert(is_accessible(pos));
         Position left = { .x = pos.x - 1, .y = pos.y };
@@ -122,7 +121,7 @@ public:
     void add_bytes(std::span<const Position> bytes) noexcept {
         for (const Position& pos : bytes) {
             assert(exists(pos));
-            _tiles[pos.y * WIDTH + pos.x] = Tile::Byte;
+            _tiles[pos.y * WIDTH + pos.x] = Tile::BYTE;
         }
     }
 
@@ -224,9 +223,9 @@ static std::optional<std::vector<Position>> parse_bytes() {
     while (std::getline(std::cin, line)) {
         Position pos;
         if (
-            (std::sscanf(line.c_str(), "%td,%td", &pos.x, &pos.y) != 2)
-                || (pos.x < 0) || (pos.x >= Grid::WIDTH)
-                || (pos.y < 0) || (pos.y >= Grid::HEIGHT)
+            std::sscanf(line.c_str(), "%td,%td", &pos.x, &pos.y) != 2
+                || pos.x < 0 || pos.x >= Grid::WIDTH
+                || pos.y < 0 || pos.y >= Grid::HEIGHT
         ) {
             return std::nullopt;
         }

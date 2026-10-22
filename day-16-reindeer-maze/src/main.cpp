@@ -19,16 +19,16 @@ using namespace aoc;
 
 /** @brief Represents a tile on a map. */
 enum class Tile {
-    Empty,
-    Wall
+    EMPTY,
+    WALL
 };
 
 /** @brief Represents a direction for turning and moving. */
 enum class Direction {
-    West,
-    North,
-    East,
-    South
+    WEST,
+    NORTH,
+    EAST,
+    SOUTH
 };
 
 /** @brief Represents a two-dimensional vector. */
@@ -48,7 +48,7 @@ struct Vector {
      * @return `true` if the two vectors are equal, otherwise `false`.
      */
     friend bool operator==(const Vector& lhs, const Vector& rhs) noexcept {
-        return (lhs.x == rhs.x) && (lhs.y == rhs.y);
+        return lhs.x == rhs.x && lhs.y == rhs.y;
     }
 
 };
@@ -80,7 +80,7 @@ struct State {
      * @return `true` if the two states are equal, otherwise `false`.
      */
     friend bool operator==(const State& lhs, const State& rhs) noexcept {
-        return (lhs.pos == rhs.pos) && (lhs.dir == rhs.dir);
+        return lhs.pos == rhs.pos && lhs.dir == rhs.dir;
     }
 
 };
@@ -161,8 +161,7 @@ private:
     static bool exists(Vector pos, isize width, isize height) noexcept {
         assert(width >= 0);
         assert(height >= 0);
-        return (pos.x >= 0) && (pos.x < width)
-            && (pos.y >= 0) && (pos.y < height);
+        return pos.x >= 0 && pos.x < width && pos.y >= 0 && pos.y < height;
     }
 
     /**
@@ -176,13 +175,13 @@ private:
      */
     static Vector move(Vector pos, Direction dir) noexcept {
         switch (dir) {
-            case Direction::West:
+            case Direction::WEST:
                 return { .x = pos.x - 1, .y = pos.y };
-            case Direction::North:
+            case Direction::NORTH:
                 return { .x = pos.x, .y = pos.y - 1 };
-            case Direction::East:
+            case Direction::EAST:
                 return { .x = pos.x + 1, .y = pos.y };
-            case Direction::South:
+            case Direction::SOUTH:
                 return { .x = pos.x, .y = pos.y + 1 };
             default:
                 std::unreachable();
@@ -203,7 +202,7 @@ private:
      */
     bool is_tile(Vector pos, Tile tile) const noexcept {
         return exists(pos, _width, _height)
-            && (_tiles[pos.y * _width + pos.x] == tile);
+            && _tiles[pos.y * _width + pos.x] == tile;
     }
 
     /**
@@ -221,21 +220,21 @@ private:
         Direction left;
         Direction right;
         switch (dir) {
-            case Direction::West:
-                left = Direction::South;
-                right = Direction::North;
+            case Direction::WEST:
+                left = Direction::SOUTH;
+                right = Direction::NORTH;
                 break;
-            case Direction::North:
-                left = Direction::West;
-                right = Direction::East;
+            case Direction::NORTH:
+                left = Direction::WEST;
+                right = Direction::EAST;
                 break;
-            case Direction::East:
-                left = Direction::North;
-                right = Direction::South;
+            case Direction::EAST:
+                left = Direction::NORTH;
+                right = Direction::SOUTH;
                 break;
-            case Direction::South:
-                left = Direction::East;
-                right = Direction::West;
+            case Direction::SOUTH:
+                left = Direction::EAST;
+                right = Direction::WEST;
                 break;
             default:
                 std::unreachable();
@@ -243,14 +242,14 @@ private:
         auto distance = [](Vector lhs, Vector rhs) noexcept -> isize {
             return std::abs(lhs.x - rhs.x) + std::abs(lhs.y - rhs.y);
         };
-        while (is_tile(next, Tile::Empty)) {
-            if (is_tile(move(next, left), Tile::Empty)) {
+        while (is_tile(next, Tile::EMPTY)) {
+            if (is_tile(move(next, left), Tile::EMPTY)) {
                 co_yield std::make_pair<State, isize>(
                     { .pos = next, .dir = left },
                     distance(pos, next) + 1000
                 );
             }
-            if (is_tile(move(next, right), Tile::Empty)) {
+            if (is_tile(move(next, right), Tile::EMPTY)) {
                 co_yield std::make_pair<State, isize>(
                     { .pos = next, .dir = right },
                     distance(pos, next) + 1000
@@ -279,10 +278,10 @@ private:
         const std::unordered_map<State, std::vector<State>>& predecessors
     ) const {
         std::array<Direction, 4> dirs = {
-            Direction::West,
-            Direction::North,
-            Direction::East,
-            Direction::South
+            Direction::WEST,
+            Direction::NORTH,
+            Direction::EAST,
+            Direction::SOUTH
         };
         isize lowestScore = std::numeric_limits<isize>::max();
         for (Direction dir : dirs) {
@@ -298,7 +297,7 @@ private:
         for (Direction dir : dirs) {
             State end = { .pos = _end, .dir = dir };
             auto it = scores.find(end);
-            if ((it != scores.end()) && (it->second == lowestScore)) {
+            if (it != scores.end() && it->second == lowestScore) {
                 visited.insert(end);
                 stack.push(end);
             }
@@ -334,8 +333,8 @@ public:
      * Parses a map from the standard input stream.
      *
      * The input is expected to consist of one or more lines of the same length,
-     * where each character must be either `.` (for `Tile::Empty`) or `#` (for
-     * `Tile::Wall`). Additionally, the input must contain exactly one `S`
+     * where each character must be either `.` (for `Tile::EMPTY`) or `#` (for
+     * `Tile::WALL`). Additionally, the input must contain exactly one `S`
      * (marking the starting position of the reindeer) and exactly one `E`
      * (marking the ending position of the reindeer).
      *
@@ -382,16 +381,16 @@ public:
             for (isize i = 0; i < width; i++) {
                 switch (line[i]) {
                     case '.':
-                        tiles.push_back(Tile::Empty);
+                        tiles.push_back(Tile::EMPTY);
                         break;
                     case '#':
-                        tiles.push_back(Tile::Wall);
+                        tiles.push_back(Tile::WALL);
                         break;
                     case 'S':
                         if (foundStart) {
                             return std::nullopt;
                         }
-                        tiles.push_back(Tile::Empty);
+                        tiles.push_back(Tile::EMPTY);
                         start = { .x = i, .y = height };
                         foundStart = true;
                         break;
@@ -399,7 +398,7 @@ public:
                         if (foundEnd) {
                             return std::nullopt;
                         }
-                        tiles.push_back(Tile::Empty);
+                        tiles.push_back(Tile::EMPTY);
                         end = { .x = i, .y = height };
                         foundEnd = true;
                         break;
@@ -421,7 +420,7 @@ public:
      * @return The lowest score a reindeer could get on this map.
      */
     isize lowest_score() const {
-        State state = { .pos = _start, .dir = Direction::East };
+        State state = { .pos = _start, .dir = Direction::EAST };
         std::unordered_map<State, isize> scores;
         scores.insert({ state, 0 });
         auto compare_states = [&scores](
@@ -444,7 +443,7 @@ public:
             }
             for (const auto& [next, score] : next_states(state)) {
                 isize nextScore = scores[state] + score;
-                if (!scores.contains(next) || (nextScore < scores[next])) {
+                if (!scores.contains(next) || nextScore < scores[next]) {
                     scores[next] = nextScore;
                     queue.push(next);
                 }
@@ -462,7 +461,7 @@ public:
      * @return The number of best spots on this map.
      */
     isize best_spots() const {
-        State state = { .pos = _start, .dir = Direction::East };
+        State state = { .pos = _start, .dir = Direction::EAST };
         std::unordered_map<State, isize> scores;
         scores.insert({ state, 0 });
         auto compare_states = [&scores](
@@ -483,7 +482,7 @@ public:
             queue.pop();
             for (const auto& [next, score] : next_states(state)) {
                 isize nextScore = scores[state] + score;
-                if (!scores.contains(next) || (nextScore < scores[next])) {
+                if (!scores.contains(next) || nextScore < scores[next]) {
                     scores[next] = nextScore;
                     queue.push(next);
                     predecessors[next] = { state };

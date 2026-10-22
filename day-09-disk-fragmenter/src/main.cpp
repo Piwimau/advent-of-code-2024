@@ -73,7 +73,7 @@ public:
         isize id = 0;
         char c;
         for (isize i = 0; std::cin.get(c); i++) {
-            if ((c < '0') || (c > '9')) {
+            if (c < '0' || c > '9') {
                 return std::nullopt;
             }
             isize size = c - '0';
@@ -100,10 +100,10 @@ public:
         isize l = 0;
         isize r = std::ssize(flat) - 1;
         while (l < r) {
-            while ((l < r) && (flat[l] != -1)) {
+            while (l < r && flat[l] != -1) {
                 l++;
             }
-            while ((l < r) && (flat[r] == -1)) {
+            while (l < r && flat[r] == -1) {
                 r--;
             }
             if (l < r) {
@@ -113,7 +113,7 @@ public:
         _blocks.clear();
         for (isize begin = 0; begin < std::ssize(flat);) {
             isize end = begin;
-            while ((end < std::ssize(flat)) && (flat[begin] == flat[end])) {
+            while (end < std::ssize(flat) && flat[begin] == flat[end]) {
                 end++;
             }
             isize id = flat[begin];
@@ -171,8 +171,8 @@ public:
             for (isize s = allocated[id].size; s <= Block::MAX_SIZE; s++) {
                 if (
                     !free[s].empty()
-                        && (free[s].top().idx < allocated[id].idx)
-                        && (!best || (free[s].top().idx < best->idx))
+                        && free[s].top().idx < allocated[id].idx
+                        && (!best || free[s].top().idx < best->idx)
                 ) {
                     best = free[s].top();
                 }

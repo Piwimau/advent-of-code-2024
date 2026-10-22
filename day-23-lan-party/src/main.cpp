@@ -141,10 +141,10 @@ public:
         std::string line;
         while (std::getline(std::cin, line)) {
             if (
-                (std::ssize(line) != 5)
+                std::ssize(line) != 5
                     || !std::islower(static_cast<unsigned char>(line[0]))
                     || !std::islower(static_cast<unsigned char>(line[1]))
-                    || (line[2] != '-')
+                    || line[2] != '-'
                     || !std::islower(static_cast<unsigned char>(line[3]))
                     || !std::islower(static_cast<unsigned char>(line[4]))
             ) {
@@ -172,10 +172,10 @@ public:
                     : std::views::cartesian_product(neighbors, neighbors)
             ) {
                 if (
-                    (u < v)
-                        && (v < w)
+                    u < v
+                        && v < w
                         && std::ranges::contains(_neighbors.at(v), w)
-                        && ((u[0] == 't') || (v[0] == 't') || (w[0] == 't'))
+                        && (u[0] == 't' || v[0] == 't' || w[0] == 't')
                 ) {
                     sets++;
                 }

@@ -60,7 +60,7 @@ public:
         if (std::ssize(s) != NAME_LENGTH) {
             return std::nullopt;
         }
-        if ((s[0] == 'x') || (s[0] == 'y')) {
+        if (s[0] == 'x' || s[0] == 'y') {
             if (
                 !std::isdigit(static_cast<unsigned char>(s[1]))
                     || !std::isdigit(static_cast<unsigned char>(s[2]))
@@ -117,7 +117,7 @@ public:
      * @return `true` if this variable is an input variable, otherwise `false`.
      */
     constexpr bool is_input() const noexcept {
-        return (_name[0] == 'x') || (_name[0] == 'y');
+        return _name[0] == 'x' || _name[0] == 'y';
     }
 
     /**
@@ -319,7 +319,7 @@ public:
                 return std::nullopt;
             }
             std::string_view rest(line.begin() + separatorIdx + 2, line.end());
-            if ((std::ssize(rest) != 1) || (rest[0] < '0') || (rest[0] > '1')) {
+            if (std::ssize(rest) != 1 || rest[0] < '0' || rest[0] > '1') {
                 return std::nullopt;
             }
             bool value = rest[0] == '1';
@@ -412,8 +412,8 @@ public:
         for (const auto& [variable, gate] : _logic) {
             if (
                 variable.is_output()
-                    && (variable.bit_idx() != Variable::INPUT_LENGTH + 1)
-                    && (gate.type != GateType::XOR)
+                    && variable.bit_idx() != Variable::INPUT_LENGTH + 1
+                    && gate.type != GateType::XOR
             ) {
                 swappedWires.insert(variable);
             }
@@ -421,22 +421,21 @@ public:
                 !variable.is_output()
                     && !gate.lhs.is_input()
                     && !gate.rhs.is_input()
-                    && (gate.type == GateType::XOR)
+                    && gate.type == GateType::XOR
             ) {
                 swappedWires.insert(variable);
             }
             if (
-                (gate.type == GateType::XOR)
-                    && gate.lhs.is_input() && (gate.lhs.bit_idx() != 0)
-                    && gate.rhs.is_input() && (gate.rhs.bit_idx() != 0)
+                gate.type == GateType::XOR
+                    && gate.lhs.is_input() && gate.lhs.bit_idx() != 0
+                    && gate.rhs.is_input() && gate.rhs.bit_idx() != 0
             ) {
                 auto gates = std::views::values(_logic);
                 auto it = std::ranges::find_if(
                     gates,
                     [&variable](const Gate& other) {
-                        return (other.type == GateType::XOR)
-                            && ((other.lhs == variable)
-                                || (other.rhs == variable));
+                        return other.type == GateType::XOR
+                            && (other.lhs == variable || other.rhs == variable);
                     }
                 );
                 if (it == gates.end()) {
@@ -444,17 +443,16 @@ public:
                 }
             }
             if (
-                (gate.type == GateType::AND)
-                    && gate.lhs.is_input() && (gate.lhs.bit_idx() != 0)
-                    && gate.rhs.is_input() && (gate.rhs.bit_idx() != 0)
+                gate.type == GateType::AND
+                    && gate.lhs.is_input() && gate.lhs.bit_idx() != 0
+                    && gate.rhs.is_input() && gate.rhs.bit_idx() != 0
             ) {
                 auto gates = std::views::values(_logic);
                 auto it = std::ranges::find_if(
                     gates,
                     [&variable](const Gate& other) {
-                        return (other.type == GateType::OR)
-                            && ((other.lhs == variable)
-                                || (other.rhs == variable));
+                        return other.type == GateType::OR
+                            && (other.lhs == variable || other.rhs == variable);
                     }
                 );
                 if (it == gates.end()) {
